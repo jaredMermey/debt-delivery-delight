@@ -1,6 +1,7 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CreditCard, CheckCircle, Clock, Download, MapPin } from "lucide-react";
+import { CreditCard, CheckCircle, Clock, Download } from "lucide-react";
 
 interface PrepaidCompletionScreenProps {
   onComplete: () => void;
@@ -16,16 +17,16 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
           </div>
           
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Prepaid Card is Loaded</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Prepaid Card is Loaded!</h1>
             <p className="text-gray-600">
-              Download your virtual card to your phone's wallet for immediate use. Your physical card will be shipped to you.
+              Add virtual card to phone for immediate use. Your physical card will be shipped to you.
             </p>
           </div>
 
           {/* Prepaid Card Image Section */}
           <div className="mb-6 flex justify-center">
             <img 
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop&crop=center" 
+              src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=200&fit=crop&crop=center" 
               alt="Prepaid Card"
               className="w-48 h-32 object-cover rounded-lg shadow-md"
             />
@@ -37,7 +38,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
               <span className="font-semibold text-emerald-900">Delivery Timeline</span>
             </div>
             <p className="text-sm text-emerald-800">
-              Your card will arrive in 7-10 business days. Funds will be loaded upon settlement approval.
+              Your card will arrive in 7-10 business days.
             </p>
           </div>
 
@@ -59,11 +60,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
           <div className="space-y-3">
             <Button className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 text-lg">
               <Download className="w-5 h-5 mr-2" />
-              Download Card App
-            </Button>
-            <Button variant="outline" onClick={onComplete} className="w-full h-12">
-              <MapPin className="w-5 h-5 mr-2" />
-              Track Card Delivery
+              Download Mobile App for Prepaid Card
             </Button>
           </div>
         </CardContent>
