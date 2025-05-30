@@ -9,11 +9,11 @@ interface RealTimeCompletionScreenProps {
 
 export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScreenProps) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-md text-center shadow-xl border-0">
         <CardContent className="p-8">
-          <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Zap className="w-10 h-10 text-orange-600" />
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Zap className="w-10 h-10 text-green-600" />
           </div>
           
           <div className="mb-6">
@@ -23,12 +23,12 @@ export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScree
             </p>
           </div>
 
-          <div className="bg-orange-50 p-4 rounded-lg mb-6 text-center">
+          <div className="bg-green-50 p-4 rounded-lg mb-6 text-center">
             <div className="flex items-center justify-center space-x-2 mb-2">
-              <Clock className="w-5 h-5 text-orange-600" />
-              <span className="font-semibold text-orange-900">Instant Settlement</span>
+              <Clock className="w-5 h-5 text-green-600" />
+              <span className="font-semibold text-green-900">Instant Settlement</span>
             </div>
-            <p className="text-sm text-orange-800">
+            <p className="text-sm text-green-800">
               Funds will be transferred instantly to your connected bank account with a 1% fee.
               <br />
               <span className="underline mt-2 inline-block">Available within minutes</span>
@@ -51,7 +51,7 @@ export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScree
           </div>
 
           <div className="space-y-3">
-            <Button className="w-full bg-orange-600 hover:bg-orange-700 h-12 text-lg">
+            <Button className="w-full bg-green-600 hover:bg-green-700 h-12 text-lg">
               Go to Disbursement Center
             </Button>
           </div>
