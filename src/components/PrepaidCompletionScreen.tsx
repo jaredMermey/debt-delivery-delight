@@ -22,6 +22,15 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
             </p>
           </div>
 
+          {/* Prepaid Card Image Section */}
+          <div className="mb-6 flex justify-center">
+            <img 
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=200&fit=crop&crop=center" 
+              alt="Prepaid Card"
+              className="w-48 h-32 object-cover rounded-lg shadow-md"
+            />
+          </div>
+
           <div className="bg-emerald-50 p-4 rounded-lg mb-6">
             <div className="flex items-center space-x-2 mb-2">
               <Clock className="w-5 h-5 text-emerald-600" />
