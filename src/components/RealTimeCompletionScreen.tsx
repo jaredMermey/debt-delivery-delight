@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Zap, CheckCircle, Clock } from "lucide-react";
@@ -17,7 +16,7 @@ export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScree
           </div>
           
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Real Time Payment Setup Complete!</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Real Time Payment Complete!</h1>
             <p className="text-gray-600">
               Your bank account has been connected for instant transfers.
             </p>
