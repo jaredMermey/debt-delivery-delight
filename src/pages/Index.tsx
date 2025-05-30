@@ -75,25 +75,25 @@ const Index = () => {
 
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center">
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center shadow-lg border-gray-200">
           <CardHeader>
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="mx-auto w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+              <CheckCircle className="w-8 h-8 text-emerald-600" />
             </div>
-            <CardTitle className="text-2xl text-green-700">Setup Complete!</CardTitle>
-            <CardDescription className="text-lg">
+            <CardTitle className="text-2xl text-slate-800 font-bold">Setup Complete!</CardTitle>
+            <CardDescription className="text-lg text-slate-600">
               Your settlement payment method has been configured successfully.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 mb-6">
+            <p className="text-slate-600 mb-6">
               You'll receive your settlement funds via your selected method. 
               Keep an eye out for updates on your payment status.
             </p>
             <Button 
               onClick={() => window.location.reload()} 
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
             >
               Start Over
             </Button>
@@ -104,25 +104,25 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-white font-sans">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Debt Settlement Payment Setup
+          <h1 className="text-4xl font-bold text-slate-800 mb-3">
+            Hi [Name], How Do You Want to Get Paid?
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-slate-600 text-lg font-medium">
             Choose how you'd like to receive your settlement funds
           </p>
         </div>
 
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
+          <div className="flex justify-between text-sm text-slate-600 mb-2 font-medium">
             <span>Step {currentStep} of 3</span>
             <span>{Math.round(getProgressValue())}% Complete</span>
           </div>
-          <Progress value={getProgressValue()} className="h-2" />
+          <Progress value={getProgressValue()} className="h-3 bg-gray-200" />
         </div>
 
         {/* Back Button */}
@@ -130,7 +130,7 @@ const Index = () => {
           <Button 
             variant="ghost" 
             onClick={handleBack}
-            className="mb-6 hover:bg-blue-50"
+            className="mb-6 hover:bg-slate-100 text-slate-700 font-medium"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Options
@@ -145,17 +145,17 @@ const Index = () => {
               return (
                 <Card 
                   key={method.id}
-                  className="cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 hover:border-blue-300"
+                  className="cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-105 border-2 hover:border-emerald-400 bg-white shadow-md"
                   onClick={() => handleMethodSelect(method.id)}
                 >
                   <CardHeader>
                     <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <IconComponent className="w-6 h-6 text-blue-600" />
+                      <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+                        <IconComponent className="w-6 h-6 text-emerald-600" />
                       </div>
                       <div className="flex-1">
-                        <CardTitle className="text-xl">{method.title}</CardTitle>
-                        <CardDescription className="text-sm">
+                        <CardTitle className="text-xl text-slate-800 font-bold">{method.title}</CardTitle>
+                        <CardDescription className="text-sm text-slate-600 font-medium">
                           {method.description}
                         </CardDescription>
                       </div>
@@ -163,12 +163,12 @@ const Index = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <div className="text-sm text-gray-600">
-                        <strong>Estimated time:</strong> {method.estimatedTime}
+                      <div className="text-sm text-slate-600 font-medium">
+                        <strong className="text-slate-700">Estimated time:</strong> {method.estimatedTime}
                       </div>
                       <div className="space-y-1">
                         {method.benefits.map((benefit, index) => (
-                          <div key={index} className="flex items-center text-sm text-green-700">
+                          <div key={index} className="flex items-center text-sm text-emerald-700 font-medium">
                             <CheckCircle className="w-4 h-4 mr-2" />
                             {benefit}
                           </div>
