@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, CheckCircle, Clock, Download } from "lucide-react";
@@ -41,18 +42,18 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
             </p>
           </div>
 
-          <div className="space-y-3 mb-8">
+          <div className="space-y-3 mb-8 max-w-xs mx-auto">
             <div className="flex items-center space-x-3">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm text-gray-700">Identity verified and approved</span>
+              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <span className="text-sm text-gray-700 text-left">Identity verified and approved</span>
             </div>
             <div className="flex items-center space-x-3">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm text-gray-700">Card shipping to verified address</span>
+              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <span className="text-sm text-gray-700 text-left">Card shipping to verified address</span>
             </div>
             <div className="flex items-center space-x-3">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm text-gray-700">Works anywhere Visa is accepted</span>
+              <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+              <span className="text-sm text-gray-700 text-left">Works anywhere Visa is accepted</span>
             </div>
           </div>
 
