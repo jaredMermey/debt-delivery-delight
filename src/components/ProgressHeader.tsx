@@ -12,7 +12,7 @@ export const ProgressHeader = ({ currentStep, progressValue }: ProgressHeaderPro
       {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-slate-800 mb-3">
-          Hi [Name], How Do You Want to Get Paid?
+          Hi David, How Do You Want to Get Paid?
         </h1>
         <p className="text-slate-600 text-lg font-medium">
           Choose how you'd like to receive your settlement funds
