@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, CheckCircle, Clock, Download } from "lucide-react";
@@ -60,14 +61,6 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
             <Button className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 text-lg">
               <Download className="w-5 h-5 mr-2" />
               Get the App
-            </Button>
-            
-            <Button 
-              variant="ghost"
-              className="w-full text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 font-medium"
-              onClick={() => console.log('Go to disbursement center')}
-            >
-              Go to Disbursement Center
             </Button>
           </div>
         </CardContent>

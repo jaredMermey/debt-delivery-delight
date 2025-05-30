@@ -49,12 +49,6 @@ export const ACHCompletionScreen = ({ onComplete }: ACHCompletionScreenProps) =>
               <span className="text-sm text-gray-700">Real-time deposit notifications</span>
             </div>
           </div>
-
-          <div className="space-y-3">
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-lg">
-              Go to Disbursement Center
-            </Button>
-          </div>
         </CardContent>
       </Card>
     </div>

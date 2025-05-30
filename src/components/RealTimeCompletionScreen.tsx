@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Zap, CheckCircle, Clock } from "lucide-react";
@@ -45,12 +46,6 @@ export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScree
               <CheckCircle className="w-5 h-5 text-green-500" />
               <span className="text-sm text-gray-700">Instant notifications activated</span>
             </div>
-          </div>
-
-          <div className="space-y-3">
-            <Button className="w-full bg-green-600 hover:bg-green-700 h-12 text-lg">
-              Go to Disbursement Center
-            </Button>
           </div>
         </CardContent>
       </Card>
