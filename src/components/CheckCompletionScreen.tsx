@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, CheckCircle, Clock, Truck } from "lucide-react";
@@ -17,10 +16,7 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
           </div>
           
           <div className="mb-6">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <CheckCircle className="w-6 h-6 text-green-500" />
-              <h1 className="text-2xl font-bold text-gray-900">Check by Mail Setup Complete!</h1>
-            </div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Check by Mail Setup Complete!</h1>
             <p className="text-gray-600">
               Your settlement check will be mailed to your confirmed address.
             </p>
