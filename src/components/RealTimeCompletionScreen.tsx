@@ -30,8 +30,6 @@ export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScree
             </div>
             <p className="text-sm text-green-800">
               Funds were transferred to your connected bank account. A 1% fee was administered for the real time transfer.
-              <br />
-              <span className="underline mt-2 inline-block">Available within minutes</span>
             </p>
           </div>
 
