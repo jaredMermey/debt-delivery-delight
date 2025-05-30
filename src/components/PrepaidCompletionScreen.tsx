@@ -31,8 +31,8 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
             />
           </div>
 
-          <div className="bg-emerald-50 p-4 rounded-lg mb-6">
-            <div className="flex items-center space-x-2 mb-2">
+          <div className="bg-emerald-50 p-4 rounded-lg mb-6 text-center">
+            <div className="flex items-center justify-center space-x-2 mb-2">
               <Clock className="w-5 h-5 text-emerald-600" />
               <span className="font-semibold text-emerald-900">Delivery Timeline</span>
             </div>
