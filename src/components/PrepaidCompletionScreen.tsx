@@ -16,9 +16,9 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
           </div>
           
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Prepaid Card Ordered!</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Prepaid Card is Loaded</h1>
             <p className="text-gray-600">
-              Your prepaid Visa card is being prepared and will arrive soon.
+              Download your virtual card to your phone's wallet for immediate use. Your physical card will be shipped to you.
             </p>
           </div>
 
