@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, CheckCircle, Clock, Download } from "lucide-react";
@@ -26,7 +27,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
           {/* Prepaid Card Image Section */}
           <div className="mb-6 flex justify-center">
             <img 
-              src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=300&h=200&fit=crop&crop=center" 
+              src="/lovable-uploads/15de4c78-6af4-4aa6-92c9-16fa882c3521.png" 
               alt="Prepaid Card"
               className="w-48 h-32 object-cover rounded-lg shadow-md"
             />
@@ -68,3 +69,4 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
     </div>
   );
 };
+
