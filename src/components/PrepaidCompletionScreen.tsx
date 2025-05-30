@@ -37,7 +37,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
               <span className="font-semibold text-emerald-900">Delivery Timeline</span>
             </div>
             <p className="text-sm text-emerald-800">
-              Your card will arrive in 7-10 business days.
+              Your virtual card is immediately available. Your physical card will arrive in 7-10 business days.
             </p>
           </div>
 
