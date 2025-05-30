@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Building2, Mail, MapPin, CreditCard, CheckCircle } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, CreditCard, CheckCircle, Smartphone } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { ZelleFlow } from "@/components/ZelleFlow";
@@ -86,14 +86,26 @@ const Index = () => {
               Your settlement payment method has been configured successfully.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <p className="text-slate-600 mb-6">
               You'll receive your settlement funds via your selected method. 
               Keep an eye out for updates on your payment status.
             </p>
+            
+            {/* Main button for adding virtual card */}
             <Button 
-              onClick={() => window.location.reload()} 
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold h-12"
+              onClick={() => console.log('Add virtual card to phone')}
+            >
+              <Smartphone className="w-5 h-5 mr-2" />
+              Add Virtual Card to Phone
+            </Button>
+            
+            {/* Link button to transaction center */}
+            <Button 
+              variant="ghost"
+              className="w-full text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 font-medium"
+              onClick={() => console.log('Go to transaction center')}
             >
               Go to Transaction Center
             </Button>
