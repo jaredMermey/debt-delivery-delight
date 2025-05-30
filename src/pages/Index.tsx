@@ -1,19 +1,20 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Building2, Mail, MapPin, CreditCard } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
-import { ZelleFlow } from "@/components/ZelleFlow";
+import { RealTimeFlow } from "@/components/RealTimeFlow";
 import { PrepaidFlow } from "@/components/PrepaidFlow";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
 import { ProgressHeader } from "@/components/ProgressHeader";
 import { ACHCompletionScreen } from "@/components/ACHCompletionScreen";
 import { CheckCompletionScreen } from "@/components/CheckCompletionScreen";
-import { ZelleCompletionScreen } from "@/components/ZelleCompletionScreen";
+import { RealTimeCompletionScreen } from "@/components/RealTimeCompletionScreen";
 import { PrepaidCompletionScreen } from "@/components/PrepaidCompletionScreen";
 
-type PaymentMethod = "ach" | "check" | "zelle" | "prepaid" | null;
+type PaymentMethod = "ach" | "check" | "realtime" | "prepaid" | null;
 
 const Index = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
@@ -46,11 +47,11 @@ const Index = () => {
       estimatedTime: "5-7 business days"
     },
     {
-      id: "zelle" as const,
-      title: "Zelle Transfer",
-      description: "Quick transfer using your email or phone number",
-      icon: Mail,
-      benefits: ["Quick setup", "Familiar platform", "Real-time notifications"],
+      id: "realtime" as const,
+      title: "Real Time Payment to Bank",
+      description: "Instant transfer to your bank account with 1% fee",
+      icon: Zap,
+      benefits: ["Instant transfer", "Same-day availability", "Real-time notifications"],
       estimatedTime: "Within minutes"
     }
   ];
@@ -83,8 +84,8 @@ const Index = () => {
         return <ACHCompletionScreen onComplete={() => {}} />;
       case "check":
         return <CheckCompletionScreen onComplete={() => {}} />;
-      case "zelle":
-        return <ZelleCompletionScreen onComplete={() => {}} />;
+      case "realtime":
+        return <RealTimeCompletionScreen onComplete={() => {}} />;
       case "prepaid":
         return <PrepaidCompletionScreen onComplete={() => {}} />;
       default:
@@ -127,7 +128,7 @@ const Index = () => {
           <div className="max-w-2xl mx-auto">
             {selectedMethod === "ach" && <ACHFlow onComplete={handleComplete} />}
             {selectedMethod === "check" && <CheckFlow onComplete={handleComplete} />}
-            {selectedMethod === "zelle" && <ZelleFlow onComplete={handleComplete} />}
+            {selectedMethod === "realtime" && <RealTimeFlow onComplete={handleComplete} />}
             {selectedMethod === "prepaid" && <PrepaidFlow onComplete={handleComplete} />}
           </div>
         )}
