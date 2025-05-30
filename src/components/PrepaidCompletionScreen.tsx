@@ -1,6 +1,3 @@
-
-
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, CheckCircle, Clock, Download } from "lucide-react";
@@ -21,7 +18,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Prepaid Card is Loaded!</h1>
             <p className="text-gray-600">
-              Add virtual card to phone for immediate use. Your physical card will be shipped to you.
+              Your settlement funds are already in your prepaid account.
             </p>
           </div>
 
@@ -70,5 +67,3 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
     </div>
   );
 };
-
-
