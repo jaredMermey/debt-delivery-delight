@@ -1,6 +1,6 @@
+
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Mail, CheckCircle, Clock, Truck } from "lucide-react";
+import { Mail, CheckCircle, Clock } from "lucide-react";
 
 interface CheckCompletionScreenProps {
   onComplete: () => void;
@@ -32,7 +32,7 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
             </p>
           </div>
 
-          <div className="space-y-3 mb-8">
+          <div className="space-y-3">
             <div className="flex items-center space-x-3">
               <CheckCircle className="w-5 h-5 text-green-500" />
               <span className="text-sm text-gray-700">Mailing address verified</span>
@@ -45,16 +45,6 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
               <CheckCircle className="w-5 h-5 text-green-500" />
               <span className="text-sm text-gray-700">Secure delivery confirmation</span>
             </div>
-          </div>
-
-          <div className="space-y-3">
-            <Button className="w-full bg-green-600 hover:bg-green-700 h-12 text-lg">
-              <Truck className="w-5 h-5 mr-2" />
-              Track Your Check
-            </Button>
-            <Button variant="outline" onClick={onComplete} className="w-full h-12">
-              Update Mailing Address
-            </Button>
           </div>
         </CardContent>
       </Card>
