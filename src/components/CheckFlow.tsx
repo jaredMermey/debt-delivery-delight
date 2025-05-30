@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MapPin, Mail, CheckCircle } from "lucide-react";
+import { Mail, CheckCircle } from "lucide-react";
+import { AddressMap } from "./AddressMap";
 
 interface CheckFlowProps {
   onComplete: () => void;
@@ -106,31 +106,9 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
           </div>
         </div>
 
-        {/* Mock Map Visualization */}
+        {/* Interactive Map Visualization */}
         {address.street && address.city && address.state && (
-          <div className="border rounded-lg p-4 bg-gray-50">
-            <div className="flex items-center space-x-2 mb-3">
-              <MapPin className="w-5 h-5 text-green-600" />
-              <span className="font-semibold">Address Verification</span>
-            </div>
-            <div className="bg-gradient-to-br from-green-100 to-blue-100 h-32 rounded-lg flex items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <div className="w-full h-full bg-gradient-to-r from-green-200 via-blue-200 to-green-200"></div>
-              </div>
-              <div className="relative z-10 text-center">
-                <MapPin className="w-8 h-8 text-red-500 mx-auto mb-2" />
-                <div className="text-sm font-medium text-gray-700">
-                  {address.street}
-                  <br />
-                  {address.city}, {address.state} {address.zipCode}
-                </div>
-              </div>
-            </div>
-            <div className="mt-2 flex items-center text-sm text-green-600">
-              <CheckCircle className="w-4 h-4 mr-1" />
-              Address appears valid for mail delivery
-            </div>
-          </div>
+          <AddressMap address={address} />
         )}
 
         <div className="bg-amber-50 p-4 rounded-lg">
