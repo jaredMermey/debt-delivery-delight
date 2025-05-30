@@ -1,6 +1,7 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building2, CheckCircle, Clock, Download } from "lucide-react";
+import { Building2, CheckCircle, Clock } from "lucide-react";
 
 interface ACHCompletionScreenProps {
   onComplete: () => void;
@@ -51,7 +52,6 @@ export const ACHCompletionScreen = ({ onComplete }: ACHCompletionScreenProps) =>
 
           <div className="space-y-3">
             <Button className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-lg">
-              <Download className="w-5 h-5 mr-2" />
               Go to Disbursement Center
             </Button>
           </div>
