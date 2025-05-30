@@ -4,8 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
-import { CreditCard, Shield, User, MapPin, Calendar, Lock, CheckCircle, ArrowRight } from "lucide-react";
+import { CreditCard, Shield, User, MapPin, Lock, ArrowRight } from "lucide-react";
 
 interface PrepaidFlowProps {
   onComplete: () => void;
@@ -44,20 +43,19 @@ export const PrepaidFlow = ({ onComplete }: PrepaidFlowProps) => {
   };
 
   const nextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
       onComplete();
     }
   };
 
-  const getStepProgress = () => (currentStep / 4) * 100;
+  const getStepProgress = () => (currentStep / 3) * 100;
 
   const stepTitles = {
     1: "Let's get to know you",
     2: "Verify your identity",
-    3: "Where should we send your card?",
-    4: "You're all set!"
+    3: "Where should we send your card?"
   };
 
   return (
@@ -76,7 +74,7 @@ export const PrepaidFlow = ({ onComplete }: PrepaidFlowProps) => {
               style={{ width: `${getStepProgress()}%` }}
             />
           </div>
-          <p className="text-sm text-gray-600">Step {currentStep} of 4</p>
+          <p className="text-sm text-gray-600">Step {currentStep} of 3</p>
         </CardHeader>
 
         <CardContent className="px-6 pb-6">
@@ -243,47 +241,13 @@ export const PrepaidFlow = ({ onComplete }: PrepaidFlowProps) => {
             </div>
           )}
 
-          {/* Step 4: Confirmation */}
-          {currentStep === 4 && (
-            <div className="text-center space-y-6">
-              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle className="w-10 h-10 text-emerald-600" />
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Welcome to your new card!</h3>
-                <p className="text-gray-600 mb-6">
-                  Your prepaid card is being prepared and will arrive in 7-10 business days.
-                </p>
-              </div>
-
-              <div className="bg-emerald-50 p-4 rounded-lg text-left">
-                <h4 className="font-semibold text-emerald-900 mb-3">What's next?</h4>
-                <ul className="space-y-2 text-sm text-emerald-800">
-                  <li className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4" />
-                    <span>Card will be shipped to {userData.address}</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4" />
-                    <span>Funds loaded upon settlement approval</span>
-                  </li>
-                  <li className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4" />
-                    <span>Use anywhere Visa is accepted</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          )}
-
           {/* Continue Button */}
           <Button 
             onClick={nextStep}
             disabled={!isStepValid(currentStep)}
             className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold text-base mt-8"
           >
-            {currentStep === 4 ? (
+            {currentStep === 3 ? (
               "Complete Setup"
             ) : (
               <div className="flex items-center justify-center space-x-2">
@@ -293,11 +257,9 @@ export const PrepaidFlow = ({ onComplete }: PrepaidFlowProps) => {
             )}
           </Button>
 
-          {currentStep < 4 && (
-            <p className="text-center text-xs text-gray-500 mt-4">
-              By continuing, you agree to our Terms of Service and Privacy Policy
-            </p>
-          )}
+          <p className="text-center text-xs text-gray-500 mt-4">
+            By continuing, you agree to our Terms of Service and Privacy Policy
+          </p>
         </CardContent>
       </Card>
     </div>

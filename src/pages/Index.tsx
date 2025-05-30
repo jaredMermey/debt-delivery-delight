@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Building2, Mail, MapPin, CreditCard } from "lucide-react";
@@ -9,6 +8,10 @@ import { PrepaidFlow } from "@/components/PrepaidFlow";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
 import { ProgressHeader } from "@/components/ProgressHeader";
+import { ACHCompletionScreen } from "@/components/ACHCompletionScreen";
+import { CheckCompletionScreen } from "@/components/CheckCompletionScreen";
+import { ZelleCompletionScreen } from "@/components/ZelleCompletionScreen";
+import { PrepaidCompletionScreen } from "@/components/PrepaidCompletionScreen";
 
 type PaymentMethod = "ach" | "check" | "zelle" | "prepaid" | null;
 
@@ -75,7 +78,18 @@ const Index = () => {
   };
 
   if (isComplete) {
-    return <CompletionScreen onComplete={handleComplete} />;
+    switch (selectedMethod) {
+      case "ach":
+        return <ACHCompletionScreen onComplete={() => {}} />;
+      case "check":
+        return <CheckCompletionScreen onComplete={() => {}} />;
+      case "zelle":
+        return <ZelleCompletionScreen onComplete={() => {}} />;
+      case "prepaid":
+        return <PrepaidCompletionScreen onComplete={() => {}} />;
+      default:
+        return <ACHCompletionScreen onComplete={() => {}} />;
+    }
   }
 
   return (
