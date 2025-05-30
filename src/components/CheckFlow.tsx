@@ -15,8 +15,7 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
     street: "",
     city: "",
     state: "",
-    zipCode: "",
-    fullName: ""
+    zipCode: ""
   });
   const [isValid, setIsValid] = useState(false);
 
@@ -25,7 +24,7 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
     setAddress(newAddress);
     
     // Check if all required fields are filled
-    const required = ['street', 'city', 'state', 'zipCode', 'fullName'];
+    const required = ['street', 'city', 'state', 'zipCode'];
     setIsValid(required.every(field => newAddress[field as keyof typeof newAddress].trim() !== ''));
   };
 
@@ -61,17 +60,6 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
         </div>
 
         <div className="space-y-4">
-          <div>
-            <Label htmlFor="fullName">Full Name (as it appears on ID) *</Label>
-            <Input
-              id="fullName"
-              value={address.fullName}
-              onChange={(e) => handleInputChange('fullName', e.target.value)}
-              placeholder="Enter your full legal name"
-              className="mt-1"
-            />
-          </div>
-
           <div>
             <Label htmlFor="street">Street Address *</Label>
             <Input
@@ -147,8 +135,7 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
 
         <div className="bg-amber-50 p-4 rounded-lg">
           <p className="text-sm text-amber-800">
-            <strong>Important:</strong> Please ensure your address is correct and that you can receive certified mail at this location. 
-            The check will be made out to the name provided above.
+            <strong>Important:</strong> Please ensure your address is correct and that you can receive certified mail at this location.
           </p>
         </div>
 
