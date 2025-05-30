@@ -95,7 +95,7 @@ const Index = () => {
               onClick={() => window.location.reload()} 
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
             >
-              Start Over
+              Go to Transaction Center
             </Button>
           </CardContent>
         </Card>
