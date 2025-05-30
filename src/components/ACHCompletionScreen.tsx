@@ -30,7 +30,7 @@ export const ACHCompletionScreen = ({ onComplete }: ACHCompletionScreenProps) =>
             <p className="text-sm text-blue-800">
               Funds will be deposited directly to your connected bank account within 2-3 business days after settlement approval.
               <br />
-              <span className="underline">Get Your Funds in Real Time</span>
+              <span className="underline mt-2 inline-block">Get Your Funds in Real Time</span>
             </p>
           </div>
 
