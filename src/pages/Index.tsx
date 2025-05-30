@@ -1,13 +1,13 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Building2, Mail, MapPin, CreditCard, CheckCircle, Smartphone } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, CreditCard, CheckCircle, Smartphone, Download } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { ZelleFlow } from "@/components/ZelleFlow";
 import { PrepaidFlow } from "@/components/PrepaidFlow";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type PaymentMethod = "ach" | "check" | "zelle" | "prepaid" | null;
 
@@ -15,6 +15,11 @@ const Index = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
+  const isMobile = useIsMobile();
+
+  // Detect platform for wallet buttons
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
 
   const paymentMethods = [
     {
@@ -86,19 +91,56 @@ const Index = () => {
               Your settlement payment method has been configured successfully.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <p className="text-slate-600 mb-6">
               You'll receive your settlement funds via your selected method. 
               Keep an eye out for updates on your payment status.
             </p>
             
-            {/* Main button for adding virtual card */}
+            {/* Card Image */}
+            <div className="flex justify-center mb-6">
+              <div className="w-64 h-40 bg-gradient-to-r from-slate-800 to-slate-600 rounded-xl shadow-lg relative overflow-hidden">
+                <div className="absolute top-4 left-4 text-white text-sm font-medium">Settlement Card</div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <div className="text-xs opacity-80">**** **** **** 1234</div>
+                  <div className="text-xs opacity-80 mt-1">Valid Thru 12/27</div>
+                </div>
+                <div className="absolute top-4 right-4 w-8 h-8 bg-white rounded opacity-20"></div>
+                <div className="absolute bottom-4 right-4 text-white text-xs font-bold">VISA</div>
+              </div>
+            </div>
+
+            {/* Wallet Buttons - Only show on mobile */}
+            {isMobile && (isIOS || isAndroid) && (
+              <div className="space-y-3 mb-6">
+                {isIOS && (
+                  <Button 
+                    className="w-full bg-black hover:bg-gray-900 text-white font-medium h-12 rounded-lg"
+                    onClick={() => console.log('Add to Apple Wallet')}
+                  >
+                    <span className="mr-2">📱</span>
+                    Add to Apple Wallet
+                  </Button>
+                )}
+                {isAndroid && (
+                  <Button 
+                    className="w-full bg-black hover:bg-gray-900 text-white font-medium h-12 rounded-lg"
+                    onClick={() => console.log('Add to Google Wallet')}
+                  >
+                    <span className="mr-2">💳</span>
+                    Add to Google Wallet
+                  </Button>
+                )}
+              </div>
+            )}
+            
+            {/* Main button for downloading mobile app */}
             <Button 
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold h-12"
-              onClick={() => console.log('Add virtual card to phone')}
+              onClick={() => console.log('Download mobile app')}
             >
-              <Smartphone className="w-5 h-5 mr-2" />
-              Add Virtual Card to Phone
+              <Download className="w-5 h-5 mr-2" />
+              Download Mobile App
             </Button>
             
             {/* Link button to transaction center */}
