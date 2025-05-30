@@ -29,7 +29,7 @@ export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScree
               <span className="font-semibold text-green-900">Instant Settlement</span>
             </div>
             <p className="text-sm text-green-800">
-              Funds will be transferred instantly to your connected bank account with a 1% fee.
+              Funds were transferred to your connected bank account. A 1% fee was administered for the real time transfer.
               <br />
               <span className="underline mt-2 inline-block">Available within minutes</span>
             </p>
