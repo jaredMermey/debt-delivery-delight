@@ -52,10 +52,7 @@ export const ACHCompletionScreen = ({ onComplete }: ACHCompletionScreenProps) =>
           <div className="space-y-3">
             <Button className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-lg">
               <Download className="w-5 h-5 mr-2" />
-              Download Banking App
-            </Button>
-            <Button variant="outline" onClick={onComplete} className="w-full h-12">
-              View Transfer Details
+              Go to Disbursement Center
             </Button>
           </div>
         </CardContent>
