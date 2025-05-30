@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, CheckCircle, Clock, Download } from "lucide-react";
@@ -25,7 +26,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
           {/* Prepaid Card Image Section - Maximum size with minimal padding */}
           <div className="mb-2 flex justify-center">
             <img 
-              src="/lovable-uploads/15de4c78-6af4-4aa6-92c9-16fa882c3521.png" 
+              src="/lovable-uploads/e8dd453b-b08f-4c83-8ca1-ebbc55eb75cf.png" 
               alt="Prepaid Card"
               className="w-full h-64 object-contain"
             />
