@@ -9,57 +9,57 @@ interface PrepaidCompletionScreenProps {
 
 export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenProps) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 flex items-center justify-center p-2">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-md text-center shadow-xl border-0">
-        <CardContent className="p-6">
-          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard className="w-8 h-8 text-emerald-600" />
+        <CardContent className="p-8">
+          <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CreditCard className="w-10 h-10 text-emerald-600" />
           </div>
           
-          <div className="mb-4">
-            <h1 className="text-xl font-bold text-gray-900 mb-1">Your Prepaid Card is Loaded!</h1>
-            <p className="text-sm text-gray-600">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Prepaid Card is Loaded!</h1>
+            <p className="text-gray-600">
               Your settlement funds are already in your prepaid account.
             </p>
           </div>
 
-          {/* Prepaid Card Image Section - Compact size */}
-          <div className="mb-3 flex justify-center">
+          {/* Prepaid Card Image Section */}
+          <div className="mb-6 flex justify-center">
             <img 
               src="/lovable-uploads/e8dd453b-b08f-4c83-8ca1-ebbc55eb75cf.png" 
               alt="Prepaid Card"
-              className="w-full h-40 object-contain"
+              className="w-full h-32 object-contain"
             />
           </div>
 
-          <div className="bg-emerald-50 p-3 rounded-lg mb-4 text-center">
-            <div className="flex items-center justify-center space-x-2 mb-1">
-              <Clock className="w-4 h-4 text-emerald-600" />
-              <span className="text-sm font-semibold text-emerald-900">Delivery Timeline</span>
+          <div className="bg-emerald-50 p-4 rounded-lg mb-6 text-center">
+            <div className="flex items-center justify-center space-x-2 mb-2">
+              <Clock className="w-5 h-5 text-emerald-600" />
+              <span className="font-semibold text-emerald-900">Delivery Timeline</span>
             </div>
-            <p className="text-xs text-emerald-800">
+            <p className="text-sm text-emerald-800">
               Your virtual card is immediately available. Your physical card will arrive in 7-10 business days.
             </p>
           </div>
 
-          <div className="space-y-2 mb-5 max-w-xs mx-auto">
+          <div className="space-y-3 mb-8">
             <div className="flex items-center space-x-3">
-              <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-              <span className="text-xs text-gray-700 text-left">Identity verified and approved</span>
+              <CheckCircle className="w-5 h-5 text-green-500" />
+              <span className="text-sm text-gray-700">Identity verified and approved</span>
             </div>
             <div className="flex items-center space-x-3">
-              <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-              <span className="text-xs text-gray-700 text-left">Card shipping to verified address</span>
+              <CheckCircle className="w-5 h-5 text-green-500" />
+              <span className="text-sm text-gray-700">Card shipping to verified address</span>
             </div>
             <div className="flex items-center space-x-3">
-              <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-              <span className="text-xs text-gray-700 text-left">Works anywhere Visa is accepted</span>
+              <CheckCircle className="w-5 h-5 text-green-500" />
+              <span className="text-sm text-gray-700">Works anywhere Visa is accepted</span>
             </div>
           </div>
 
           <div className="space-y-3">
-            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 h-10 text-sm">
-              <Download className="w-4 h-4 mr-2" />
+            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 text-lg">
+              <Download className="w-5 h-5 mr-2" />
               Download Mobile App for Prepaid Card
             </Button>
           </div>
