@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -106,7 +107,7 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
           </div>
         </div>
 
-        {/* Interactive Map Visualization */}
+        {/* Google Maps Embed - shows when address fields are filled */}
         {address.street && address.city && address.state && (
           <AddressMap address={address} />
         )}
