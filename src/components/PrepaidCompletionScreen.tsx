@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, CheckCircle, Clock, Download, MapPin } from "lucide-react";
@@ -17,10 +16,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
           </div>
           
           <div className="mb-6">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <CheckCircle className="w-6 h-6 text-green-500" />
-              <h1 className="text-2xl font-bold text-gray-900">Prepaid Card Ordered!</h1>
-            </div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Prepaid Card Ordered!</h1>
             <p className="text-gray-600">
               Your prepaid Visa card is being prepared and will arrive soon.
             </p>
