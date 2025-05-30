@@ -16,9 +16,9 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
           </div>
           
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Check by Mail Setup Complete!</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Check is in the Mail!</h1>
             <p className="text-gray-600">
-              Your settlement check will be mailed to your confirmed address.
+              Your settlement check is in route to your confirmed address
             </p>
           </div>
 
