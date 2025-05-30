@@ -26,12 +26,12 @@ const Index = () => {
       estimatedTime: "2-3 business days"
     },
     {
-      id: "zelle" as const,
-      title: "Zelle Transfer",
-      description: "Quick transfer using your email or phone number",
-      icon: Mail,
-      benefits: ["Quick setup", "Familiar platform", "Real-time notifications"],
-      estimatedTime: "Within minutes"
+      id: "prepaid" as const,
+      title: "Prepaid Card",
+      description: "Funds loaded onto a new prepaid debit card",
+      icon: CreditCard,
+      benefits: ["No bank account needed", "ATM access", "Online purchases"],
+      estimatedTime: "7-10 business days"
     },
     {
       id: "check" as const,
@@ -42,12 +42,12 @@ const Index = () => {
       estimatedTime: "5-7 business days"
     },
     {
-      id: "prepaid" as const,
-      title: "Prepaid Card",
-      description: "Funds loaded onto a new prepaid debit card",
-      icon: CreditCard,
-      benefits: ["No bank account needed", "ATM access", "Online purchases"],
-      estimatedTime: "7-10 business days"
+      id: "zelle" as const,
+      title: "Zelle Transfer",
+      description: "Quick transfer using your email or phone number",
+      icon: Mail,
+      benefits: ["Quick setup", "Familiar platform", "Real-time notifications"],
+      estimatedTime: "Within minutes"
     }
   ];
 
