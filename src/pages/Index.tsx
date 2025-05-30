@@ -25,7 +25,7 @@ const Index = () => {
     {
       id: "ach" as const,
       title: "Bank Transfer (ACH)",
-      description: "Direct deposit to your bank account - fastest option",
+      description: "Direct deposit to your bank account",
       icon: Building2,
       benefits: ["Instant setup", "Most secure", "No fees"],
       estimatedTime: "2-3 business days"
@@ -36,7 +36,7 @@ const Index = () => {
       description: "Funds loaded onto a new prepaid debit card",
       icon: CreditCard,
       benefits: ["No bank account needed", "ATM access", "Online purchases"],
-      estimatedTime: "7-10 business days"
+      estimatedTime: "Immediate access to funds; card received in 7-10 days"
     },
     {
       id: "check" as const,
@@ -48,8 +48,8 @@ const Index = () => {
     },
     {
       id: "realtime" as const,
-      title: "Real Time Payment to Bank",
-      description: "Instant transfer to your bank account with 1% fee",
+      title: "Real Time Payment (1% Fee)",
+      description: "Instant transfer to your bank account",
       icon: Zap,
       benefits: ["Instant transfer", "Same-day availability", "Real-time notifications"],
       estimatedTime: "Within minutes"
