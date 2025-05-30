@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MapPin, Mail, CheckCircle } from "lucide-react";
-import { usePlacesAutocomplete } from "@/hooks/usePlacesAutocomplete";
 
 interface CheckFlowProps {
   onComplete: () => void;
@@ -20,23 +19,6 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
     fullName: ""
   });
   const [isValid, setIsValid] = useState(false);
-
-  const handlePlaceSelect = (selectedAddress: any) => {
-    const newAddress = {
-      ...address,
-      street: selectedAddress.street || "",
-      city: selectedAddress.city || "",
-      state: selectedAddress.state || "",
-      zipCode: selectedAddress.zipCode || ""
-    };
-    setAddress(newAddress);
-    
-    // Check if all required fields are filled
-    const required = ['street', 'city', 'state', 'zipCode', 'fullName'];
-    setIsValid(required.every(field => newAddress[field as keyof typeof newAddress].trim() !== ''));
-  };
-
-  const { inputRef } = usePlacesAutocomplete({ onPlaceSelect: handlePlaceSelect });
 
   const handleInputChange = (field: string, value: string) => {
     const newAddress = { ...address, [field]: value };
@@ -93,16 +75,12 @@ export const CheckFlow = ({ onComplete }: CheckFlowProps) => {
           <div>
             <Label htmlFor="street">Street Address *</Label>
             <Input
-              ref={inputRef}
               id="street"
               value={address.street}
               onChange={(e) => handleInputChange('street', e.target.value)}
-              placeholder="Start typing your address..."
+              placeholder="Enter your street address"
               className="mt-1"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Start typing to see address suggestions
-            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
