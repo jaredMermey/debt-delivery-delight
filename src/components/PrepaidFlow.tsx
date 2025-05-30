@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { CreditCard, Shield, User, FileText, Camera, CheckCircle } from "lucide-react";
+import { CreditCard, Shield, User, MapPin, Calendar, Lock, CheckCircle, ArrowRight } from "lucide-react";
 
 interface PrepaidFlowProps {
   onComplete: () => void;
@@ -13,31 +13,31 @@ interface PrepaidFlowProps {
 
 export const PrepaidFlow = ({ onComplete }: PrepaidFlowProps) => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [kycData, setKycData] = useState({
+  const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
+    email: "",
+    phone: "",
     dateOfBirth: "",
     ssn: "",
     address: "",
     city: "",
     state: "",
-    zipCode: "",
-    idType: "",
-    idNumber: ""
+    zipCode: ""
   });
 
   const handleInputChange = (field: string, value: string) => {
-    setKycData(prev => ({ ...prev, [field]: value }));
+    setUserData(prev => ({ ...prev, [field]: value }));
   };
 
   const isStepValid = (step: number) => {
     switch (step) {
       case 1:
-        return kycData.firstName && kycData.lastName && kycData.dateOfBirth && kycData.ssn;
+        return userData.firstName && userData.lastName && userData.email && userData.phone;
       case 2:
-        return kycData.address && kycData.city && kycData.state && kycData.zipCode;
+        return userData.dateOfBirth && userData.ssn;
       case 3:
-        return kycData.idType && kycData.idNumber;
+        return userData.address && userData.city && userData.state && userData.zipCode;
       default:
         return false;
     }
@@ -51,266 +51,255 @@ export const PrepaidFlow = ({ onComplete }: PrepaidFlowProps) => {
     }
   };
 
-  const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
   const getStepProgress = () => (currentStep / 4) * 100;
 
+  const stepTitles = {
+    1: "Let's get to know you",
+    2: "Verify your identity",
+    3: "Where should we send your card?",
+    4: "You're all set!"
+  };
+
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-            <CreditCard className="w-6 h-6 text-orange-600" />
+    <div className="max-w-md mx-auto">
+      <Card className="border-0 shadow-lg">
+        <CardHeader className="text-center pb-6">
+          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CreditCard className="w-8 h-8 text-emerald-600" />
           </div>
-          <div>
-            <CardTitle className="text-2xl">Prepaid Card Setup</CardTitle>
-            <p className="text-gray-600">Complete verification to get your prepaid card</p>
+          <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
+            {stepTitles[currentStep as keyof typeof stepTitles]}
+          </CardTitle>
+          <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+            <div 
+              className="bg-emerald-500 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${getStepProgress()}%` }}
+            />
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="bg-orange-50 p-4 rounded-lg">
-          <div className="flex items-center space-x-2 mb-2">
-            <Shield className="w-5 h-5 text-orange-600" />
-            <span className="font-semibold text-orange-900">Secure KYC Process</span>
-          </div>
-          <p className="text-sm text-orange-800">
-            We need to verify your identity to comply with federal regulations and issue your prepaid card.
-            Your information is encrypted and secure.
-          </p>
-        </div>
+          <p className="text-sm text-gray-600">Step {currentStep} of 4</p>
+        </CardHeader>
 
-        {/* Progress */}
-        <div>
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Step {currentStep} of 4</span>
-            <span>{Math.round(getStepProgress())}% Complete</span>
-          </div>
-          <Progress value={getStepProgress()} className="h-2" />
-        </div>
+        <CardContent className="px-6 pb-6">
+          {/* Step 1: Basic Information */}
+          {currentStep === 1 && (
+            <div className="space-y-4">
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">First name</Label>
+                  <Input
+                    id="firstName"
+                    value={userData.firstName}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
+                    placeholder="Enter your first name"
+                    className="mt-1 h-12 text-base"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">Last name</Label>
+                  <Input
+                    id="lastName"
+                    value={userData.lastName}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
+                    placeholder="Enter your last name"
+                    className="mt-1 h-12 text-base"
+                  />
+                </div>
 
-        {/* Step 1: Personal Information */}
-        {currentStep === 1 && (
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2 mb-4">
-              <User className="w-5 h-5 text-blue-600" />
-              <h3 className="text-lg font-semibold">Personal Information</h3>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input
-                  id="firstName"
-                  value={kycData.firstName}
-                  onChange={(e) => handleInputChange('firstName', e.target.value)}
-                  placeholder="John"
-                />
+                <div>
+                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={userData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="Enter your email"
+                    className="mt-1 h-12 text-base"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone number</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={userData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    placeholder="(555) 123-4567"
+                    className="mt-1 h-12 text-base"
+                  />
+                </div>
               </div>
-              <div>
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input
-                  id="lastName"
-                  value={kycData.lastName}
-                  onChange={(e) => handleInputChange('lastName', e.target.value)}
-                  placeholder="Doe"
-                />
+
+              <div className="bg-blue-50 p-4 rounded-lg mt-6">
+                <div className="flex items-start space-x-3">
+                  <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-900">Your information is secure</p>
+                    <p className="text-xs text-blue-700 mt-1">We use bank-level encryption to protect your data</p>
+                  </div>
+                </div>
               </div>
             </div>
+          )}
 
-            <div className="grid grid-cols-2 gap-4">
+          {/* Step 2: Identity Verification */}
+          {currentStep === 2 && (
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Lock className="w-5 h-5 text-gray-600" />
+                  <span className="font-medium text-gray-900">Identity verification</span>
+                </div>
+                <p className="text-sm text-gray-600">
+                  We need this information to verify your identity and comply with federal regulations.
+                </p>
+              </div>
+
               <div>
-                <Label htmlFor="dateOfBirth">Date of Birth *</Label>
+                <Label htmlFor="dateOfBirth" className="text-sm font-medium text-gray-700">Date of birth</Label>
                 <Input
                   id="dateOfBirth"
                   type="date"
-                  value={kycData.dateOfBirth}
+                  value={userData.dateOfBirth}
                   onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
+                  className="mt-1 h-12 text-base"
                 />
+                <p className="text-xs text-gray-500 mt-1">You must be 18 or older</p>
               </div>
+
               <div>
-                <Label htmlFor="ssn">Social Security Number *</Label>
+                <Label htmlFor="ssn" className="text-sm font-medium text-gray-700">Social Security Number</Label>
                 <Input
                   id="ssn"
-                  value={kycData.ssn}
+                  value={userData.ssn}
                   onChange={(e) => handleInputChange('ssn', e.target.value)}
                   placeholder="XXX-XX-XXXX"
                   maxLength={11}
+                  className="mt-1 h-12 text-base"
                 />
+                <p className="text-xs text-gray-500 mt-1">We'll never share this with anyone</p>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Step 2: Address Information */}
-        {currentStep === 2 && (
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2 mb-4">
-              <FileText className="w-5 h-5 text-blue-600" />
-              <h3 className="text-lg font-semibold">Address Information</h3>
-            </div>
-            
-            <div>
-              <Label htmlFor="address">Street Address *</Label>
-              <Input
-                id="address"
-                value={kycData.address}
-                onChange={(e) => handleInputChange('address', e.target.value)}
-                placeholder="123 Main Street, Apt 4B"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="city">City *</Label>
-                <Input
-                  id="city"
-                  value={kycData.city}
-                  onChange={(e) => handleInputChange('city', e.target.value)}
-                  placeholder="City"
-                />
-              </div>
-              <div>
-                <Label htmlFor="state">State *</Label>
-                <Input
-                  id="state"
-                  value={kycData.state}
-                  onChange={(e) => handleInputChange('state', e.target.value)}
-                  placeholder="State"
-                />
-              </div>
-            </div>
-
-            <div className="w-1/2">
-              <Label htmlFor="zipCode">ZIP Code *</Label>
-              <Input
-                id="zipCode"
-                value={kycData.zipCode}
-                onChange={(e) => handleInputChange('zipCode', e.target.value)}
-                placeholder="12345"
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: ID Verification */}
-        {currentStep === 3 && (
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2 mb-4">
-              <Camera className="w-5 h-5 text-blue-600" />
-              <h3 className="text-lg font-semibold">Identity Verification</h3>
-            </div>
-
-            <div>
-              <Label htmlFor="idType">ID Type *</Label>
-              <select
-                id="idType"
-                value={kycData.idType}
-                onChange={(e) => handleInputChange('idType', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select ID Type</option>
-                <option value="drivers_license">Driver's License</option>
-                <option value="state_id">State ID</option>
-                <option value="passport">Passport</option>
-              </select>
-            </div>
-
-            <div>
-              <Label htmlFor="idNumber">ID Number *</Label>
-              <Input
-                id="idNumber"
-                value={kycData.idNumber}
-                onChange={(e) => handleInputChange('idNumber', e.target.value)}
-                placeholder="Enter your ID number"
-              />
-            </div>
-
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <div className="flex items-center space-x-2 mb-2">
-                <Camera className="w-5 h-5 text-blue-600" />
-                <span className="font-semibold text-blue-900">Document Upload Required</span>
-              </div>
-              <p className="text-sm text-blue-800 mb-3">
-                You'll need to upload a clear photo of your ID in the next step.
-              </p>
-              <Button variant="outline" className="w-full border-blue-300 text-blue-700 hover:bg-blue-50">
-                <Camera className="w-4 h-4 mr-2" />
-                Prepare to Upload ID Photo
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 4: Review & Complete */}
-        {currentStep === 4 && (
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2 mb-4">
-              <CheckCircle className="w-5 h-5 text-green-600" />
-              <h3 className="text-lg font-semibold">Review & Complete</h3>
-            </div>
-
-            <div className="bg-gray-50 p-4 rounded-lg space-y-3">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="font-semibold">Name:</span><br />
-                  {kycData.firstName} {kycData.lastName}
-                </div>
-                <div>
-                  <span className="font-semibold">Date of Birth:</span><br />
-                  {kycData.dateOfBirth}
-                </div>
-                <div>
-                  <span className="font-semibold">Address:</span><br />
-                  {kycData.address}<br />
-                  {kycData.city}, {kycData.state} {kycData.zipCode}
-                </div>
-                <div>
-                  <span className="font-semibold">ID Type:</span><br />
-                  {kycData.idType.replace('_', ' ').toUpperCase()}
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-green-50 p-4 rounded-lg">
-              <div className="flex items-center space-x-2 mb-2">
-                <CreditCard className="w-5 h-5 text-green-600" />
-                <span className="font-semibold text-green-900">Prepaid Card Details</span>
-              </div>
-              <ul className="text-sm text-green-800 space-y-1">
-                <li>• Card will be shipped to your verified address</li>
-                <li>• Funds will be loaded upon settlement approval</li>
-                <li>• ATM access and online purchases available</li>
-                <li>• Expected delivery: 7-10 business days</li>
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* Navigation Buttons */}
-        <div className="flex space-x-4">
-          {currentStep > 1 && (
-            <Button 
-              variant="outline" 
-              onClick={prevStep}
-              className="flex-1"
-            >
-              Previous
-            </Button>
           )}
+
+          {/* Step 3: Address */}
+          {currentStep === 3 && (
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                <div className="flex items-center space-x-2 mb-2">
+                  <MapPin className="w-5 h-5 text-gray-600" />
+                  <span className="font-medium text-gray-900">Shipping address</span>
+                </div>
+                <p className="text-sm text-gray-600">
+                  Where should we send your prepaid card?
+                </p>
+              </div>
+
+              <div>
+                <Label htmlFor="address" className="text-sm font-medium text-gray-700">Street address</Label>
+                <Input
+                  id="address"
+                  value={userData.address}
+                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  placeholder="123 Main Street"
+                  className="mt-1 h-12 text-base"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="city" className="text-sm font-medium text-gray-700">City</Label>
+                  <Input
+                    id="city"
+                    value={userData.city}
+                    onChange={(e) => handleInputChange('city', e.target.value)}
+                    placeholder="City"
+                    className="mt-1 h-12 text-base"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="state" className="text-sm font-medium text-gray-700">State</Label>
+                  <Input
+                    id="state"
+                    value={userData.state}
+                    onChange={(e) => handleInputChange('state', e.target.value)}
+                    placeholder="CA"
+                    className="mt-1 h-12 text-base"
+                  />
+                </div>
+              </div>
+
+              <div className="w-1/2">
+                <Label htmlFor="zipCode" className="text-sm font-medium text-gray-700">ZIP code</Label>
+                <Input
+                  id="zipCode"
+                  value={userData.zipCode}
+                  onChange={(e) => handleInputChange('zipCode', e.target.value)}
+                  placeholder="12345"
+                  className="mt-1 h-12 text-base"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Step 4: Confirmation */}
+          {currentStep === 4 && (
+            <div className="text-center space-y-6">
+              <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle className="w-10 h-10 text-emerald-600" />
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Welcome to your new card!</h3>
+                <p className="text-gray-600 mb-6">
+                  Your prepaid card is being prepared and will arrive in 7-10 business days.
+                </p>
+              </div>
+
+              <div className="bg-emerald-50 p-4 rounded-lg text-left">
+                <h4 className="font-semibold text-emerald-900 mb-3">What's next?</h4>
+                <ul className="space-y-2 text-sm text-emerald-800">
+                  <li className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Card will be shipped to {userData.address}</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Funds loaded upon settlement approval</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Use anywhere Visa is accepted</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Continue Button */}
           <Button 
             onClick={nextStep}
             disabled={!isStepValid(currentStep)}
-            className="flex-1 bg-orange-600 hover:bg-orange-700 disabled:bg-gray-300"
+            className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold text-base mt-8"
           >
-            {currentStep === 4 ? "Complete Setup" : "Continue"}
+            {currentStep === 4 ? (
+              "Complete Setup"
+            ) : (
+              <div className="flex items-center justify-center space-x-2">
+                <span>Continue</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            )}
           </Button>
-        </div>
-      </CardContent>
-    </Card>
+
+          {currentStep < 4 && (
+            <p className="text-center text-xs text-gray-500 mt-4">
+              By continuing, you agree to our Terms of Service and Privacy Policy
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
