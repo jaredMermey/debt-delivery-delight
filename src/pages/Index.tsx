@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap } from "lucide-react";
@@ -6,6 +5,7 @@ import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { RealTimeFlow } from "@/components/RealTimeFlow";
 import { PrepaidFlow } from "@/components/PrepaidFlow";
+import { PrepaidMarketingPage } from "@/components/PrepaidMarketingPage";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
 import { ProgressHeader } from "@/components/ProgressHeader";
@@ -20,6 +20,7 @@ const Index = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
+  const [showPrepaidMarketing, setShowPrepaidMarketing] = useState(false);
 
   const paymentMethods = [
     {
@@ -58,14 +59,28 @@ const Index = () => {
 
   const handleMethodSelect = (method: PaymentMethod) => {
     setSelectedMethod(method);
-    setCurrentStep(2);
+    if (method === "prepaid") {
+      setShowPrepaidMarketing(true);
+      setCurrentStep(2);
+    } else {
+      setCurrentStep(2);
+    }
   };
 
   const handleBack = () => {
-    if (currentStep === 2) {
+    if (showPrepaidMarketing) {
+      setShowPrepaidMarketing(false);
+      setSelectedMethod(null);
+      setCurrentStep(1);
+    } else if (currentStep === 2) {
       setSelectedMethod(null);
       setCurrentStep(1);
     }
+  };
+
+  const handlePrepaidContinue = () => {
+    setShowPrepaidMarketing(false);
+    setCurrentStep(2);
   };
 
   const handleComplete = () => {
@@ -75,6 +90,7 @@ const Index = () => {
 
   const getProgressValue = () => {
     if (isComplete) return 100;
+    if (showPrepaidMarketing) return 33;
     return currentStep === 1 ? 33 : 66;
   };
 
@@ -99,7 +115,7 @@ const Index = () => {
         <ProgressHeader currentStep={currentStep} progressValue={getProgressValue()} />
 
         {/* Back Button */}
-        {currentStep === 2 && (
+        {(currentStep === 2 || showPrepaidMarketing) && (
           <Button 
             variant="ghost" 
             onClick={handleBack}
@@ -123,8 +139,16 @@ const Index = () => {
           </div>
         )}
 
+        {/* Prepaid Marketing Page */}
+        {showPrepaidMarketing && (
+          <PrepaidMarketingPage 
+            onContinue={handlePrepaidContinue}
+            onBack={handleBack}
+          />
+        )}
+
         {/* Selected Method Flow */}
-        {currentStep === 2 && selectedMethod && (
+        {currentStep === 2 && selectedMethod && !showPrepaidMarketing && (
           <div className="max-w-2xl mx-auto">
             {selectedMethod === "ach" && <ACHFlow onComplete={handleComplete} />}
             {selectedMethod === "check" && <CheckFlow onComplete={handleComplete} />}
