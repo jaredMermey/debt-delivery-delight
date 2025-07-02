@@ -1,70 +1,176 @@
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CreditCard, CheckCircle, Clock, Download } from "lucide-react";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { ChevronDown, Copy, Eye, EyeOff } from "lucide-react";
 
 interface PrepaidCompletionScreenProps {
   onComplete: () => void;
 }
 
 export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenProps) => {
+  const [showCardNumber, setShowCardNumber] = useState(false);
+  const [showCVV, setShowCVV] = useState(false);
+
+  const cardNumber = "5312 3456 7890 1234";
+  const cvv = "123";
+  const expiry = "12/26";
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md text-center shadow-xl border-0">
-        <CardContent className="p-8">
-          <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CreditCard className="w-10 h-10 text-emerald-600" />
-          </div>
-          
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Prepaid Card is Loaded!</h1>
-            <p className="text-gray-600">
-              Your settlement funds are already in your prepaid account.
-            </p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-red-50 to-slate-100">
+      {/* Header */}
+      <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm">
+        <h1 className="text-lg font-semibold text-slate-800">MY PAYMENT VAULT</h1>
+        <div className="w-6 h-6 rounded-full bg-slate-200"></div>
+      </div>
 
-          {/* Prepaid Card Image Section */}
-          <div className="mb-6 flex justify-center">
-            <img 
-              src="/lovable-uploads/e8dd453b-b08f-4c83-8ca1-ebbc55eb75cf.png" 
-              alt="Prepaid Card"
-              className="w-full h-32 object-contain"
-            />
-          </div>
+      <div className="px-4 py-6">
+        {/* Prepaid Card */}
+        <div className="relative mb-6">
+          <div className="bg-gradient-to-r from-red-500 to-slate-800 rounded-2xl p-6 text-white shadow-lg">
+            {/* Card Brand */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="bg-red-600 p-2 rounded">
+                <div className="w-8 h-6 bg-red-700 rounded-sm"></div>
+              </div>
+              <div className="text-2xl font-bold text-slate-300">Reliant</div>
+            </div>
+            
+            {/* Chip */}
+            <div className="w-12 h-8 bg-gradient-to-br from-slate-300 to-slate-400 rounded mb-4 relative">
+              <div className="absolute inset-1 bg-gradient-to-br from-slate-200 to-slate-300 rounded"></div>
+              <div className="absolute inset-2 grid grid-cols-3 gap-0.5">
+                {[...Array(9)].map((_, i) => (
+                  <div key={i} className="bg-slate-400 rounded-sm"></div>
+                ))}
+              </div>
+            </div>
 
-          <div className="bg-emerald-50 p-4 rounded-lg mb-6 text-center">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <Clock className="w-5 h-5 text-emerald-600" />
-              <span className="font-semibold text-emerald-900">Delivery Timeline</span>
+            {/* Card Number */}
+            <div className="text-2xl font-mono mb-4 tracking-wider">
+              {showCardNumber ? cardNumber : "5312 •••• •••• 1234"}
             </div>
-            <p className="text-sm text-emerald-800">
-              Your virtual card is immediately available. Your physical card will arrive in 7-10 business days.
-            </p>
-          </div>
 
-          <div className="space-y-3 mb-8">
-            <div className="flex items-center space-x-3">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm text-gray-700">Identity verified and approved</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm text-gray-700">Card shipping to verified address</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm text-gray-700">Works anywhere Visa is accepted</span>
+            {/* Card Details */}
+            <div className="flex justify-between items-end">
+              <div>
+                <div className="text-xs text-slate-300 mb-1">PREPAID</div>
+                <div className="text-sm font-semibold">CARDHOLDER</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-mono">{expiry}</div>
+              </div>
+              <div className="flex space-x-1">
+                <div className="w-6 h-6 bg-red-500 rounded-full"></div>
+                <div className="w-6 h-6 bg-yellow-400 rounded-full opacity-80"></div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="space-y-3">
-            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 text-lg">
-              <Download className="w-5 h-5 mr-2" />
-              Get the App
+        {/* Available Balance */}
+        <div className="bg-slate-800 rounded-xl p-4 mb-4 text-white">
+          <div className="text-sm text-slate-300 mb-1">Available Balance</div>
+          <div className="text-3xl font-bold">$100.00</div>
+        </div>
+
+        {/* Card Details Drawer */}
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button 
+              variant="outline" 
+              className="w-full flex items-center justify-between p-4 h-auto border-slate-200 bg-white hover:bg-slate-50"
+            >
+              <span className="font-medium text-slate-700">Card Details</span>
+              <ChevronDown className="w-5 h-5 text-slate-500" />
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </DrawerTrigger>
+          <DrawerContent className="bg-white">
+            <DrawerHeader>
+              <DrawerTitle className="text-center text-slate-800">Card Information</DrawerTitle>
+            </DrawerHeader>
+            <div className="px-4 pb-8 space-y-4">
+              {/* Card Number */}
+              <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                <div>
+                  <div className="text-sm text-slate-600 mb-1">Card Number</div>
+                  <div className="font-mono text-lg">
+                    {showCardNumber ? cardNumber : "5312 •••• •••• 1234"}
+                  </div>
+                </div>
+                <div className="flex space-x-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowCardNumber(!showCardNumber)}
+                  >
+                    {showCardNumber ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => copyToClipboard(cardNumber)}
+                  >
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Expiry Date */}
+              <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                <div>
+                  <div className="text-sm text-slate-600 mb-1">Expiry Date</div>
+                  <div className="font-mono text-lg">{expiry}</div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => copyToClipboard(expiry)}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+
+              {/* CVV */}
+              <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
+                <div>
+                  <div className="text-sm text-slate-600 mb-1">CVV</div>
+                  <div className="font-mono text-lg">
+                    {showCVV ? cvv : "•••"}
+                  </div>
+                </div>
+                <div className="flex space-x-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowCVV(!showCVV)}
+                  >
+                    {showCVV ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => copyToClipboard(cvv)}
+                  >
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Card Status */}
+              <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-sm text-green-800 font-medium mb-1">Card Status</div>
+                <div className="text-green-700">Active • Ready for immediate use</div>
+              </div>
+            </div>
+          </DrawerContent>
+        </Drawer>
+      </div>
     </div>
   );
 };
