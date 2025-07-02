@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import { ChevronDown, Copy, Eye, EyeOff } from "lucide-react";
+import { ChevronDown, Copy, Eye, EyeOff, Wallet, Plus } from "lucide-react";
 
 interface PrepaidCompletionScreenProps {
   onComplete: () => void;
@@ -19,6 +19,22 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+  };
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+
+  const addToWallet = () => {
+    // In a real implementation, this would trigger the wallet integration
+    if (isIOS) {
+      // Apple Wallet integration would go here
+      alert("Adding to Apple Wallet...");
+    } else if (isAndroid) {
+      // Google Wallet integration would go here
+      alert("Adding to Google Wallet...");
+    } else {
+      alert("Digital wallet not supported on this device");
+    }
   };
 
   return (
@@ -167,6 +183,20 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
                 <div className="text-sm text-green-800 font-medium mb-1">Card Status</div>
                 <div className="text-green-700">Active • Ready for immediate use</div>
               </div>
+
+              {/* Add to Wallet */}
+              <Button 
+                onClick={addToWallet}
+                className="w-full bg-slate-800 hover:bg-slate-900 text-white h-12 rounded-lg"
+              >
+                <div className="flex items-center justify-center space-x-2">
+                  <Plus className="w-4 h-4" />
+                  <Wallet className="w-4 h-4" />
+                  <span>
+                    {isIOS ? "Add to Apple Wallet" : isAndroid ? "Add to Google Wallet" : "Add to Wallet"}
+                  </span>
+                </div>
+              </Button>
             </div>
           </DrawerContent>
         </Drawer>
