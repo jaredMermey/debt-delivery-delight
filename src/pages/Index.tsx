@@ -5,6 +5,7 @@ import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { RealTimeFlow } from "@/components/RealTimeFlow";
 import { PrepaidFlow } from "@/components/PrepaidFlow";
+import { VenmoFlow } from "@/components/VenmoFlow";
 import { PrepaidMarketingPage } from "@/components/PrepaidMarketingPage";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
@@ -179,9 +180,7 @@ const Index = () => {
             {selectedMethod === "realtime" && <RealTimeFlow onComplete={handleComplete} />}
             {selectedMethod === "prepaid" && <PrepaidFlow onComplete={handleComplete} />}
             {selectedMethod === "venmo" && (
-              <div className="rounded-lg border border-slate-200 p-4 text-slate-700">
-                Venmo option selected. We’ll guide you through this method soon.
-              </div>
+              <VenmoFlow />
             )}
             {selectedMethod === "paypal" && (
               <div className="rounded-lg border border-slate-200 p-4 text-slate-700">
