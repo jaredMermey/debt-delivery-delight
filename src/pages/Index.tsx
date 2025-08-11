@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { RealTimeFlow } from "@/components/RealTimeFlow";
@@ -14,7 +14,7 @@ import { CheckCompletionScreen } from "@/components/CheckCompletionScreen";
 import { RealTimeCompletionScreen } from "@/components/RealTimeCompletionScreen";
 import { PrepaidCompletionScreen } from "@/components/PrepaidCompletionScreen";
 
-type PaymentMethod = "ach" | "check" | "realtime" | "prepaid" | null;
+type PaymentMethod = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international" | null;
 
 const Index = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
@@ -54,6 +54,30 @@ const Index = () => {
       icon: Zap,
       benefits: ["Instant transfer", "Same-day availability", "Real-time notifications"],
       estimatedTime: "Within minutes"
+    },
+    {
+      id: "venmo" as const,
+      title: "Venmo",
+      description: "Receive funds to your Venmo account",
+      icon: Wallet,
+      benefits: ["Popular and easy", "Quick transfers", "No bank needed"],
+      estimatedTime: "Minutes to hours"
+    },
+    {
+      id: "paypal" as const,
+      title: "PayPal",
+      description: "Transfer to your PayPal balance",
+      icon: Banknote,
+      benefits: ["Widely accepted", "Buyer protection", "No card required"],
+      estimatedTime: "Minutes to hours"
+    },
+    {
+      id: "international" as const,
+      title: "International Bank Account",
+      description: "Cross-border transfer to an international account",
+      icon: Globe,
+      benefits: ["Global reach", "Secure transfer", "SWIFT/IBAN supported"],
+      estimatedTime: "2-5 business days"
     }
   ];
 
@@ -154,6 +178,21 @@ const Index = () => {
             {selectedMethod === "check" && <CheckFlow onComplete={handleComplete} />}
             {selectedMethod === "realtime" && <RealTimeFlow onComplete={handleComplete} />}
             {selectedMethod === "prepaid" && <PrepaidFlow onComplete={handleComplete} />}
+            {selectedMethod === "venmo" && (
+              <div className="rounded-lg border border-slate-200 p-4 text-slate-700">
+                Venmo option selected. We’ll guide you through this method soon.
+              </div>
+            )}
+            {selectedMethod === "paypal" && (
+              <div className="rounded-lg border border-slate-200 p-4 text-slate-700">
+                PayPal option selected. We’ll guide you through this method soon.
+              </div>
+            )}
+            {selectedMethod === "international" && (
+              <div className="rounded-lg border border-slate-200 p-4 text-slate-700">
+                International bank transfer selected. We’ll guide you through this method soon.
+              </div>
+            )}
           </div>
         )}
       </div>

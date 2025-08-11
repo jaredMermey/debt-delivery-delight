@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CheckCircle, LucideIcon } from "lucide-react";
 
 interface PaymentMethod {
-  id: "ach" | "check" | "realtime" | "prepaid";
+  id: "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international";
   title: string;
   description: string;
   icon: LucideIcon;
