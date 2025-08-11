@@ -14,7 +14,7 @@ export const ProgressHeader = ({ currentStep, progressValue }: ProgressHeaderPro
         <img
           src="/lovable-uploads/0ee1b531-08da-4831-95df-14752bf2d87e.png"
           alt="Axos Bank logo"
-          className="mx-auto h-10 w-auto mb-4"
+          className="mx-auto h-16 sm:h-20 w-auto mb-4"
           loading="lazy"
         />
         <h1 className="text-4xl font-bold text-slate-800 mb-3">
