@@ -7,6 +7,7 @@ import { RealTimeFlow } from "@/components/RealTimeFlow";
 import { PrepaidFlow } from "@/components/PrepaidFlow";
 import { VenmoFlow } from "@/components/VenmoFlow";
 import { PayPalFlow } from "@/components/PayPalFlow";
+import { PayPalCompletionScreen } from "@/components/PayPalCompletionScreen";
 import { PrepaidMarketingPage } from "@/components/PrepaidMarketingPage";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
@@ -133,6 +134,8 @@ const Index = () => {
         return <PrepaidCompletionScreen onComplete={() => {}} />;
       case "venmo":
         return <VenmoCompletionScreen onComplete={() => {}} />;
+      case "paypal":
+        return <PayPalCompletionScreen onComplete={() => {}} />;
       default:
         return <ACHCompletionScreen onComplete={() => {}} />;
     }
@@ -187,7 +190,7 @@ const Index = () => {
               <VenmoFlow onComplete={handleComplete} />
             )}
 {selectedMethod === "paypal" && (
-  <PayPalFlow />
+  <PayPalFlow onComplete={handleComplete} />
 )}
             {selectedMethod === "international" && (
               <div className="rounded-lg border border-slate-200 p-4 text-slate-700">

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle, Banknote } from "lucide-react";
 
-export const PayPalFlow = () => {
+export const PayPalFlow = ({ onComplete }: { onComplete?: () => void }) => {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [connectedEmail, setConnectedEmail] = useState<string | null>(null);
@@ -91,13 +91,18 @@ export const PayPalFlow = () => {
             </DialogContent>
           </Dialog>
         ) : (
-          <Alert className="border-green-200 bg-green-50">
-            <CheckCircle className="h-4 w-4 text-green-600" />
-            <AlertTitle className="text-green-800">Connected</AlertTitle>
-            <AlertDescription className="text-green-700">
-              Funds will be sent to your PayPal account {connectedEmail}.
-            </AlertDescription>
-          </Alert>
+          <div className="space-y-4">
+            <Alert className="border-green-200 bg-green-50">
+              <CheckCircle className="h-4 w-4 text-green-600" />
+              <AlertTitle className="text-green-800">Connected</AlertTitle>
+              <AlertDescription className="text-green-700">
+                Funds will be sent to your PayPal account {connectedEmail}.
+              </AlertDescription>
+            </Alert>
+            <Button type="button" className="w-full" onClick={() => onComplete?.()}>
+              Continue
+            </Button>
+          </div>
         )}
       </CardContent>
     </Card>
