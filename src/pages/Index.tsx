@@ -130,6 +130,8 @@ const Index = () => {
         return <RealTimeCompletionScreen onComplete={() => {}} />;
       case "prepaid":
         return <PrepaidCompletionScreen onComplete={() => {}} />;
+      case "venmo":
+        return <CompletionScreen onComplete={() => {}} />;
       default:
         return <ACHCompletionScreen onComplete={() => {}} />;
     }
@@ -181,7 +183,7 @@ const Index = () => {
             {selectedMethod === "realtime" && <RealTimeFlow onComplete={handleComplete} />}
             {selectedMethod === "prepaid" && <PrepaidFlow onComplete={handleComplete} />}
             {selectedMethod === "venmo" && (
-              <VenmoFlow />
+              <VenmoFlow onComplete={handleComplete} />
             )}
 {selectedMethod === "paypal" && (
   <PayPalFlow />
