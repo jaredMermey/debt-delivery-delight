@@ -15,6 +15,7 @@ import { ACHCompletionScreen } from "@/components/ACHCompletionScreen";
 import { CheckCompletionScreen } from "@/components/CheckCompletionScreen";
 import { RealTimeCompletionScreen } from "@/components/RealTimeCompletionScreen";
 import { PrepaidCompletionScreen } from "@/components/PrepaidCompletionScreen";
+import { VenmoCompletionScreen } from "@/components/VenmoCompletionScreen";
 
 type PaymentMethod = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international" | null;
 
@@ -131,7 +132,7 @@ const Index = () => {
       case "prepaid":
         return <PrepaidCompletionScreen onComplete={() => {}} />;
       case "venmo":
-        return <CompletionScreen onComplete={() => {}} />;
+        return <VenmoCompletionScreen onComplete={() => {}} />;
       default:
         return <ACHCompletionScreen onComplete={() => {}} />;
     }
