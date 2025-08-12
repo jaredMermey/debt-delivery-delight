@@ -77,7 +77,7 @@ export const VenmoFlow = ({ onComplete }: { onComplete?: () => void }) => {
                 Funds will be sent to your Venmo handle {connectedHandle}.
               </AlertDescription>
             </Alert>
-            <Button className="w-full" onClick={() => onComplete?.()}>
+            <Button type="button" className="w-full" onClick={() => { onComplete?.(); }}>
               Continue
             </Button>
           </div>
