@@ -12,8 +12,8 @@ export const ProgressHeader = ({ currentStep, progressValue }: ProgressHeaderPro
       {/* Header */}
       <div className="text-center mb-8">
         <img
-          src="/lovable-uploads/0ee1b531-08da-4831-95df-14752bf2d87e.png"
-          alt="Axos Bank logo"
+          src="/lovable-uploads/b8219251-a9f5-4a4d-afdd-08c4573a268d.png"
+          alt="Northwest Bank logo"
           className="mx-auto h-16 sm:h-20 w-auto mb-4"
           loading="lazy"
         />
