@@ -11,6 +11,12 @@ export const ProgressHeader = ({ currentStep, progressValue }: ProgressHeaderPro
     <>
       {/* Header */}
       <div className="text-center mb-8">
+        <img
+          src="/lovable-uploads/35732e94-7d2c-42fe-9948-65816587b726.png"
+          alt="Esquire Bank logo"
+          className="mx-auto h-11 sm:h-14 w-auto mb-4"
+          loading="lazy"
+        />
         <h1 className="text-4xl font-bold text-slate-800 mb-3">
           Hi David, How Do You Want to Get Paid?
         </h1>
