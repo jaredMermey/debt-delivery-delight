@@ -17,6 +17,7 @@ import { CheckCompletionScreen } from "@/components/CheckCompletionScreen";
 import { RealTimeCompletionScreen } from "@/components/RealTimeCompletionScreen";
 import { PrepaidCompletionScreen } from "@/components/PrepaidCompletionScreen";
 import { VenmoCompletionScreen } from "@/components/VenmoCompletionScreen";
+import { ClassActionAdCard } from "@/components/ClassActionAdCard";
 
 type PaymentMethod = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international" | null;
 
@@ -168,6 +169,7 @@ const Index = () => {
                 onSelect={handleMethodSelect}
               />
             ))}
+            <ClassActionAdCard />
           </div>
         )}
 
