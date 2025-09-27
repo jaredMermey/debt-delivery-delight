@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Eye, ArrowLeft, ArrowRight } from "lucide-react";
@@ -13,6 +13,8 @@ import { Campaign, PaymentMethodConfig, Consumer } from "@/types/campaign";
 
 export function CampaignWizard() {
   const navigate = useNavigate();
+  const { campaignId } = useParams();
+  const isEditMode = Boolean(campaignId);
   const [currentStep, setCurrentStep] = useState(1);
   const [campaignData, setCampaignData] = useState<Partial<Campaign>>({
     name: '',
@@ -24,6 +26,19 @@ export function CampaignWizard() {
     advertisementEnabled: true,
     consumers: []
   });
+
+  // Load existing campaign data when in edit mode
+  useEffect(() => {
+    if (isEditMode && campaignId) {
+      const existingCampaign = campaignStore.getCampaign(campaignId);
+      if (existingCampaign) {
+        setCampaignData(existingCampaign);
+      } else {
+        // Campaign not found, redirect to dashboard
+        navigate('/admin');
+      }
+    }
+  }, [campaignId, isEditMode, navigate]);
 
   const totalSteps = 5;
   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
@@ -53,32 +68,52 @@ export function CampaignWizard() {
   };
 
   const handlePreview = () => {
-    // Create a temporary campaign for preview
-    const tempCampaign = campaignStore.createCampaign({
-      name: campaignData.name || 'Preview Campaign',
-      description: campaignData.description || 'Preview description',
-      bankLogo: campaignData.bankLogo || '',
-      paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
-      advertisementImage: campaignData.advertisementImage || '',
-      advertisementUrl: campaignData.advertisementUrl || '',
-      advertisementEnabled: campaignData.advertisementEnabled ?? true,
-      consumers: campaignData.consumers || []
-    });
-    
-    navigate(`/admin/preview/${tempCampaign.id}`);
+    if (isEditMode && campaignId) {
+      // Use existing campaign for preview
+      navigate(`/admin/preview/${campaignId}`);
+    } else {
+      // Create a temporary campaign for preview
+      const tempCampaign = campaignStore.createCampaign({
+        name: campaignData.name || 'Preview Campaign',
+        description: campaignData.description || 'Preview description',
+        bankLogo: campaignData.bankLogo || '',
+        paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
+        advertisementImage: campaignData.advertisementImage || '',
+        advertisementUrl: campaignData.advertisementUrl || '',
+        advertisementEnabled: campaignData.advertisementEnabled ?? true,
+        consumers: campaignData.consumers || []
+      });
+      
+      navigate(`/admin/preview/${tempCampaign.id}`);
+    }
   };
 
   const handleComplete = () => {
-    const campaign = campaignStore.createCampaign({
-      name: campaignData.name!,
-      description: campaignData.description!,
-      bankLogo: campaignData.bankLogo!,
-      paymentMethods: campaignData.paymentMethods!,
-      advertisementImage: campaignData.advertisementImage || '',
-      advertisementUrl: campaignData.advertisementUrl || '',
-      advertisementEnabled: campaignData.advertisementEnabled ?? true,
-      consumers: campaignData.consumers!
-    });
+    if (isEditMode && campaignId) {
+      // Update existing campaign
+      campaignStore.updateCampaign(campaignId, {
+        name: campaignData.name!,
+        description: campaignData.description!,
+        bankLogo: campaignData.bankLogo!,
+        paymentMethods: campaignData.paymentMethods!,
+        advertisementImage: campaignData.advertisementImage || '',
+        advertisementUrl: campaignData.advertisementUrl || '',
+        advertisementEnabled: campaignData.advertisementEnabled ?? true,
+        consumers: campaignData.consumers!
+      });
+    } else {
+      // Create new campaign
+      campaignStore.createCampaign({
+        name: campaignData.name!,
+        description: campaignData.description!,
+        bankLogo: campaignData.bankLogo!,
+        paymentMethods: campaignData.paymentMethods!,
+        advertisementImage: campaignData.advertisementImage || '',
+        advertisementUrl: campaignData.advertisementUrl || '',
+        advertisementEnabled: campaignData.advertisementEnabled ?? true,
+        consumers: campaignData.consumers!
+      });
+    }
 
     navigate('/admin');
   };
@@ -147,7 +182,9 @@ export function CampaignWizard() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Create New Campaign</h1>
+          <h1 className="text-3xl font-bold text-foreground">
+            {isEditMode ? 'Edit Campaign' : 'Create New Campaign'}
+          </h1>
           <p className="text-muted-foreground mt-2">
             Step {currentStep} of {totalSteps}: {stepTitles[currentStep - 1]}
           </p>
