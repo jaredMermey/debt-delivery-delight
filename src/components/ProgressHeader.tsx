@@ -5,16 +5,17 @@ import axosBankLogo from "@/assets/axos-bank-logo.png";
 interface ProgressHeaderProps {
   currentStep: number;
   progressValue: number;
+  bankLogo?: string;
 }
 
-export const ProgressHeader = ({ currentStep, progressValue }: ProgressHeaderProps) => {
+export const ProgressHeader = ({ currentStep, progressValue, bankLogo }: ProgressHeaderProps) => {
   return (
     <>
       {/* Bank Logo */}
       <div className="flex justify-center mb-6">
         <img 
-          src={axosBankLogo} 
-          alt="Axos Bank" 
+          src={bankLogo || axosBankLogo} 
+          alt="Bank Logo" 
           className="h-12 w-auto"
         />
       </div>
