@@ -1,6 +1,6 @@
 
 import { Progress } from "@/components/ui/progress";
-import northwestBankLogo from "@/assets/northwest-bank-logo.png";
+import axosBankLogo from "@/assets/axos-bank-logo.png";
 
 interface ProgressHeaderProps {
   currentStep: number;
@@ -13,8 +13,8 @@ export const ProgressHeader = ({ currentStep, progressValue }: ProgressHeaderPro
       {/* Bank Logo */}
       <div className="flex justify-center mb-6">
         <img 
-          src={northwestBankLogo} 
-          alt="Northwest Bank" 
+          src={axosBankLogo} 
+          alt="Axos Bank" 
           className="h-12 w-auto"
         />
       </div>
