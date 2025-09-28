@@ -3,12 +3,14 @@ import classActionAd from "@/assets/class-action-ad.jpg";
 interface ClassActionAdCardProps {
   image?: string;
   clickable?: boolean;
+  url?: string;
 }
 
-export const ClassActionAdCard = ({ image, clickable = false }: ClassActionAdCardProps = {}) => {
+export const ClassActionAdCard = ({ image, clickable = false, url }: ClassActionAdCardProps = {}) => {
   const handleClick = () => {
-    // Open in new tab - you can replace this URL with the actual signup link
-    window.open('https://example.com/class-action-signup', '_blank');
+    if (url && clickable) {
+      window.open(url, '_blank');
+    }
   };
 
   return (

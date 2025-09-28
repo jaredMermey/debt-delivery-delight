@@ -202,12 +202,11 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
             
             {/* Advertisement Card */}
             {campaign.advertisementEnabled && campaign.advertisementImage && (
-              <div className="cursor-pointer" onClick={() => campaign.advertisementUrl && window.open(campaign.advertisementUrl, '_blank')}>
-                <ClassActionAdCard 
-                  image={campaign.advertisementImage}
-                  clickable={!!campaign.advertisementUrl}
-                />
-              </div>
+              <ClassActionAdCard 
+                image={campaign.advertisementImage}
+                clickable={!!campaign.advertisementUrl}
+                url={campaign.advertisementUrl}
+              />
             )}
           </div>
         )}
