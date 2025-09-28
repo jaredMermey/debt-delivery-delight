@@ -93,9 +93,9 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
                   <p className="text-sm text-foreground">{data.description}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Bank Logo</p>
+                  <p className="text-sm text-muted-foreground">Brand Logo</p>
                   {data.bankLogo && (
-                    <img src={data.bankLogo} alt="Bank Logo" className="h-8 w-auto" />
+                    <img src={data.bankLogo} alt="Brand Logo" className="h-8 w-auto" />
                   )}
                 </div>
               </div>

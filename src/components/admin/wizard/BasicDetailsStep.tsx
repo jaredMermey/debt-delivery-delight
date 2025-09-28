@@ -84,14 +84,14 @@ export function BasicDetailsStep({ data, onUpdate }: BasicDetailsStepProps) {
 
           <div className="space-y-2">
             <Label className="text-sm font-medium text-foreground">
-              Bank Logo *
+              Brand Logo *
             </Label>
             
             {data.bankLogo ? (
               <div className="relative inline-block">
                 <img 
                   src={data.bankLogo} 
-                  alt="Bank Logo" 
+                  alt="Brand Logo" 
                   className="h-16 w-auto border border-border rounded-lg"
                 />
                 <Button
@@ -118,7 +118,7 @@ export function BasicDetailsStep({ data, onUpdate }: BasicDetailsStepProps) {
                 <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-4" />
                 <div className="space-y-2">
                   <p className="text-sm text-muted-foreground">
-                    Drop your bank logo here, or{" "}
+                    Drop your brand logo here, or{" "}
                     <label className="text-emerald-600 hover:text-emerald-700 cursor-pointer underline">
                       browse files
                       <input

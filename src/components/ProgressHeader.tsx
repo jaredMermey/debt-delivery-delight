@@ -11,11 +11,11 @@ interface ProgressHeaderProps {
 export const ProgressHeader = ({ currentStep, progressValue, bankLogo }: ProgressHeaderProps) => {
   return (
     <>
-      {/* Bank Logo */}
+      {/* Brand Logo */}
       <div className="flex justify-center mb-6">
         <img 
           src={bankLogo || axosBankLogo} 
-          alt="Bank Logo" 
+          alt="Brand Logo" 
           className="h-12 w-auto"
         />
       </div>
