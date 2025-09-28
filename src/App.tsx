@@ -9,6 +9,7 @@ import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { CampaignWizard } from "./pages/admin/CampaignWizard";
 import { CampaignPreview } from "./pages/admin/CampaignPreview";
+import { CampaignReports } from "./components/admin/CampaignReports";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="campaigns" element={<AdminDashboard />} />
             <Route path="campaign/new" element={<CampaignWizard />} />
             <Route path="campaign/:campaignId/edit" element={<CampaignWizard />} />
+            <Route path="campaign/:campaignId/reports" element={<CampaignReports />} />
             <Route path="preview/:campaignId" element={<CampaignPreview />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

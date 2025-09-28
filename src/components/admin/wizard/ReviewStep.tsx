@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Send, Users, DollarSign, CreditCard, Image, Mail } from "lucide-react";
 import { Campaign } from "@/types/campaign";
+import { useNavigate } from "react-router-dom";
+import { campaignStore } from "@/lib/campaignStore";
 
 interface ReviewStepProps {
   data: Campaign;
@@ -10,9 +12,23 @@ interface ReviewStepProps {
 }
 
 export function ReviewStep({ data, onComplete }: ReviewStepProps) {
+  const navigate = useNavigate();
   const enabledMethods = data.paymentMethods.filter(pm => pm.enabled);
   const totalAmount = data.consumers.reduce((sum, consumer) => sum + consumer.amount, 0);
   const averageAmount = data.consumers.length > 0 ? totalAmount / data.consumers.length : 0;
+
+  const handleSendCampaign = () => {
+    // Send the campaign and generate tracking data
+    const sentCampaign = campaignStore.sendCampaign(data.id);
+    
+    if (sentCampaign) {
+      // Redirect to reports instead of calling onComplete
+      navigate(`/admin/campaign/${data.id}/reports`);
+    } else {
+      // Fallback to original behavior if sending fails
+      onComplete();
+    }
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -193,7 +209,7 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
             </div>
             
             <Button 
-              onClick={onComplete}
+              onClick={handleSendCampaign}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-lg py-3"
             >
               <Send className="w-5 h-5 mr-2" />

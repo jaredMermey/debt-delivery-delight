@@ -9,8 +9,14 @@ export interface Campaign {
   advertisementUrl?: string
   advertisementEnabled: boolean
   createdAt: Date
-  status: 'draft' | 'active' | 'completed'
+  status: 'draft' | 'sent' | 'active' | 'completed'
   sentAt?: Date
+  totalEmailsSent?: number
+  totalEmailsOpened?: number
+  totalLinksClicked?: number
+  totalFundsSelected?: number
+  totalFundsOriginated?: number
+  totalFundsSettled?: number
 }
 
 export interface PaymentMethodConfig {
@@ -37,4 +43,40 @@ export interface PaymentMethodInfo {
   icon: any;
   benefits: string[];
   estimatedTime: string;
+}
+
+export interface ConsumerTracking {
+  consumerId: string
+  campaignId: string
+  emailSent: boolean
+  emailSentAt?: Date
+  emailOpened: boolean
+  emailOpenedAt?: Date
+  linkClicked: boolean
+  linkClickedAt?: Date
+  paymentMethodSelected?: PaymentMethodType
+  paymentMethodSelectedAt?: Date
+  fundsOriginated: boolean
+  fundsOriginatedAt?: Date
+  fundsSettled: boolean
+  fundsSettledAt?: Date
+  status: 'pending' | 'email_sent' | 'email_opened' | 'link_clicked' | 'payment_selected' | 'funds_originated' | 'funds_settled'
+  lastActivity?: Date
+}
+
+export interface CampaignStats {
+  campaignId: string
+  totalConsumers: number
+  emailsSent: number
+  emailsOpened: number
+  linksClicked: number
+  fundsSelected: number
+  fundsOriginated: number
+  fundsSettled: number
+  totalAmount: number
+  originatedAmount: number
+  settledAmount: number
+  emailOpenRate: number
+  linkClickRate: number
+  completionRate: number
 }

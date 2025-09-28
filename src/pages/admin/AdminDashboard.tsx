@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { campaignStore } from "@/lib/campaignStore";
-import { Eye, Edit, Plus, Trash2, Users, DollarSign } from "lucide-react";
+import { Eye, Edit, Plus, Trash2, Users, DollarSign, BarChart3 } from "lucide-react";
 
 export function AdminDashboard() {
   const campaigns = campaignStore.getAllCampaigns();
@@ -18,10 +18,60 @@ export function AdminDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'draft': return 'bg-muted text-muted-foreground';
+      case 'sent': return 'bg-blue-100 text-blue-800';
       case 'active': return 'bg-emerald-100 text-emerald-800';
       case 'completed': return 'bg-slate-100 text-slate-800';
       default: return 'bg-muted text-muted-foreground';
     }
+  };
+
+  const getCampaignActions = (campaign: any) => {
+    const isDraft = campaign.status === 'draft';
+    const isSent = ['sent', 'active', 'completed'].includes(campaign.status);
+
+    return (
+      <div className="flex gap-2">
+        <Link to={`/admin/preview/${campaign.id}`}>
+          <Button variant="outline" size="sm">
+            <Eye className="w-4 h-4 mr-2" />
+            Preview
+          </Button>
+        </Link>
+        
+        {isDraft && (
+          <Link to={`/admin/campaign/${campaign.id}/edit`}>
+            <Button variant="outline" size="sm">
+              <Edit className="w-4 h-4 mr-2" />
+              Edit
+            </Button>
+          </Link>
+        )}
+        
+        {isSent && (
+          <Link to={`/admin/campaign/${campaign.id}/reports`}>
+            <Button variant="outline" size="sm">
+              <BarChart3 className="w-4 h-4 mr-2" />
+              View Reports
+            </Button>
+          </Link>
+        )}
+        
+        {isDraft && (
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => {
+              if (confirm('Are you sure you want to delete this campaign?')) {
+                campaignStore.deleteCampaign(campaign.id);
+                window.location.reload();
+              }
+            }}
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -88,34 +138,12 @@ export function AdminDashboard() {
                           <span>{formatCurrency(totalDisbursement)} total</span>
                         </div>
                         <span>Created {campaign.createdAt.toLocaleDateString()}</span>
+                        {campaign.sentAt && (
+                          <span>Sent {campaign.sentAt.toLocaleDateString()}</span>
+                        )}
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Link to={`/admin/preview/${campaign.id}`}>
-                        <Button variant="outline" size="sm">
-                          <Eye className="w-4 h-4 mr-2" />
-                          Preview
-                        </Button>
-                      </Link>
-                      <Link to={`/admin/campaign/${campaign.id}/edit`}>
-                        <Button variant="outline" size="sm">
-                          <Edit className="w-4 h-4 mr-2" />
-                          Edit
-                        </Button>
-                      </Link>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => {
-                          if (confirm('Are you sure you want to delete this campaign?')) {
-                            campaignStore.deleteCampaign(campaign.id);
-                            window.location.reload();
-                          }
-                        }}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
+                    {getCampaignActions(campaign)}
                   </div>
                 </CardHeader>
               </Card>
