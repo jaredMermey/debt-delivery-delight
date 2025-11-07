@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Edit, Eye } from "lucide-react";
+import { ArrowLeft, Eye } from "lucide-react";
 import { campaignStore } from "@/lib/campaignStore";
 import { ConsumerInterface } from "@/components/ConsumerInterface";
 
@@ -40,22 +40,19 @@ export function CampaignPreview() {
             </Badge>
           </div>
           
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              onClick={() => navigate('/admin')}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Admin
-            </Button>
-            <Button 
-              onClick={() => navigate(`/admin/campaign/${campaign.id}/edit`)}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
-            >
-              <Edit className="w-4 h-4 mr-2" />
-              Edit Campaign
-            </Button>
-          </div>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              const isEditMode = campaign.status !== 'draft';
+              const route = isEditMode 
+                ? `/admin/campaign/${campaign.id}/edit`
+                : '/admin/campaign/new';
+              navigate(route);
+            }}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
         </div>
         
         <p className="text-sm text-emerald-700 mt-2">
