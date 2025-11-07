@@ -27,21 +27,32 @@ interface BankDetails {
 type Stage = "country-selection" | "details-entry" | "confirmation" | "speed-bump";
 
 const COUNTRIES = [
-  { code: "AT", name: "Austria", format: "IBAN", region: "Europe" },
-  { code: "BE", name: "Belgium", format: "IBAN", region: "Europe" },
-  { code: "FR", name: "France", format: "IBAN", region: "Europe" },
-  { code: "DE", name: "Germany", format: "IBAN", region: "Europe" },
-  { code: "IT", name: "Italy", format: "IBAN", region: "Europe" },
-  { code: "NL", name: "Netherlands", format: "IBAN", region: "Europe" },
-  { code: "ES", name: "Spain", format: "IBAN", region: "Europe" },
-  { code: "GB", name: "United Kingdom", format: "UK", region: "Europe" },
-  { code: "US", name: "United States", format: "ACH", region: "Americas" },
-  { code: "CA", name: "Canada", format: "EFT", region: "Americas" },
-  { code: "AU", name: "Australia", format: "BSB", region: "Oceania" },
-  { code: "JP", name: "Japan", format: "SWIFT", region: "Asia" },
-  { code: "SG", name: "Singapore", format: "SWIFT", region: "Asia" },
-  { code: "OTHER", name: "Other Country", format: "SWIFT", region: "Other" },
+  { code: "AT", name: "Austria", format: "IBAN", region: "Europe", currency: "EUR", currencySymbol: "€" },
+  { code: "BE", name: "Belgium", format: "IBAN", region: "Europe", currency: "EUR", currencySymbol: "€" },
+  { code: "FR", name: "France", format: "IBAN", region: "Europe", currency: "EUR", currencySymbol: "€" },
+  { code: "DE", name: "Germany", format: "IBAN", region: "Europe", currency: "EUR", currencySymbol: "€" },
+  { code: "IT", name: "Italy", format: "IBAN", region: "Europe", currency: "EUR", currencySymbol: "€" },
+  { code: "NL", name: "Netherlands", format: "IBAN", region: "Europe", currency: "EUR", currencySymbol: "€" },
+  { code: "ES", name: "Spain", format: "IBAN", region: "Europe", currency: "EUR", currencySymbol: "€" },
+  { code: "GB", name: "United Kingdom", format: "UK", region: "Europe", currency: "GBP", currencySymbol: "£" },
+  { code: "US", name: "United States", format: "ACH", region: "Americas", currency: "USD", currencySymbol: "$" },
+  { code: "CA", name: "Canada", format: "EFT", region: "Americas", currency: "CAD", currencySymbol: "C$" },
+  { code: "AU", name: "Australia", format: "BSB", region: "Oceania", currency: "AUD", currencySymbol: "A$" },
+  { code: "JP", name: "Japan", format: "SWIFT", region: "Asia", currency: "JPY", currencySymbol: "¥" },
+  { code: "SG", name: "Singapore", format: "SWIFT", region: "Asia", currency: "SGD", currencySymbol: "S$" },
+  { code: "OTHER", name: "Other Country", format: "SWIFT", region: "Other", currency: "USD", currencySymbol: "$" },
 ];
+
+// Mock exchange rates (in production, these would come from an API)
+const EXCHANGE_RATES: Record<string, number> = {
+  EUR: 0.92,
+  GBP: 0.79,
+  USD: 1.00,
+  CAD: 1.36,
+  AUD: 1.53,
+  JPY: 149.50,
+  SGD: 1.34,
+};
 
 export const InternationalFlow = ({ onComplete }: InternationalFlowProps) => {
   const [stage, setStage] = useState<Stage>("country-selection");
@@ -51,8 +62,19 @@ export const InternationalFlow = ({ onComplete }: InternationalFlowProps) => {
     country: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  
+  // Mock settlement amount (in production, this would come from props)
+  const settlementAmountUSD = 2500.00;
 
   const selectedCountry = COUNTRIES.find((c) => c.code === bankDetails.country);
+  
+  const getConvertedAmount = () => {
+    if (!selectedCountry) return null;
+    const rate = EXCHANGE_RATES[selectedCountry.currency] || 1;
+    return settlementAmountUSD * rate;
+  };
+  
+  const convertedAmount = getConvertedAmount();
 
   const validateIBAN = (iban: string): boolean => {
     // Basic IBAN validation - starts with 2 letter country code followed by digits
@@ -342,6 +364,29 @@ export const InternationalFlow = ({ onComplete }: InternationalFlowProps) => {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Currency Conversion Display */}
+        {convertedAmount !== null && selectedCountry?.currency !== "USD" && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-blue-900">You will receive:</span>
+                <span className="text-xl font-bold text-blue-900">
+                  {selectedCountry.currencySymbol}{convertedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {selectedCountry.currency}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-blue-800">Exchange rate:</span>
+                <span className="font-medium text-blue-800">
+                  1 USD = {EXCHANGE_RATES[selectedCountry.currency]?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} {selectedCountry.currency}
+                </span>
+              </div>
+              <div className="text-xs text-blue-700 mt-2">
+                Original amount: ${settlementAmountUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="space-y-2">
           <Label htmlFor="accountHolderName">Account Holder Name</Label>
           <Input
