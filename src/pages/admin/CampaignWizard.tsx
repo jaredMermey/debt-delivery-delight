@@ -87,6 +87,20 @@ export function CampaignWizard() {
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
+      // If moving to ReviewStep (step 5) and no campaign exists yet, create it
+      if (currentStep === 4 && !campaignId && !previewCampaignId) {
+        const newCampaign = campaignStore.createCampaign({
+          name: campaignData.name!,
+          description: campaignData.description!,
+          bankLogo: campaignData.bankLogo!,
+          paymentMethods: campaignData.paymentMethods!,
+          advertisementImage: campaignData.advertisementImage || '',
+          advertisementUrl: campaignData.advertisementUrl || '',
+          advertisementEnabled: campaignData.advertisementEnabled ?? true,
+          consumers: campaignData.consumers!
+        });
+        setPreviewCampaignId(newCampaign.id);
+      }
       setCurrentStep(currentStep + 1);
     }
   };
@@ -242,9 +256,15 @@ export function CampaignWizard() {
           />
         );
       case 5:
+        // Ensure campaign has an ID before showing ReviewStep
+        const reviewData = {
+          ...campaignData,
+          id: campaignId || previewCampaignId || '',
+        } as Campaign;
+        
         return (
           <ReviewStep 
-            data={campaignData as Campaign} 
+            data={reviewData} 
             onComplete={handleComplete}
           />
         );
