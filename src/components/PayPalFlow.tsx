@@ -197,7 +197,7 @@ export const PayPalFlow = ({ onComplete }: { onComplete?: () => void }) => {
               <span className="text-[#0070ba]">→</span>
             </div>
             <p className="text-base font-medium text-gray-900">PayPal account connected successfully</p>
-            <p className="text-sm text-gray-600">We're sending you back to complete your transaction.</p>
+            <p className="text-sm text-gray-600">Click continue to send funds to connected PayPal account.</p>
             <Button onClick={handleSpeedBumpContinue} className="w-full bg-[#0070ba] hover:bg-[#005ea6]">
               Continue
             </Button>
