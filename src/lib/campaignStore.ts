@@ -306,9 +306,9 @@ export const campaignStore = new CampaignStore();
 
 // Default payment method configurations
 export const DEFAULT_PAYMENT_METHODS: PaymentMethodConfig[] = [
-  { type: 'ach', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 1 },
-  { type: 'prepaid', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 2 },
-  { type: 'check', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 3 },
+  { type: 'prepaid', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 1 },
+  { type: 'check', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 2 },
+  { type: 'ach', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 3 },
   { type: 'realtime', enabled: true, feeType: 'percentage', feeAmount: 1, displayOrder: 4 },
   { type: 'venmo', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 5 },
   { type: 'paypal', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 6 },
