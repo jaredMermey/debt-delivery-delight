@@ -32,8 +32,11 @@ export const PaymentMethodCard = ({ method, onSelect }: PaymentMethodCardProps) 
         </div>
       )}
       {method.ribbon && (
-        <div className="absolute bottom-0 right-0 w-40 h-10 overflow-hidden">
-          <div className="absolute -right-12 bottom-0 w-48 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold py-2 text-center shadow-lg transform rotate-[-45deg] origin-bottom-right translate-y-4">
+        <div className="absolute bottom-0 right-0 w-32 h-32 overflow-hidden z-10">
+          <div 
+            className="absolute bottom-0 right-0 w-48 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold py-2 text-center shadow-lg origin-bottom-right"
+            style={{ transform: 'rotate(-45deg) translateY(10px) translateX(35px)' }}
+          >
             {method.ribbon}
           </div>
         </div>
