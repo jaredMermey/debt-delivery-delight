@@ -82,35 +82,13 @@ export const PrepaidMarketingPage = ({ onContinue, onBack }: PrepaidMarketingPag
             </div>
           </div>
 
-          {/* Timeline */}
-          <div className="bg-emerald-50 rounded-lg p-6 mb-8">
-            <h3 className="text-lg font-semibold text-emerald-900 mb-3">What Happens Next?</h3>
-            <div className="space-y-2">
-              <div className="flex items-center text-sm">
-                <div className="w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">1</div>
-                <span className="text-emerald-800">Complete your application (2-3 minutes)</span>
-              </div>
-              <div className="flex items-center text-sm">
-                <div className="w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">2</div>
-                <span className="text-emerald-800">Get instant virtual card access</span>
-              </div>
-              <div className="flex items-center text-sm">
-                <div className="w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3">3</div>
-                <span className="text-emerald-800">Physical card arrives in 7-10 business days</span>
-              </div>
-            </div>
-          </div>
-
           {/* Action Buttons */}
           <div className="space-y-3">
             <Button 
               onClick={onContinue}
               className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-lg"
             >
-              <div className="flex items-center justify-center space-x-2">
-                <span>Get Started</span>
-                <ArrowRight className="w-5 h-5" />
-              </div>
+              Select Card
             </Button>
             <Button 
               variant="outline" 
