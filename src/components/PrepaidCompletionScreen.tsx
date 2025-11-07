@@ -47,8 +47,8 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
 
       <div className="px-4 py-6">
         {/* Prepaid Card */}
-        <div className="relative mb-6">
-          <div className="bg-gradient-to-r from-red-500 to-slate-800 rounded-2xl p-6 text-white shadow-lg">
+        <div className="relative mb-6 max-w-md mx-auto">
+          <div className="bg-gradient-to-r from-red-500 to-slate-800 rounded-2xl p-6 text-white shadow-lg aspect-[16/10]">
             {/* Card Brand */}
             <div className="flex items-center justify-between mb-8">
               <div className="bg-red-600 p-2 rounded">
