@@ -134,8 +134,7 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
   };
 
   const handlePrepaidContinue = () => {
-    setShowPrepaidMarketing(false);
-    setCurrentStep(2);
+    handleComplete();
   };
 
   const handleComplete = () => {
