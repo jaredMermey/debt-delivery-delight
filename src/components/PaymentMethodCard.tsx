@@ -10,7 +10,6 @@ interface PaymentMethod {
   benefits: string[];
   estimatedTime: string;
   fee?: string;
-  ribbon?: string;
 }
 
 interface PaymentMethodCardProps {
@@ -29,16 +28,6 @@ export const PaymentMethodCard = ({ method, onSelect }: PaymentMethodCardProps) 
       {method.fee && (
         <div className="absolute top-3 right-3 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold">
           {method.fee}
-        </div>
-      )}
-      {method.ribbon && (
-        <div className="absolute bottom-0 right-0 w-48 h-48 overflow-hidden z-10">
-          <div 
-            className="absolute bottom-0 right-0 w-64 bg-gradient-to-r from-red-500 to-red-600 text-white text-sm font-bold py-3 text-center shadow-lg origin-bottom-right"
-            style={{ transform: 'rotate(-45deg) translateY(10px) translateX(20px)' }}
-          >
-            {method.ribbon}
-          </div>
         </div>
       )}
       <CardHeader>

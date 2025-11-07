@@ -35,8 +35,7 @@ const Index = () => {
       icon: CreditCard,
       benefits: ["No bank account needed", "ATM access", "Online purchases"],
       estimatedTime: "Immediate access to funds",
-      fee: "No Fee",
-      ribbon: "⚡ Instant Access"
+      fee: "No Fee"
     },
     {
       id: "check" as const,
