@@ -29,15 +29,6 @@ const Index = () => {
 
   const paymentMethods = [
     {
-      id: "ach" as const,
-      title: "Bank Transfer (ACH)",
-      description: "Direct deposit to your bank account",
-      icon: Building2,
-      benefits: ["Instant setup", "Most secure", "No fees"],
-      estimatedTime: "2-3 business days",
-      fee: "No Fee"
-    },
-    {
       id: "prepaid" as const,
       title: "Prepaid Card",
       description: "Funds loaded onto a new prepaid debit card",
@@ -53,6 +44,15 @@ const Index = () => {
       icon: MapPin,
       benefits: ["No bank account needed", "Traditional method", "Paper trail"],
       estimatedTime: "5-7 business days",
+      fee: "No Fee"
+    },
+    {
+      id: "ach" as const,
+      title: "Bank Transfer (ACH)",
+      description: "Direct deposit to your bank account",
+      icon: Building2,
+      benefits: ["Instant setup", "Most secure", "No fees"],
+      estimatedTime: "2-3 business days",
       fee: "No Fee"
     },
     {
