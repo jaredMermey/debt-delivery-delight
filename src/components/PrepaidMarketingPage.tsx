@@ -47,7 +47,7 @@ export const PrepaidMarketingPage = ({ onContinue, onBack }: PrepaidMarketingPag
                 <CheckCircle className="w-6 h-6 text-emerald-500 mt-0.5" />
                 <div>
                   <p className="font-medium text-gray-900">Works Everywhere</p>
-                  <p className="text-sm text-gray-600">Accepted anywhere Visa is accepted</p>
+                  <p className="text-sm text-gray-600">Accepted anywhere MasterCard is accepted</p>
                 </div>
               </div>
             </div>
@@ -70,14 +70,14 @@ export const PrepaidMarketingPage = ({ onContinue, onBack }: PrepaidMarketingPag
               </div>
               <div className="flex justify-between items-center py-2 border-b border-gray-200">
                 <span className="text-gray-700">ATM Withdrawals</span>
-                <span className="font-medium text-gray-900">1 free, then $2.00</span>
+                <span className="font-medium text-gray-900">1 free, then $3.95</span>
               </div>
               <div className="flex justify-between items-center py-2">
                 <div>
                   <span className="text-gray-700">Inactivity Fee</span>
                   <p className="text-xs text-gray-500">After 12 months of no activity</p>
                 </div>
-                <span className="font-medium text-gray-900">$2.95/month</span>
+                <span className="font-medium text-gray-900">$4.95/month</span>
               </div>
             </div>
           </div>
