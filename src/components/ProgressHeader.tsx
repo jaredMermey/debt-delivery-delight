@@ -25,7 +25,7 @@ export const ProgressHeader = ({ currentStep, progressValue, bankLogo }: Progres
         <h1 className="text-4xl font-bold text-slate-900 mb-3">
           Hi Helen! You have $2,500.00 waiting for you.
         </h1>
-        <p className="text-slate-600 text-lg">
+        <p className="text-slate-600 text-xl font-semibold">
           How would you like to receive your payment?
         </p>
       </div>
