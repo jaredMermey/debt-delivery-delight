@@ -33,6 +33,13 @@ export function CampaignWizard() {
       const existingCampaign = campaignStore.getCampaign(campaignId);
       if (existingCampaign) {
         setCampaignData(existingCampaign);
+        
+        // Restore step from sessionStorage if returning from preview
+        const savedStep = sessionStorage.getItem(`campaign-wizard-step-${campaignId}`);
+        if (savedStep) {
+          setCurrentStep(parseInt(savedStep, 10));
+          sessionStorage.removeItem(`campaign-wizard-step-${campaignId}`);
+        }
       } else {
         // Campaign not found, redirect to dashboard
         navigate('/admin');
@@ -68,6 +75,9 @@ export function CampaignWizard() {
   };
 
   const handlePreview = () => {
+    // Store current step for returning from preview
+    sessionStorage.setItem(`campaign-wizard-step-${campaignId || 'new'}`, currentStep.toString());
+    
     if (isEditMode && campaignId) {
       // Use existing campaign for preview
       navigate(`/admin/preview/${campaignId}`);
