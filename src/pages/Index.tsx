@@ -33,11 +33,12 @@ const Index = () => {
     {
       id: "prepaid" as const,
       title: "Prepaid Card",
-      description: "Funds loaded onto a new prepaid debit card",
+      description: "Virtual card ready instantly - use on your phone today",
       icon: CreditCard,
-      benefits: ["No bank account needed", "ATM access", "Online purchases"],
+      benefits: ["Instant virtual card for phone spending", "ATM access", "Online purchases"],
       estimatedTime: "Immediate access to funds",
-      fee: "No Fee"
+      fee: "No Fee",
+      ribbon: "⚡ INSTANT"
     },
     {
       id: "check" as const,

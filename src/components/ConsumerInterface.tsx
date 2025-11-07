@@ -44,7 +44,7 @@ const PAYMENT_METHOD_TITLES = {
 
 const PAYMENT_METHOD_DESCRIPTIONS = {
   ach: "Direct deposit to your bank account",
-  prepaid: "Funds loaded onto a new prepaid debit card",
+  prepaid: "Virtual card ready instantly - use on your phone today",
   check: "Physical check delivered to your address",
   realtime: "Instant transfer to your bank account",
   venmo: "Receive funds to your Venmo account",
@@ -54,7 +54,7 @@ const PAYMENT_METHOD_DESCRIPTIONS = {
 
 const PAYMENT_METHOD_BENEFITS = {
   ach: ["Instant setup", "Most secure", "No fees"],
-  prepaid: ["No bank account needed", "ATM access", "Online purchases"],
+  prepaid: ["Instant virtual card for phone spending", "ATM access", "Online purchases"],
   check: ["No bank account needed", "Traditional method", "Paper trail"],
   realtime: ["Instant transfer", "Same-day availability", "Real-time notifications"],
   venmo: ["Popular and easy", "Quick transfers", "No bank needed"],
@@ -110,7 +110,8 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
       icon: PAYMENT_METHOD_ICONS[pm.type],
       benefits,
       estimatedTime: PAYMENT_METHOD_TIMES[pm.type],
-      fee
+      fee,
+      ribbon: pm.type === 'prepaid' ? '⚡ INSTANT' : undefined
     };
   });
 
