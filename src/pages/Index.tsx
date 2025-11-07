@@ -34,7 +34,8 @@ const Index = () => {
       description: "Direct deposit to your bank account",
       icon: Building2,
       benefits: ["Instant setup", "Most secure", "No fees"],
-      estimatedTime: "2-3 business days"
+      estimatedTime: "2-3 business days",
+      fee: "No Fee"
     },
     {
       id: "prepaid" as const,
@@ -42,7 +43,8 @@ const Index = () => {
       description: "Funds loaded onto a new prepaid debit card",
       icon: CreditCard,
       benefits: ["No bank account needed", "ATM access", "Online purchases"],
-      estimatedTime: "Immediate access to funds; card received in 7-10 days"
+      estimatedTime: "Immediate access to funds; card received in 7-10 days",
+      fee: "No Fee"
     },
     {
       id: "check" as const,
@@ -50,15 +52,17 @@ const Index = () => {
       description: "Physical check delivered to your address",
       icon: MapPin,
       benefits: ["No bank account needed", "Traditional method", "Paper trail"],
-      estimatedTime: "5-7 business days"
+      estimatedTime: "5-7 business days",
+      fee: "No Fee"
     },
     {
       id: "realtime" as const,
-      title: "Real Time Payment (1% Fee)",
+      title: "Real Time Payment",
       description: "Instant transfer to your bank account",
       icon: Zap,
       benefits: ["Instant transfer", "Same-day availability", "Real-time notifications"],
-      estimatedTime: "Within minutes"
+      estimatedTime: "Within minutes",
+      fee: "1% Fee"
     },
     {
       id: "venmo" as const,
@@ -66,7 +70,8 @@ const Index = () => {
       description: "Receive funds to your Venmo account",
       icon: Wallet,
       benefits: ["Popular and easy", "Quick transfers", "No bank needed"],
-      estimatedTime: "Minutes to hours"
+      estimatedTime: "Minutes to hours",
+      fee: "No Fee"
     },
     {
       id: "paypal" as const,
@@ -74,7 +79,8 @@ const Index = () => {
       description: "Transfer to your PayPal balance",
       icon: Banknote,
       benefits: ["Widely accepted", "Buyer protection", "No card required"],
-      estimatedTime: "Minutes to hours"
+      estimatedTime: "Minutes to hours",
+      fee: "No Fee"
     },
     {
       id: "international" as const,
@@ -82,7 +88,8 @@ const Index = () => {
       description: "Cross-border transfer to an international account",
       icon: Globe,
       benefits: ["Global reach", "Secure transfer", "SWIFT/IBAN supported"],
-      estimatedTime: "2-5 business days"
+      estimatedTime: "2-5 business days",
+      fee: "No Fee"
     }
   ];
 
