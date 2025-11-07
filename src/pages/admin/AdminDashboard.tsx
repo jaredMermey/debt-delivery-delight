@@ -99,8 +99,8 @@ export function AdminDashboard() {
                 <Plus className="w-8 h-8 text-muted-foreground" />
               </div>
               <h3 className="text-lg font-semibold text-foreground">No campaigns yet</h3>
-              <p className="text-muted-foreground max-w-md">
-                Create your first settlement campaign to get started with distributing payments to consumers.
+              <p className="text-muted-foreground max-w-md mb-6">
+                Create your first campaign to get started with distributing payments to consumers.
               </p>
               <Link to="/admin/campaign/new">
                 <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
