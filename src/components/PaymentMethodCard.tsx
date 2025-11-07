@@ -33,7 +33,7 @@ export const PaymentMethodCard = ({ method, onSelect }: PaymentMethodCardProps) 
       )}
       {method.ribbon && (
         <div className="absolute bottom-0 right-0 w-40 h-40 overflow-hidden pointer-events-none">
-          <div className="absolute bottom-0 right-0 w-48 h-12 bg-blue-500 shadow-lg transform rotate-[-45deg] translate-x-[25%] translate-y-[25%] flex items-center justify-end pr-3 border-b-2 border-blue-700">
+          <div className="absolute bottom-0 right-0 w-48 h-10 bg-blue-500 shadow-lg transform rotate-[-45deg] translate-x-[25%] translate-y-[25%] flex items-center justify-end pr-3 border-b-2 border-blue-700">
             <span className="text-white font-bold text-sm uppercase tracking-wider whitespace-nowrap">
               {method.ribbon}
             </span>
