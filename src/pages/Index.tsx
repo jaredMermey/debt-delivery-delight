@@ -70,7 +70,7 @@ const Index = () => {
       description: "Receive funds to your Venmo account",
       icon: Wallet,
       benefits: ["Popular and easy", "Quick transfers", "No bank needed"],
-      estimatedTime: "Minutes to hours",
+      estimatedTime: "Next business day",
       fee: "No Fee"
     },
     {
@@ -79,7 +79,7 @@ const Index = () => {
       description: "Transfer to your PayPal balance",
       icon: Banknote,
       benefits: ["Widely accepted", "Buyer protection", "No card required"],
-      estimatedTime: "Minutes to hours",
+      estimatedTime: "Next business day",
       fee: "No Fee"
     },
     {
