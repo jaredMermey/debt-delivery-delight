@@ -1,12 +1,20 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { campaignStore } from "@/lib/campaignStore";
-import { Eye, Edit, Plus, Trash2, Users, DollarSign, BarChart3 } from "lucide-react";
+import { Eye, Edit, Plus, Trash2, Users, DollarSign, BarChart3, UserPlus } from "lucide-react";
+import { AddPayeesDialog } from "@/components/admin/AddPayeesDialog";
 
 export function AdminDashboard() {
-  const campaigns = campaignStore.getAllCampaigns();
+  const [campaigns, setCampaigns] = useState(campaignStore.getAllCampaigns());
+  const [addPayeesDialog, setAddPayeesDialog] = useState<{ open: boolean; campaignId: string; campaignName: string; existingCount: number }>({
+    open: false,
+    campaignId: '',
+    campaignName: '',
+    existingCount: 0
+  });
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -46,6 +54,24 @@ export function AdminDashboard() {
             </Button>
           </Link>
         )}
+
+        {isSent && (
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => {
+              setAddPayeesDialog({
+                open: true,
+                campaignId: campaign.id,
+                campaignName: campaign.name,
+                existingCount: campaign.consumers.length
+              });
+            }}
+          >
+            <UserPlus className="w-4 h-4 mr-2" />
+            Add More Payees
+          </Button>
+        )}
         
         {isSent && (
           <Link to={`/admin/campaign/${campaign.id}/reports`}>
@@ -63,7 +89,7 @@ export function AdminDashboard() {
             onClick={() => {
               if (confirm('Are you sure you want to delete this campaign?')) {
                 campaignStore.deleteCampaign(campaign.id);
-                window.location.reload();
+                setCampaigns(campaignStore.getAllCampaigns());
               }
             }}
           >
@@ -151,6 +177,15 @@ export function AdminDashboard() {
           })}
         </div>
       )}
+
+      <AddPayeesDialog
+        campaignId={addPayeesDialog.campaignId}
+        campaignName={addPayeesDialog.campaignName}
+        existingConsumerCount={addPayeesDialog.existingCount}
+        open={addPayeesDialog.open}
+        onOpenChange={(open) => setAddPayeesDialog({ ...addPayeesDialog, open })}
+        onSuccess={() => setCampaigns(campaignStore.getAllCampaigns())}
+      />
     </div>
   );
 }

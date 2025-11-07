@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { campaignStore } from '@/lib/campaignStore';
 import { PaymentMethodType, ConsumerTracking } from '@/types/campaign';
+import { AddPayeesDialog } from '@/components/admin/AddPayeesDialog';
 import { 
   ArrowLeft, 
   Users, 
@@ -18,7 +19,8 @@ import {
   CheckCircle,
   Search,
   Filter,
-  Clock
+  Clock,
+  UserPlus
 } from 'lucide-react';
 
 export function CampaignReports() {
@@ -26,6 +28,8 @@ export function CampaignReports() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<ConsumerTracking['status'] | 'all'>('all');
   const [paymentMethodFilter, setPaymentMethodFilter] = useState<PaymentMethodType | 'all'>('all');
+  const [addPayeesOpen, setAddPayeesOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const campaign = campaignId ? campaignStore.getCampaign(campaignId) : null;
   const stats = campaignId ? campaignStore.getCampaignStats(campaignId) : null;
@@ -38,7 +42,7 @@ export function CampaignReports() {
     if (paymentMethodFilter !== 'all') filters.paymentMethod = paymentMethodFilter;
     
     return campaignStore.searchConsumers(campaignId, searchQuery, filters);
-  }, [campaignId, searchQuery, statusFilter, paymentMethodFilter]);
+  }, [campaignId, searchQuery, statusFilter, paymentMethodFilter, refreshKey]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -113,7 +117,15 @@ export function CampaignReports() {
             <p className="text-muted-foreground">Campaign Performance Report</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => setAddPayeesOpen(true)}
+          >
+            <UserPlus className="w-4 h-4 mr-2" />
+            Add More Payees
+          </Button>
           <Badge variant="outline" className="capitalize">
             {campaign.status}
           </Badge>
@@ -355,6 +367,17 @@ export function CampaignReports() {
           </div>
         </CardContent>
       </Card>
+
+      {campaign && (
+        <AddPayeesDialog
+          campaignId={campaign.id}
+          campaignName={campaign.name}
+          existingConsumerCount={campaign.consumers.length}
+          open={addPayeesOpen}
+          onOpenChange={setAddPayeesOpen}
+          onSuccess={() => setRefreshKey(prev => prev + 1)}
+        />
+      )}
     </div>
   );
 }

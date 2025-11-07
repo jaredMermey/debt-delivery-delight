@@ -57,6 +57,28 @@ class CampaignStore {
     };
 
     campaign.consumers.push(newConsumer);
+
+    // If campaign has been sent, create tracking entry for new consumer
+    const isSentCampaign = ['sent', 'active', 'completed'].includes(campaign.status);
+    if (isSentCampaign) {
+      const now = new Date();
+      const newTracking: ConsumerTracking = {
+        consumerId: newConsumer.id,
+        campaignId,
+        emailSent: false,
+        emailOpened: false,
+        linkClicked: false,
+        fundsOriginated: false,
+        fundsSettled: false,
+        status: 'pending',
+        lastActivity: now
+      };
+      this.tracking.push(newTracking);
+      
+      // Update campaign stats
+      this.updateCampaignStats(campaignId);
+    }
+
     return newConsumer;
   }
 
