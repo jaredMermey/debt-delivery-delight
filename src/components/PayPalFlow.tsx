@@ -12,8 +12,9 @@ export const PayPalFlow = ({ onComplete }: { onComplete?: () => void }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [connectedEmail, setConnectedEmail] = useState<string | null>(null);
-  const [stage, setStage] = useState<"intro" | "login" | "consent" | "success">("intro");
+  const [stage, setStage] = useState<"intro" | "login" | "consent">("intro");
   const [error, setError] = useState<string | null>(null);
+  const [showSpeedBump, setShowSpeedBump] = useState(false);
 
   const handleStart = () => {
     setStage("login");
@@ -36,12 +37,13 @@ export const PayPalFlow = ({ onComplete }: { onComplete?: () => void }) => {
 
   const handleConsent = () => {
     setConnectedEmail(email);
-    setStage("success");
-  };
-
-  const handleSuccess = () => {
+    setShowSpeedBump(true);
     setOpen(false);
     setStage("intro");
+  };
+
+  const handleSpeedBumpContinue = () => {
+    setShowSpeedBump(false);
     setEmail("");
     setPassword("");
     onComplete?.();
@@ -179,40 +181,27 @@ export const PayPalFlow = ({ onComplete }: { onComplete?: () => void }) => {
                 </div>
               )}
 
-              {stage === "success" && (
-                <div className="space-y-6 py-4">
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="w-16 h-16 rounded-full border-2 border-green-500 flex items-center justify-center">
-                      <CheckCircle className="w-10 h-10 text-green-500" />
-                    </div>
-                    <div className="text-center space-y-2">
-                      <p className="text-lg font-medium">Your PayPal account is now connected</p>
-                    </div>
-                  </div>
-                  <div className="bg-blue-50 p-4 rounded-lg text-center space-y-2">
-                    <div className="flex items-center justify-center gap-2">
-                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#0070ba">
-                        <path d="M7 8h10c2.8 0 5 2.2 5 5s-2.2 5-5 5h-3l-1 5H9l1-5H7l-1 5H2L7 8z"/>
-                      </svg>
-                      <div className="flex gap-1">
-                        {[...Array(6)].map((_, i) => (
-                          <div key={i} className="w-2 h-2 rounded-full bg-[#0070ba]"></div>
-                        ))}
-                      </div>
-                      <span className="text-[#0070ba]">→</span>
-                    </div>
-                    <p className="text-sm font-medium">You're now leaving PayPal</p>
-                    <p className="text-xs text-gray-600">We're sending you to [Partner].</p>
-                    <p className="text-xs text-gray-600">PayPal won't ask for any info after this page.</p>
-                    <p className="text-xs text-gray-500 pt-2">Continuing to: https://www.partnerwebsite.com</p>
-                  </div>
-                  <Button onClick={handleSuccess} className="w-full bg-[#0070ba] hover:bg-[#005ea6]">
-                    Continue
-                  </Button>
-                </div>
-              )}
             </DialogContent>
           </Dialog>
+        ) : showSpeedBump ? (
+          <div className="bg-blue-50 p-6 rounded-lg text-center space-y-4">
+            <div className="flex items-center justify-center gap-2">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#0070ba">
+                <path d="M7 8h10c2.8 0 5 2.2 5 5s-2.2 5-5 5h-3l-1 5H9l1-5H7l-1 5H2L7 8z"/>
+              </svg>
+              <div className="flex gap-1">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="w-2 h-2 rounded-full bg-[#0070ba]"></div>
+                ))}
+              </div>
+              <span className="text-[#0070ba]">→</span>
+            </div>
+            <p className="text-base font-medium text-gray-900">PayPal account connected successfully</p>
+            <p className="text-sm text-gray-600">We're sending you back to complete your transaction.</p>
+            <Button onClick={handleSpeedBumpContinue} className="w-full bg-[#0070ba] hover:bg-[#005ea6]">
+              Continue
+            </Button>
+          </div>
         ) : (
           <div className="space-y-4">
             <Alert className="border-green-200 bg-green-50">
