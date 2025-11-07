@@ -8,6 +8,8 @@ import { PrepaidFlow } from "@/components/PrepaidFlow";
 import { VenmoFlow } from "@/components/VenmoFlow";
 import { PayPalFlow } from "@/components/PayPalFlow";
 import { PayPalCompletionScreen } from "@/components/PayPalCompletionScreen";
+import { InternationalFlow } from "@/components/InternationalFlow";
+import { InternationalCompletionScreen } from "@/components/InternationalCompletionScreen";
 import { PrepaidMarketingPage } from "@/components/PrepaidMarketingPage";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
@@ -162,6 +164,8 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
         return <VenmoCompletionScreen onComplete={() => {}} />;
       case "paypal":
         return <PayPalCompletionScreen onComplete={() => {}} />;
+      case "international":
+        return <InternationalCompletionScreen onComplete={() => {}} />;
       default:
         return <ACHCompletionScreen onComplete={() => {}} />;
     }
@@ -227,11 +231,7 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
             {selectedMethod === "prepaid" && <PrepaidFlow onComplete={handleComplete} />}
             {selectedMethod === "venmo" && <VenmoFlow onComplete={handleComplete} />}
             {selectedMethod === "paypal" && <PayPalFlow onComplete={handleComplete} />}
-            {selectedMethod === "international" && (
-              <div className="rounded-lg border border-slate-200 p-4 text-slate-700">
-                International bank transfer selected. We'll guide you through this method soon.
-              </div>
-            )}
+            {selectedMethod === "international" && <InternationalFlow onComplete={handleComplete} />}
           </div>
         )}
       </div>
