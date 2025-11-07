@@ -34,8 +34,9 @@ const Index = () => {
       description: "Funds loaded onto a new prepaid debit card",
       icon: CreditCard,
       benefits: ["No bank account needed", "ATM access", "Online purchases"],
-      estimatedTime: "Immediate access to funds; card received in 7-10 days",
-      fee: "No Fee"
+      estimatedTime: "Immediate access to funds",
+      fee: "No Fee",
+      ribbon: "⚡ Instant Access"
     },
     {
       id: "check" as const,

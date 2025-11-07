@@ -10,6 +10,7 @@ interface PaymentMethod {
   benefits: string[];
   estimatedTime: string;
   fee?: string;
+  ribbon?: string;
 }
 
 interface PaymentMethodCardProps {
@@ -22,12 +23,20 @@ export const PaymentMethodCard = ({ method, onSelect }: PaymentMethodCardProps) 
   
   return (
     <Card 
-      className="cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-105 border-2 hover:border-emerald-400 bg-white shadow-md relative"
+      className="cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-105 border-2 hover:border-emerald-400 bg-white shadow-md relative overflow-hidden"
       onClick={() => onSelect(method.id)}
     >
       {method.fee && (
         <div className="absolute top-3 right-3 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold">
           {method.fee}
+        </div>
+      )}
+      {method.ribbon && (
+        <div className="absolute -bottom-8 -right-8 w-32 h-32 flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-500 transform rotate-45 shadow-lg" />
+          <span className="relative text-white font-bold text-sm whitespace-nowrap transform rotate-45 translate-y-6 translate-x-1">
+            {method.ribbon}
+          </span>
         </div>
       )}
       <CardHeader>
