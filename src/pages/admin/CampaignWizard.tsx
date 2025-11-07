@@ -27,24 +27,41 @@ export function CampaignWizard() {
     consumers: []
   });
 
-  // Load existing campaign data when in edit mode
+  // Load existing campaign data when in edit mode or restore from sessionStorage
   useEffect(() => {
+    const storageKey = `campaign-wizard-${campaignId || 'new'}`;
+    const savedStep = sessionStorage.getItem(`${storageKey}-step`);
+    const savedData = sessionStorage.getItem(`${storageKey}-data`);
+    
     if (isEditMode && campaignId) {
+      // Edit mode: load from store
       const existingCampaign = campaignStore.getCampaign(campaignId);
       if (existingCampaign) {
         setCampaignData(existingCampaign);
         
-        // Restore step from sessionStorage if returning from preview
-        const savedStep = sessionStorage.getItem(`campaign-wizard-step-${campaignId}`);
+        // Restore step if returning from preview
         if (savedStep) {
           setCurrentStep(parseInt(savedStep, 10));
-          sessionStorage.removeItem(`campaign-wizard-step-${campaignId}`);
         }
       } else {
         // Campaign not found, redirect to dashboard
         navigate('/admin');
       }
+    } else if (savedData) {
+      // New campaign: restore from sessionStorage if returning from preview
+      try {
+        setCampaignData(JSON.parse(savedData));
+        if (savedStep) {
+          setCurrentStep(parseInt(savedStep, 10));
+        }
+      } catch (error) {
+        console.error('Failed to restore campaign data:', error);
+      }
     }
+    
+    // Clean up sessionStorage after restoration
+    if (savedStep) sessionStorage.removeItem(`${storageKey}-step`);
+    if (savedData) sessionStorage.removeItem(`${storageKey}-data`);
   }, [campaignId, isEditMode, navigate]);
 
   const totalSteps = 5;
@@ -75,8 +92,11 @@ export function CampaignWizard() {
   };
 
   const handlePreview = () => {
-    // Store current step for returning from preview
-    sessionStorage.setItem(`campaign-wizard-step-${campaignId || 'new'}`, currentStep.toString());
+    const storageKey = `campaign-wizard-${campaignId || 'new'}`;
+    
+    // Store BOTH step AND data for returning from preview
+    sessionStorage.setItem(`${storageKey}-step`, currentStep.toString());
+    sessionStorage.setItem(`${storageKey}-data`, JSON.stringify(campaignData));
     
     if (isEditMode && campaignId) {
       // Use existing campaign for preview
