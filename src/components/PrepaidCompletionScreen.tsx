@@ -90,13 +90,16 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
         </div>
 
         {/* Available Balance */}
-        <div className="bg-slate-800 rounded-xl p-4 mb-4 text-white">
-          <div className="text-sm text-slate-300 mb-1">Available Balance</div>
-          <div className="text-3xl font-bold">$100.00</div>
+        <div className="max-w-md mx-auto mb-4">
+          <div className="bg-slate-800 rounded-xl p-4 text-white">
+            <div className="text-sm text-slate-300 mb-1">Available Balance</div>
+            <div className="text-3xl font-bold">$100.00</div>
+          </div>
         </div>
 
         {/* Card Details Drawer */}
-        <Drawer>
+        <div className="max-w-md mx-auto">
+          <Drawer>
           <DrawerTrigger asChild>
             <Button 
               variant="outline" 
@@ -200,6 +203,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
             </div>
           </DrawerContent>
         </Drawer>
+        </div>
       </div>
     </div>
   );
