@@ -9,6 +9,7 @@ interface PaymentMethod {
   icon: LucideIcon;
   benefits: string[];
   estimatedTime: string;
+  fee?: string;
 }
 
 interface PaymentMethodCardProps {
@@ -21,9 +22,14 @@ export const PaymentMethodCard = ({ method, onSelect }: PaymentMethodCardProps) 
   
   return (
     <Card 
-      className="cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-105 border-2 hover:border-emerald-400 bg-white shadow-md"
+      className="cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-105 border-2 hover:border-emerald-400 bg-white shadow-md relative"
       onClick={() => onSelect(method.id)}
     >
+      {method.fee && (
+        <div className="absolute top-3 right-3 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold">
+          {method.fee}
+        </div>
+      )}
       <CardHeader>
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">

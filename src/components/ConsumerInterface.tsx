@@ -89,17 +89,16 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
   const paymentMethods = enabledMethods.map(pm => {
     const config = campaign.paymentMethods.find(c => c.type === pm.type)!;
     let benefits = [...PAYMENT_METHOD_BENEFITS[pm.type]];
+    let fee: string | undefined;
     
     // Update benefits based on fees
     if (config.feeAmount > 0) {
-      const feeText = config.feeType === 'dollar' 
-        ? `$${config.feeAmount.toFixed(2)} fee`
-        : `${config.feeAmount}% fee`;
+      fee = config.feeType === 'dollar' 
+        ? `$${config.feeAmount.toFixed(2)} Fee`
+        : `${config.feeAmount}% Fee`;
       benefits = benefits.filter(b => !b.toLowerCase().includes('no fee'));
-      benefits.push(feeText);
     } else {
       benefits = benefits.filter(b => !b.toLowerCase().includes('fee'));
-      benefits.push("No fees");
     }
 
     return {
@@ -108,7 +107,8 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
       description: PAYMENT_METHOD_DESCRIPTIONS[pm.type],
       icon: PAYMENT_METHOD_ICONS[pm.type],
       benefits,
-      estimatedTime: PAYMENT_METHOD_TIMES[pm.type]
+      estimatedTime: PAYMENT_METHOD_TIMES[pm.type],
+      fee
     };
   });
 
