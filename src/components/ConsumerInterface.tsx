@@ -111,7 +111,7 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
       benefits,
       estimatedTime: PAYMENT_METHOD_TIMES[pm.type],
       fee,
-      ribbon: pm.type === 'prepaid' ? 'FAST' : undefined
+      ribbon: pm.type === 'prepaid' ? 'INSTANT' : undefined
     };
   });
 

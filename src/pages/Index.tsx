@@ -38,7 +38,7 @@ const Index = () => {
       benefits: ["Instant virtual card for phone spending", "ATM access", "Online purchases"],
       estimatedTime: "Immediate access to funds",
       fee: "No Fee",
-      ribbon: "FAST"
+      ribbon: "INSTANT"
     },
     {
       id: "check" as const,
