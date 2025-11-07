@@ -16,6 +16,7 @@ export function CampaignWizard() {
   const { campaignId } = useParams();
   const isEditMode = Boolean(campaignId);
   const [currentStep, setCurrentStep] = useState(1);
+  const [previewCampaignId, setPreviewCampaignId] = useState<string | null>(null);
   const [campaignData, setCampaignData] = useState<Partial<Campaign>>({
     name: '',
     description: '',
@@ -32,6 +33,7 @@ export function CampaignWizard() {
     const storageKey = `campaign-wizard-${campaignId || 'new'}`;
     const savedStep = sessionStorage.getItem(`${storageKey}-step`);
     const savedData = sessionStorage.getItem(`${storageKey}-data`);
+    const savedPreviewId = sessionStorage.getItem(`${storageKey}-preview-id`);
     
     if (isEditMode && campaignId) {
       // Edit mode: load from store
@@ -54,6 +56,9 @@ export function CampaignWizard() {
         if (savedStep) {
           setCurrentStep(parseInt(savedStep, 10));
         }
+        if (savedPreviewId) {
+          setPreviewCampaignId(savedPreviewId);
+        }
       } catch (error) {
         console.error('Failed to restore campaign data:', error);
       }
@@ -62,6 +67,7 @@ export function CampaignWizard() {
     // Clean up sessionStorage after restoration
     if (savedStep) sessionStorage.removeItem(`${storageKey}-step`);
     if (savedData) sessionStorage.removeItem(`${storageKey}-data`);
+    if (savedPreviewId) sessionStorage.removeItem(`${storageKey}-preview-id`);
   }, [campaignId, isEditMode, navigate]);
 
   const totalSteps = 5;
@@ -94,7 +100,7 @@ export function CampaignWizard() {
   const handlePreview = () => {
     const storageKey = `campaign-wizard-${campaignId || 'new'}`;
     
-    // Store BOTH step AND data for returning from preview
+    // Store step and data for returning from preview
     sessionStorage.setItem(`${storageKey}-step`, currentStep.toString());
     sessionStorage.setItem(`${storageKey}-data`, JSON.stringify(campaignData));
     
@@ -102,23 +108,46 @@ export function CampaignWizard() {
       // Use existing campaign for preview
       navigate(`/admin/preview/${campaignId}`);
     } else {
-      // Create a temporary campaign for preview
-      const tempCampaign = campaignStore.createCampaign({
-        name: campaignData.name || 'Preview Campaign',
-        description: campaignData.description || 'Preview description',
-        bankLogo: campaignData.bankLogo || '',
-        paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
-        advertisementImage: campaignData.advertisementImage || '',
-        advertisementUrl: campaignData.advertisementUrl || '',
-        advertisementEnabled: campaignData.advertisementEnabled ?? true,
-        consumers: campaignData.consumers || []
-      });
+      // Reuse existing preview campaign or create new one
+      let previewId = previewCampaignId;
       
-      navigate(`/admin/preview/${tempCampaign.id}`);
+      if (previewId) {
+        // Update existing preview campaign
+        campaignStore.updateCampaign(previewId, {
+          name: campaignData.name || 'Preview Campaign',
+          description: campaignData.description || 'Preview description',
+          bankLogo: campaignData.bankLogo || '',
+          paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
+          advertisementImage: campaignData.advertisementImage || '',
+          advertisementUrl: campaignData.advertisementUrl || '',
+          advertisementEnabled: campaignData.advertisementEnabled ?? true,
+          consumers: campaignData.consumers || []
+        });
+      } else {
+        // Create new preview campaign
+        const tempCampaign = campaignStore.createCampaign({
+          name: campaignData.name || 'Preview Campaign',
+          description: campaignData.description || 'Preview description',
+          bankLogo: campaignData.bankLogo || '',
+          paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
+          advertisementImage: campaignData.advertisementImage || '',
+          advertisementUrl: campaignData.advertisementUrl || '',
+          advertisementEnabled: campaignData.advertisementEnabled ?? true,
+          consumers: campaignData.consumers || []
+        });
+        previewId = tempCampaign.id;
+        setPreviewCampaignId(previewId);
+      }
+      
+      // Store preview ID for restoration
+      sessionStorage.setItem(`${storageKey}-preview-id`, previewId);
+      navigate(`/admin/preview/${previewId}`);
     }
   };
 
   const handleComplete = () => {
+    const storageKey = `campaign-wizard-${campaignId || 'new'}`;
+    
     if (isEditMode && campaignId) {
       // Update existing campaign
       campaignStore.updateCampaign(campaignId, {
@@ -131,8 +160,20 @@ export function CampaignWizard() {
         advertisementEnabled: campaignData.advertisementEnabled ?? true,
         consumers: campaignData.consumers!
       });
+    } else if (previewCampaignId) {
+      // Update the existing preview campaign (no duplicate created)
+      campaignStore.updateCampaign(previewCampaignId, {
+        name: campaignData.name!,
+        description: campaignData.description!,
+        bankLogo: campaignData.bankLogo!,
+        paymentMethods: campaignData.paymentMethods!,
+        advertisementImage: campaignData.advertisementImage || '',
+        advertisementUrl: campaignData.advertisementUrl || '',
+        advertisementEnabled: campaignData.advertisementEnabled ?? true,
+        consumers: campaignData.consumers!
+      });
     } else {
-      // Create new campaign
+      // Create new campaign (only if no preview was created)
       campaignStore.createCampaign({
         name: campaignData.name!,
         description: campaignData.description!,
@@ -144,6 +185,11 @@ export function CampaignWizard() {
         consumers: campaignData.consumers!
       });
     }
+
+    // Clean up sessionStorage
+    sessionStorage.removeItem(`${storageKey}-step`);
+    sessionStorage.removeItem(`${storageKey}-data`);
+    sessionStorage.removeItem(`${storageKey}-preview-id`);
 
     navigate('/admin');
   };

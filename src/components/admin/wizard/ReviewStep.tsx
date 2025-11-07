@@ -18,14 +18,32 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
   const averageAmount = data.consumers.length > 0 ? totalAmount / data.consumers.length : 0;
 
   const handleSendCampaign = () => {
+    // Ensure campaign exists in store before sending
+    let campaignId = data.id;
+    
+    if (!campaignId) {
+      // Create campaign if it doesn't exist (user went straight to send without preview)
+      const newCampaign = campaignStore.createCampaign({
+        name: data.name,
+        description: data.description,
+        bankLogo: data.bankLogo,
+        paymentMethods: data.paymentMethods,
+        advertisementImage: data.advertisementImage || '',
+        advertisementUrl: data.advertisementUrl || '',
+        advertisementEnabled: data.advertisementEnabled ?? true,
+        consumers: data.consumers
+      });
+      campaignId = newCampaign.id;
+    }
+    
     // Send the campaign and generate tracking data
-    const sentCampaign = campaignStore.sendCampaign(data.id);
+    const sentCampaign = campaignStore.sendCampaign(campaignId);
     
     if (sentCampaign) {
-      // Redirect to reports instead of calling onComplete
-      navigate(`/admin/campaign/${data.id}/reports`);
+      // Redirect to reports
+      navigate(`/admin/campaign/${campaignId}/reports`);
     } else {
-      // Fallback to original behavior if sending fails
+      // Fallback if sending fails
       onComplete();
     }
   };
