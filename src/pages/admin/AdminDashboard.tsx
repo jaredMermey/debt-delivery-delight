@@ -103,7 +103,7 @@ export function AdminDashboard() {
                 Create your first campaign to get started with distributing payments to consumers.
               </p>
               <Link to="/admin/campaign/new">
-                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white mt-2">
                   Create First Campaign
                 </Button>
               </Link>
