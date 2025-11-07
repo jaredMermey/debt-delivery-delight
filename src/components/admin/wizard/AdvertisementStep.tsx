@@ -144,7 +144,14 @@ export function AdvertisementStep({ data, onUpdate }: AdvertisementStepProps) {
                   className="pr-10"
                 />
                 {data.advertisementUrl && (
-                  <ExternalLink className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <button
+                    type="button"
+                    onClick={() => window.open(data.advertisementUrl, '_blank', 'noopener,noreferrer')}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                    aria-label="Open URL in new tab"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </button>
                 )}
               </div>
               <p className="text-xs text-muted-foreground">
