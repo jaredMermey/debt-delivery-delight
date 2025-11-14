@@ -20,11 +20,11 @@ interface CryptoOption {
 }
 
 const CRYPTO_OPTIONS: CryptoOption[] = [
-  { id: 'btc', name: 'Bitcoin', symbol: 'BTC', rate: 47500.00, icon: '₿' },
-  { id: 'eth', name: 'Ethereum', symbol: 'ETH', rate: 2500.00, icon: 'Ξ' },
+  { id: 'btc', name: 'Bitcoin', symbol: 'BTC', rate: 98872.94, icon: '₿' },
+  { id: 'eth', name: 'Ethereum', symbol: 'ETH', rate: 3212.45, icon: 'Ξ' },
   { id: 'usdc', name: 'USD Coin', symbol: 'USDC', rate: 1.00, icon: '$' },
-  { id: 'usdt', name: 'Tether', symbol: 'USDT', rate: 1.00, icon: '₮' },
-  { id: 'ltc', name: 'Litecoin', symbol: 'LTC', rate: 85.00, icon: 'Ł' },
+  { id: 'doge', name: 'Dogecoin', symbol: 'DOGE', rate: 0.16, icon: 'Ð' },
+  { id: 'ltc', name: 'Litecoin', symbol: 'LTC', rate: 96.24, icon: 'Ł' },
 ];
 
 export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowProps) => {
