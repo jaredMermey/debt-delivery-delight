@@ -77,6 +77,20 @@ export const InternationalCompletionScreen = ({ onComplete }: InternationalCompl
                 <span className="font-semibold text-slate-900">Secure Transfer:</span> All international transfers are processed through secure banking channels with full encryption and compliance with international banking regulations.
               </p>
             </div>
+
+            <div className="w-full pt-6 border-t border-gray-200 text-center">
+              <p className="text-xs text-gray-600">
+                Think about renewing your policy?{" "}
+                <a 
+                  href="https://coterieinsurance.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-700 underline"
+                >
+                  Learn more
+                </a>
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -60,6 +60,20 @@ export const ZelleCompletionScreen = ({ onComplete }: ZelleCompletionScreenProps
               Manage Zelle Settings
             </Button>
           </div>
+
+          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+            <p className="text-xs text-gray-600">
+              Think about renewing your policy?{" "}
+              <a 
+                href="https://coterieinsurance.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-purple-600 hover:text-purple-700 underline"
+              >
+                Learn more
+              </a>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>
