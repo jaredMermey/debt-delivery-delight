@@ -24,7 +24,7 @@ export const ClassActionAdCard = ({ image, clickable = false, url }: ClassAction
         <img 
           src={image || classActionAd}
           alt="Class Action Lawsuit Advertisement"
-          className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-200"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
         />
       </div>
     </div>
