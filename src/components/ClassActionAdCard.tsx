@@ -20,7 +20,7 @@ export const ClassActionAdCard = ({ image, clickable = false, url }: ClassAction
         clickable ? 'cursor-pointer hover:shadow-lg transition-shadow duration-200' : ''
       }`}
     >
-      <div className="aspect-square relative">
+      <div className="aspect-[4/3] relative">
         <img 
           src={image || classActionAd}
           alt="Class Action Lawsuit Advertisement"
