@@ -16,7 +16,7 @@ export const VenmoCompletionScreen = ({ onComplete }: VenmoCompletionScreenProps
 
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Venmo Connected!</h1>
-            <p className="text-gray-600">You're all set to receive your settlement to Venmo.</p>
+            <p className="text-gray-600">You're all set to receive your payment to Venmo.</p>
           </div>
 
           <div className="bg-blue-50 p-4 rounded-lg mb-6 text-center">

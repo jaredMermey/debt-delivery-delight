@@ -32,7 +32,7 @@ export const ZelleCompletionScreen = ({ onComplete }: ZelleCompletionScreenProps
               <span className="font-semibold text-purple-900">Lightning Fast</span>
             </div>
             <p className="text-sm text-purple-800">
-              Your settlement will be sent via Zelle and typically arrives within minutes after approval.
+              Your payment will be sent via Zelle and typically arrives within minutes after approval.
             </p>
           </div>
 
