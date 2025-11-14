@@ -16,15 +16,15 @@ export const ClassActionAdCard = ({ image, clickable = false, url }: ClassAction
   return (
     <div 
       onClick={clickable ? handleClick : undefined}
-      className={`relative rounded-lg border border-slate-200 overflow-hidden bg-white group max-w-sm ${
+      className={`relative rounded-lg border border-slate-200 overflow-hidden bg-white group ${
         clickable ? 'cursor-pointer hover:shadow-lg transition-shadow duration-200' : ''
       }`}
     >
-      <div className="aspect-video relative">
+      <div className="aspect-square relative">
         <img 
           src={image || classActionAd}
           alt="Class Action Lawsuit Advertisement"
-          className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-200"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
         />
       </div>
     </div>
