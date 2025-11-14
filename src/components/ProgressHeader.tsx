@@ -1,6 +1,6 @@
 
 import { Progress } from "@/components/ui/progress";
-import axosBankLogo from "@/assets/axos-bank-logo.png";
+import coterieLogo from "@/assets/coterie-logo.png";
 
 interface ProgressHeaderProps {
   currentStep: number;
@@ -14,9 +14,9 @@ export const ProgressHeader = ({ currentStep, progressValue, bankLogo }: Progres
       {/* Brand Logo */}
       <div className="flex justify-center mb-6">
         <img 
-          src={bankLogo || axosBankLogo} 
-          alt="Brand Logo" 
-          className="h-20 w-auto"
+          src={bankLogo || coterieLogo} 
+          alt="Coterie Logo" 
+          className="h-12 w-auto"
         />
       </div>
 
