@@ -95,7 +95,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
         <div className="max-w-md mx-auto mb-4">
           <div className="bg-slate-800 rounded-xl p-4 text-white">
             <div className="text-sm text-slate-300 mb-1">Available Balance</div>
-            <div className="text-3xl font-bold">$100.00</div>
+            <div className="text-3xl font-bold">$2,500.00</div>
           </div>
         </div>
 
