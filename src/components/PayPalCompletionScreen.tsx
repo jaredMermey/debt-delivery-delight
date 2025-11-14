@@ -16,7 +16,7 @@ export const PayPalCompletionScreen = ({ onComplete }: PayPalCompletionScreenPro
 
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">PayPal Connected!</h1>
-            <p className="text-gray-600">You're all set to receive your settlement to PayPal.</p>
+            <p className="text-gray-600">You're all set to receive your payment to PayPal.</p>
           </div>
 
           <div className="bg-blue-50 p-4 rounded-lg mb-6 text-center">

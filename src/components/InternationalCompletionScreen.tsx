@@ -27,7 +27,7 @@ export const InternationalCompletionScreen = ({ onComplete }: InternationalCompl
                 International Transfer Confirmed!
               </h1>
               <p className="text-slate-600">
-                Your settlement will be sent to your international bank account
+                Your payment will be sent to your international bank account
               </p>
             </div>
 

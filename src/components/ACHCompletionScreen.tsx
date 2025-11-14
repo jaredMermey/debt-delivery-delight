@@ -25,10 +25,10 @@ export const ACHCompletionScreen = ({ onComplete }: ACHCompletionScreenProps) =>
           <div className="bg-blue-50 p-4 rounded-lg mb-6 text-center">
             <div className="flex items-center justify-center space-x-2 mb-2">
               <Clock className="w-5 h-5 text-blue-600" />
-              <span className="font-semibold text-blue-900">Settlement Timeline</span>
+              <span className="font-semibold text-blue-900">Transfer Timeline</span>
             </div>
             <p className="text-sm text-blue-800 text-center">
-              Funds will be deposited directly to your connected bank account within 2-3 business days after settlement approval.
+              Funds will be deposited directly to your connected bank account within 2-3 business days after approval.
             </p>
           </div>
 

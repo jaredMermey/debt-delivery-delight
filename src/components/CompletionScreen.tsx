@@ -24,19 +24,19 @@ export const CompletionScreen = ({ onComplete }: CompletionScreenProps) => {
           </div>
           <CardTitle className="text-2xl text-slate-800 font-bold">Setup Complete!</CardTitle>
           <CardDescription className="text-lg text-slate-600">
-            Your settlement payment method has been configured successfully.
+            Your payment method has been configured successfully.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <p className="text-slate-600 mb-6">
-            You'll receive your settlement funds via your selected method. 
+            You'll receive your funds via your selected method. 
             Keep an eye out for updates on your payment status.
           </p>
           
           {/* Card Image */}
           <div className="flex justify-center mb-6">
             <div className="w-64 h-40 bg-gradient-to-r from-slate-800 to-slate-600 rounded-xl shadow-lg relative overflow-hidden">
-              <div className="absolute top-4 left-4 text-white text-sm font-medium">Settlement Card</div>
+              <div className="absolute top-4 left-4 text-white text-sm font-medium">Payment Card</div>
               <div className="absolute bottom-4 left-4 text-white">
                 <div className="text-xs opacity-80">**** **** **** 1234</div>
                 <div className="text-xs opacity-80 mt-1">Valid Thru 12/27</div>

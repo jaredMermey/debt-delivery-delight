@@ -26,7 +26,7 @@ export const RealTimeCompletionScreen = ({ onComplete }: RealTimeCompletionScree
           <div className="bg-green-50 p-4 rounded-lg mb-6 text-center">
             <div className="flex items-center justify-center space-x-2 mb-2">
               <Clock className="w-5 h-5 text-green-600" />
-              <span className="font-semibold text-green-900">Instant Settlement</span>
+              <span className="font-semibold text-green-900">Instant Transfer</span>
             </div>
             <p className="text-sm text-green-800">
               Funds were transferred to your connected bank account. A 1% fee was administered for the real time transfer.

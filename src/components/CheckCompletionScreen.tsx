@@ -18,7 +18,7 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Your Check is in the Mail!</h1>
             <p className="text-gray-600">
-              Your settlement check is in route to your confirmed address
+              Your check is in route to your confirmed address
             </p>
           </div>
 
@@ -28,7 +28,7 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
               <span className="font-semibold text-green-900">Delivery Timeline</span>
             </div>
             <p className="text-sm text-green-800 text-center">
-              Your check will be sent via certified mail and should arrive within 5-7 business days after settlement approval.
+              Your check will be sent via certified mail and should arrive within 5-7 business days after approval.
             </p>
           </div>
 
