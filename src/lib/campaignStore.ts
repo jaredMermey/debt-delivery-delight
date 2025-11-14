@@ -335,5 +335,5 @@ export const DEFAULT_PAYMENT_METHODS: PaymentMethodConfig[] = [
   { type: 'venmo', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 5 },
   { type: 'paypal', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 6 },
   { type: 'international', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 7 },
-  { type: 'crypto', enabled: true, feeType: 'percentage', feeAmount: 2.5, displayOrder: 8 }
+  { type: 'crypto', enabled: true, feeType: 'dollar', feeAmount: 0, displayOrder: 8 }
 ];
