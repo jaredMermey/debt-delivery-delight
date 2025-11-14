@@ -51,13 +51,12 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
         <div className="relative mb-6 max-w-md mx-auto">
           <div className="bg-gradient-to-r from-[#4F46E5] to-[#6366F1] rounded-2xl p-6 text-white shadow-lg aspect-[16/10]">
             {/* Card Brand */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-end mb-8">
               <img 
                 src={coterieCardLogo} 
                 alt="Coterie" 
                 className="h-5 w-auto opacity-90"
               />
-              <div className="text-2xl font-bold text-white">Coterie</div>
             </div>
             
             {/* Chip */}
