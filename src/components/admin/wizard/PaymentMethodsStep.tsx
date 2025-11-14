@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Building2, CreditCard, MapPin, Zap, Wallet, Banknote, Globe } from "lucide-react";
+import { Building2, CreditCard, MapPin, Zap, Wallet, Banknote, Globe, Bitcoin } from "lucide-react";
 import { Campaign, PaymentMethodConfig, PaymentMethodType } from "@/types/campaign";
 
 const PAYMENT_METHOD_INFO = {
@@ -13,7 +13,8 @@ const PAYMENT_METHOD_INFO = {
   realtime: { title: "Real Time Payment", icon: Zap, description: "Instant transfer to bank account" },
   venmo: { title: "Venmo", icon: Wallet, description: "Transfer to Venmo account" },
   paypal: { title: "PayPal", icon: Banknote, description: "Transfer to PayPal balance" },
-  international: { title: "International Bank Account", icon: Globe, description: "Cross-border bank transfer" }
+  international: { title: "International Bank Account", icon: Globe, description: "Cross-border bank transfer" },
+  crypto: { title: "Cryptocurrency", icon: Bitcoin, description: "Receive funds in Bitcoin, Ethereum, or stablecoins" }
 };
 
 interface PaymentMethodsStepProps {

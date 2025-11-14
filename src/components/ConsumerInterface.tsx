@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe, Bitcoin } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { RealTimeFlow } from "@/components/RealTimeFlow";
@@ -10,6 +10,8 @@ import { PayPalFlow } from "@/components/PayPalFlow";
 import { PayPalCompletionScreen } from "@/components/PayPalCompletionScreen";
 import { InternationalFlow } from "@/components/InternationalFlow";
 import { InternationalCompletionScreen } from "@/components/InternationalCompletionScreen";
+import { CryptoFlow } from "@/components/CryptoFlow";
+import { CryptoCompletionScreen } from "@/components/CryptoCompletionScreen";
 import { PrepaidMarketingPage } from "@/components/PrepaidMarketingPage";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
@@ -29,7 +31,8 @@ const PAYMENT_METHOD_ICONS = {
   realtime: Zap,
   venmo: Wallet,
   paypal: Banknote,
-  international: Globe
+  international: Globe,
+  crypto: Bitcoin
 };
 
 const PAYMENT_METHOD_TITLES = {
@@ -39,7 +42,8 @@ const PAYMENT_METHOD_TITLES = {
   realtime: "Real Time Payment",
   venmo: "Venmo",
   paypal: "PayPal",
-  international: "International Bank Account"
+  international: "International Bank Account",
+  crypto: "Cryptocurrency"
 };
 
 const PAYMENT_METHOD_DESCRIPTIONS = {
@@ -49,7 +53,8 @@ const PAYMENT_METHOD_DESCRIPTIONS = {
   realtime: "Instant transfer to your bank account",
   venmo: "Receive funds to your Venmo account",
   paypal: "Transfer to your PayPal balance",
-  international: "Cross-border transfer to an international account"
+  international: "Cross-border transfer to an international account",
+  crypto: "Receive your funds in popular cryptocurrencies"
 };
 
 const PAYMENT_METHOD_BENEFITS = {
@@ -59,7 +64,8 @@ const PAYMENT_METHOD_BENEFITS = {
   realtime: ["Instant transfer", "Same-day availability", "Real-time notifications"],
   venmo: ["Popular and easy", "Quick transfers", "No bank needed"],
   paypal: ["Widely accepted", "Buyer protection", "No card required"],
-  international: ["Global reach", "Secure transfer", "SWIFT/IBAN supported"]
+  international: ["Global reach", "Secure transfer", "SWIFT/IBAN supported"],
+  crypto: ["Choose from Bitcoin, Ethereum, or stablecoins", "Fast international transfers", "Lower international fees", "Full control of your funds"]
 };
 
 const PAYMENT_METHOD_TIMES = {
@@ -69,7 +75,8 @@ const PAYMENT_METHOD_TIMES = {
   realtime: "Within minutes",
   venmo: "Minutes to hours",
   paypal: "Minutes to hours",
-  international: "2-5 business days"
+  international: "2-5 business days",
+  crypto: "Instant after approval"
 };
 
 interface ConsumerInterfaceProps {
@@ -167,6 +174,8 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
         return <PayPalCompletionScreen onComplete={() => {}} />;
       case "international":
         return <InternationalCompletionScreen onComplete={() => {}} />;
+      case "crypto":
+        return <CryptoCompletionScreen onComplete={() => {}} />;
       default:
         return <ACHCompletionScreen onComplete={() => {}} />;
     }
@@ -233,6 +242,7 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
             {selectedMethod === "venmo" && <VenmoFlow onComplete={handleComplete} />}
             {selectedMethod === "paypal" && <PayPalFlow onComplete={handleComplete} />}
             {selectedMethod === "international" && <InternationalFlow onComplete={handleComplete} />}
+            {selectedMethod === "crypto" && <CryptoFlow onComplete={handleComplete} />}
           </div>
         )}
       </div>

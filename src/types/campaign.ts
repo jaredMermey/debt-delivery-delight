@@ -34,7 +34,7 @@ export interface Consumer {
   amount: number
 }
 
-export type PaymentMethodType = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international";
+export type PaymentMethodType = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international" | "crypto";
 
 export interface PaymentMethodInfo {
   id: PaymentMethodType;
