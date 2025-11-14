@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Download } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import coterieCardLogo from "@/assets/coterie-card-logo.png";
 
 interface CompletionScreenProps {
   onComplete: () => void;
@@ -35,14 +36,18 @@ export const CompletionScreen = ({ onComplete }: CompletionScreenProps) => {
           
           {/* Card Image */}
           <div className="flex justify-center mb-6">
-            <div className="w-64 h-40 bg-gradient-to-r from-slate-800 to-slate-600 rounded-xl shadow-lg relative overflow-hidden">
-              <div className="absolute top-4 left-4 text-white text-sm font-medium">Payment Card</div>
+            <div className="w-64 h-40 bg-gradient-to-r from-[#4F46E5] to-[#6366F1] rounded-xl shadow-lg relative overflow-hidden">
+              <img 
+                src={coterieCardLogo} 
+                alt="Coterie" 
+                className="absolute top-4 right-4 h-5 w-auto opacity-90"
+              />
               <div className="absolute bottom-4 left-4 text-white">
                 <div className="text-xs opacity-80">**** **** **** 1234</div>
                 <div className="text-xs opacity-80 mt-1">Valid Thru 12/27</div>
               </div>
-              <div className="absolute top-4 right-4 w-8 h-8 bg-white rounded opacity-20"></div>
-              <div className="absolute bottom-4 right-4 text-white text-xs font-bold">VISA</div>
+              <div className="absolute top-4 left-4 w-8 h-8 bg-white rounded opacity-20"></div>
+              <div className="absolute bottom-4 right-4 text-white text-xs font-bold">COTERIE</div>
             </div>
           </div>
 
