@@ -103,7 +103,7 @@ const Index = () => {
       icon: Bitcoin,
       benefits: ["Choose from Bitcoin, Ethereum, or stablecoins", "Fast international transfers", "Lower international fees"],
       estimatedTime: "Instant after approval",
-      fee: "2.5% Fee"
+      fee: "No Fee"
     }
   ];
 
