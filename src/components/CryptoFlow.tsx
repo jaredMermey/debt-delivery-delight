@@ -20,18 +20,40 @@ interface CryptoOption {
 }
 
 const CRYPTO_OPTIONS: CryptoOption[] = [
-  { id: 'btc', name: 'Bitcoin', symbol: 'BTC', rate: 98872.94, icon: '₿' },
-  { id: 'eth', name: 'Ethereum', symbol: 'ETH', rate: 3212.45, icon: 'Ξ' },
-  { id: 'usdc', name: 'USD Coin', symbol: 'USDC', rate: 1.00, icon: '$' },
-  { id: 'doge', name: 'Dogecoin', symbol: 'DOGE', rate: 0.16, icon: 'Ð' },
-  { id: 'ltc', name: 'Litecoin', symbol: 'LTC', rate: 96.24, icon: 'Ł' },
+  { id: 'btc', name: 'Bitcoin', symbol: 'BTC', rate: 94984.26, icon: '₿' },
+  { id: 'eth', name: 'Ethereum', symbol: 'ETH', rate: 3163.48, icon: 'Ξ' },
+  { id: 'usdt', name: 'Tether', symbol: 'USDT', rate: 0.9997, icon: '₮' },
+  { id: 'xrp', name: 'XRP', symbol: 'XRP', rate: 2.29, icon: 'X' },
+  { id: 'bnb', name: 'BNB', symbol: 'BNB', rate: 919.94, icon: 'B' },
+  { id: 'sol', name: 'Solana', symbol: 'SOL', rate: 141.07, icon: '◎' },
+  { id: 'usdc', name: 'USD Coin', symbol: 'USDC', rate: 0.9998, icon: '$' },
+  { id: 'trx', name: 'TRON', symbol: 'TRX', rate: 0.2950, icon: 'T' },
+  { id: 'steth', name: 'Lido Staked Ether', symbol: 'stETH', rate: 3162.28, icon: 'Ξ' },
+  { id: 'doge', name: 'Dogecoin', symbol: 'DOGE', rate: 0.1614, icon: 'Ð' },
+  { id: 'ada', name: 'Cardano', symbol: 'ADA', rate: 0.5085, icon: '₳' },
+  { id: 'wbtc', name: 'Wrapped Bitcoin', symbol: 'WBTC', rate: 95316.03, icon: '₿' },
+  { id: 'wsteth', name: 'Wrapped stETH', symbol: 'wstETH', rate: 3852.62, icon: 'Ξ' },
+  { id: 'link', name: 'Chainlink', symbol: 'LINK', rate: 14.15, icon: '⬡' },
+  { id: 'bch', name: 'Bitcoin Cash', symbol: 'BCH', rate: 490.97, icon: '₿' },
+  { id: 'zec', name: 'Zcash', symbol: 'ZEC', rate: 592.74, icon: 'Z' },
+  { id: 'xlm', name: 'Stellar', symbol: 'XLM', rate: 0.2647, icon: '*' },
+  { id: 'xmr', name: 'Monero', symbol: 'XMR', rate: 398.35, icon: 'ɱ' },
+  { id: 'ltc', name: 'Litecoin', symbol: 'LTC', rate: 97.19, icon: 'Ł' },
+  { id: 'hbar', name: 'Hedera', symbol: 'HBAR', rate: 0.16, icon: 'H' },
+  { id: 'leo', name: 'LEO Token', symbol: 'LEO', rate: 9.19, icon: 'L' },
+  { id: 'usds', name: 'USDS', symbol: 'USDS', rate: 1.00, icon: '$' },
+  { id: 'usde', name: 'Ethena', symbol: 'USDE', rate: 0.9991, icon: '$' },
+  { id: 'hype', name: 'Hyperliquid', symbol: 'HYPE', rate: 37.23, icon: 'H' },
 ];
+
+const POPULAR_CRYPTO_IDS = ['btc', 'eth', 'usdt', 'xrp', 'bnb', 'sol'];
 
 export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowProps) => {
   const [stage, setStage] = useState<'select' | 'kyc' | 'pending' | 'approved'>('select');
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoOption | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   
   // KYC Form State
   const [formData, setFormData] = useState({
@@ -149,6 +171,14 @@ export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowPr
 
   const cryptoAmount = selectedCrypto ? (settlementAmount / selectedCrypto.rate).toFixed(8) : '0';
 
+  // Filter crypto options based on search query
+  const filteredCryptos = searchQuery 
+    ? CRYPTO_OPTIONS.filter(crypto => 
+        crypto.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        crypto.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : CRYPTO_OPTIONS.filter(crypto => POPULAR_CRYPTO_IDS.includes(crypto.id));
+
   // Stage 1: Crypto Selection
   if (stage === 'select') {
     return (
@@ -175,8 +205,24 @@ export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowPr
             </div>
           </div>
 
-          <div className="space-y-3">
-            {CRYPTO_OPTIONS.map((crypto) => {
+          {/* Search Input */}
+          <div className="space-y-2">
+            <Label htmlFor="crypto-search">Search Cryptocurrency</Label>
+            <Input
+              id="crypto-search"
+              type="text"
+              placeholder="Search by name or symbol..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full"
+            />
+            {!searchQuery && (
+              <p className="text-sm text-gray-500">Popular choices shown below</p>
+            )}
+          </div>
+
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            {filteredCryptos.map((crypto) => {
               const amount = (settlementAmount / crypto.rate).toFixed(8);
               const isSelected = selectedCrypto?.id === crypto.id;
               
@@ -208,6 +254,12 @@ export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowPr
                 </button>
               );
             })}
+            {filteredCryptos.length === 0 && (
+              <div className="text-center py-8 text-gray-500">
+                <p>No cryptocurrencies found matching "{searchQuery}"</p>
+                <p className="text-sm mt-2">Try a different search term</p>
+              </div>
+            )}
           </div>
 
           <Button
