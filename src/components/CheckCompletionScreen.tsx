@@ -46,6 +46,20 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
               <span className="text-sm text-gray-700">Secure delivery confirmation</span>
             </div>
           </div>
+
+          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+            <p className="text-xs text-gray-600">
+              Think about renewing your policy?{" "}
+              <a 
+                href="https://coterieinsurance.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-green-600 hover:text-green-700 underline"
+              >
+                Learn more
+              </a>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>
