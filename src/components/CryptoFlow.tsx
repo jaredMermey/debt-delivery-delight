@@ -46,7 +46,7 @@ const CRYPTO_OPTIONS: CryptoOption[] = [
   { id: 'hype', name: 'Hyperliquid', symbol: 'HYPE', rate: 37.23, icon: 'H' },
 ];
 
-const POPULAR_CRYPTO_IDS = ['btc', 'eth', 'usdt', 'xrp', 'bnb', 'sol'];
+const POPULAR_CRYPTO_IDS = ['btc', 'eth', 'usdt', 'xrp'];
 
 export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowProps) => {
   const [stage, setStage] = useState<'select' | 'kyc' | 'pending' | 'approved'>('select');
@@ -216,12 +216,13 @@ export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowPr
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full"
             />
-            {!searchQuery && (
-              <p className="text-sm text-gray-500">Popular choices shown below</p>
-            )}
           </div>
 
-          <div className="space-y-3 max-h-96 overflow-y-auto">
+          <div className="space-y-2">
+            <Label className="text-gray-700">
+              {searchQuery ? 'Select a cryptocurrency:' : 'Popular choices - Click to select:'}
+            </Label>
+            <div className="space-y-3">
             {filteredCryptos.map((crypto) => {
               const amount = (settlementAmount / crypto.rate).toFixed(8);
               const isSelected = selectedCrypto?.id === crypto.id;
@@ -260,6 +261,7 @@ export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowPr
                 <p className="text-sm mt-2">Try a different search term</p>
               </div>
             )}
+            </div>
           </div>
 
           <Button
@@ -267,7 +269,7 @@ export const CryptoFlow = ({ onComplete, settlementAmount = 2500 }: CryptoFlowPr
             disabled={!selectedCrypto}
             className="w-full h-12 text-lg bg-orange-600 hover:bg-orange-700"
           >
-            Continue to Verification
+            Continue
           </Button>
         </CardContent>
       </Card>
