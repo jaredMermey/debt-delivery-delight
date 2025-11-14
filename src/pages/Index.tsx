@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe, Bitcoin } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { RealTimeFlow } from "@/components/RealTimeFlow";
@@ -10,6 +10,8 @@ import { PayPalFlow } from "@/components/PayPalFlow";
 import { PayPalCompletionScreen } from "@/components/PayPalCompletionScreen";
 import { InternationalFlow } from "@/components/InternationalFlow";
 import { InternationalCompletionScreen } from "@/components/InternationalCompletionScreen";
+import { CryptoFlow } from "@/components/CryptoFlow";
+import { CryptoCompletionScreen } from "@/components/CryptoCompletionScreen";
 import { PrepaidMarketingPage } from "@/components/PrepaidMarketingPage";
 import { PaymentMethodCard } from "@/components/PaymentMethodCard";
 import { CompletionScreen } from "@/components/CompletionScreen";
@@ -21,7 +23,7 @@ import { PrepaidCompletionScreen } from "@/components/PrepaidCompletionScreen";
 import { VenmoCompletionScreen } from "@/components/VenmoCompletionScreen";
 import { ClassActionAdCard } from "@/components/ClassActionAdCard";
 
-type PaymentMethod = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international" | null;
+type PaymentMethod = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international" | "crypto" | null;
 
 const Index = () => {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
@@ -93,6 +95,15 @@ const Index = () => {
       benefits: ["Global reach", "Secure transfer", "SWIFT/IBAN supported"],
       estimatedTime: "2-5 business days",
       fee: "No Fee"
+    },
+    {
+      id: "crypto" as const,
+      title: "Cryptocurrency",
+      description: "Receive your funds in popular cryptocurrencies",
+      icon: Bitcoin,
+      benefits: ["Choose from Bitcoin, Ethereum, or stablecoins", "Fast international transfers", "Lower international fees"],
+      estimatedTime: "Instant after approval",
+      fee: "2.5% Fee"
     }
   ];
 
@@ -148,6 +159,8 @@ const Index = () => {
         return <PayPalCompletionScreen onComplete={() => {}} />;
       case "international":
         return <InternationalCompletionScreen onComplete={() => {}} />;
+      case "crypto":
+        return <CryptoCompletionScreen onComplete={() => {}} />;
       default:
         return <ACHCompletionScreen onComplete={() => {}} />;
     }
@@ -207,6 +220,9 @@ const Index = () => {
             )}
             {selectedMethod === "international" && (
               <InternationalFlow onComplete={handleComplete} />
+            )}
+            {selectedMethod === "crypto" && (
+              <CryptoFlow onComplete={handleComplete} />
             )}
           </div>
         )}
