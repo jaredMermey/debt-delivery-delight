@@ -16,7 +16,7 @@ export const ProgressHeader = ({ currentStep, progressValue, bankLogo }: Progres
         <img 
           src={bankLogo || coterieLogo} 
           alt="Coterie Logo" 
-          className="h-12 w-auto"
+          className="h-20 w-auto"
         />
       </div>
 
