@@ -16,7 +16,7 @@ export const ClassActionAdCard = ({ image, clickable = false, url }: ClassAction
   return (
     <div 
       onClick={clickable ? handleClick : undefined}
-      className={`relative rounded-lg border border-slate-200 overflow-hidden bg-white group ${
+      className={`relative rounded-lg border border-slate-200 overflow-hidden bg-[#0D0B3D] group ${
         clickable ? 'cursor-pointer hover:shadow-lg transition-shadow duration-200' : ''
       }`}
     >
