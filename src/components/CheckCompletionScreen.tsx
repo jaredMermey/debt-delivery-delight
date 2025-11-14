@@ -48,7 +48,7 @@ export const CheckCompletionScreen = ({ onComplete }: CheckCompletionScreenProps
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-gray-600 font-bold">
               Think about renewing your policy?{" "}
               <a 
                 href="https://coterieinsurance.com/" 
