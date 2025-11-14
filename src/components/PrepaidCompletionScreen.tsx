@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { ChevronDown, Copy, Eye, EyeOff, Wallet, Plus } from "lucide-react";
+import coterieCardLogo from "@/assets/coterie-card-logo.png";
 
 interface PrepaidCompletionScreenProps {
   onComplete: () => void;
@@ -38,7 +39,7 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-slate-100">
       {/* Header */}
       <div className="bg-white px-4 py-3 flex items-center justify-between shadow-sm">
         <h1 className="text-lg font-semibold text-slate-800">MY PAYMENT VAULT</h1>
@@ -48,13 +49,15 @@ export const PrepaidCompletionScreen = ({ onComplete }: PrepaidCompletionScreenP
       <div className="px-4 py-6">
         {/* Prepaid Card */}
         <div className="relative mb-6 max-w-md mx-auto">
-          <div className="bg-gradient-to-r from-red-500 to-slate-800 rounded-2xl p-6 text-white shadow-lg aspect-[16/10]">
+          <div className="bg-gradient-to-r from-[#4F46E5] to-[#6366F1] rounded-2xl p-6 text-white shadow-lg aspect-[16/10]">
             {/* Card Brand */}
             <div className="flex items-center justify-between mb-8">
-              <div className="bg-red-600 p-2 rounded">
-                <div className="w-8 h-6 bg-red-700 rounded-sm"></div>
-              </div>
-              <div className="text-2xl font-bold text-slate-300">Reliant</div>
+              <img 
+                src={coterieCardLogo} 
+                alt="Coterie" 
+                className="h-5 w-auto opacity-90"
+              />
+              <div className="text-2xl font-bold text-white">Coterie</div>
             </div>
             
             {/* Chip */}
