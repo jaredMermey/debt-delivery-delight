@@ -10,6 +10,7 @@ import { ConsumerListStep } from "@/components/admin/wizard/ConsumerListStep";
 import { ReviewStep } from "@/components/admin/wizard/ReviewStep";
 import { campaignStore, DEFAULT_PAYMENT_METHODS } from "@/lib/campaignStore";
 import { Campaign, PaymentMethodConfig, Consumer } from "@/types/campaign";
+import { entityStore } from "@/lib/entityStore";
 
 export function CampaignWizard() {
   const navigate = useNavigate();
@@ -17,10 +18,12 @@ export function CampaignWizard() {
   const isEditMode = Boolean(campaignId);
   const [currentStep, setCurrentStep] = useState(1);
   const [previewCampaignId, setPreviewCampaignId] = useState<string | null>(null);
+  const currentEntity = entityStore.getCurrentUserEntity();
   const [campaignData, setCampaignData] = useState<Partial<Campaign>>({
     name: '',
     description: '',
     bankLogo: '',
+    entityId: currentEntity?.id || 'entity-coterie',
     paymentMethods: DEFAULT_PAYMENT_METHODS,
     advertisementImage: '',
     advertisementUrl: '',
@@ -93,6 +96,7 @@ export function CampaignWizard() {
           name: campaignData.name!,
           description: campaignData.description!,
           bankLogo: campaignData.bankLogo!,
+          entityId: campaignData.entityId!,
           paymentMethods: campaignData.paymentMethods!,
           advertisementImage: campaignData.advertisementImage || '',
           advertisementUrl: campaignData.advertisementUrl || '',
@@ -143,6 +147,7 @@ export function CampaignWizard() {
           name: campaignData.name || 'Preview Campaign',
           description: campaignData.description || 'Preview description',
           bankLogo: campaignData.bankLogo || '',
+          entityId: campaignData.entityId!,
           paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
           advertisementImage: campaignData.advertisementImage || '',
           advertisementUrl: campaignData.advertisementUrl || '',
@@ -192,6 +197,7 @@ export function CampaignWizard() {
         name: campaignData.name!,
         description: campaignData.description!,
         bankLogo: campaignData.bankLogo!,
+        entityId: campaignData.entityId!,
         paymentMethods: campaignData.paymentMethods!,
         advertisementImage: campaignData.advertisementImage || '',
         advertisementUrl: campaignData.advertisementUrl || '',
