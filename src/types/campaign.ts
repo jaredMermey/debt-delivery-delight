@@ -1,8 +1,45 @@
+// Entity hierarchy types
+export type EntityType = 'root' | 'distributor' | 'customer'
+
+export interface Entity {
+  id: string
+  name: string
+  type: EntityType
+  logo: string
+  brandColor?: string
+  parentEntityId?: string // For customers under distributors
+  createdAt: Date
+}
+
+export interface UserPermission {
+  id: string
+  name: string
+  description: string
+  category: 'campaigns' | 'users' | 'reports' | 'settings'
+}
+
+export interface UserRole {
+  id: string
+  name: string
+  entityId: string
+  permissions: string[] // Permission IDs
+}
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  entityId: string
+  roleId: string
+  createdAt: Date
+}
+
 export interface Campaign {
   id: string
   name: string
   description: string
   bankLogo: string
+  entityId: string // The customer entity that owns this campaign
   consumers: Consumer[]
   paymentMethods: PaymentMethodConfig[]
   advertisementImage?: string
