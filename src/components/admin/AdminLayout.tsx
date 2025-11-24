@@ -45,9 +45,6 @@ export function AdminLayout() {
             <div className="flex items-center gap-4">
               <SidebarTrigger className="text-white" />
               <img src={branding.logo} alt={branding.name} className="h-8 w-auto" />
-              <h1 className="ml-2 text-lg font-semibold text-white">
-                {branding.name}
-              </h1>
             </div>
 
             <div className="flex items-center gap-3">
