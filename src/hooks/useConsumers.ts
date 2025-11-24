@@ -71,7 +71,33 @@ export function useAddConsumers() {
   
   return useMutation({
     mutationFn: async ({ campaignId, consumers }: { campaignId: string; consumers: Partial<Consumer>[] }) => {
-      const consumersData: TablesInsert<'consumers'>[] = consumers.map(c => ({
+      // Fetch existing consumers to check for duplicates
+      const { data: existingConsumers, error: fetchError } = await supabase
+        .from('consumers')
+        .select('email')
+        .eq('campaign_id', campaignId);
+      
+      if (fetchError) throw fetchError;
+      
+      const existingEmails = new Set(existingConsumers?.map(c => c.email.toLowerCase()) || []);
+      
+      // Filter out duplicates
+      const duplicates: string[] = [];
+      const uniqueConsumers = consumers.filter(c => {
+        const emailLower = c.email!.toLowerCase();
+        if (existingEmails.has(emailLower)) {
+          duplicates.push(c.email!);
+          return false;
+        }
+        return true;
+      });
+      
+      // If all consumers are duplicates, throw an error
+      if (uniqueConsumers.length === 0) {
+        throw new Error(`All consumers already exist in this campaign: ${duplicates.join(', ')}`);
+      }
+      
+      const consumersData: TablesInsert<'consumers'>[] = uniqueConsumers.map(c => ({
         name: c.name!,
         email: c.email!,
         amount: c.amount!,
@@ -85,6 +111,8 @@ export function useAddConsumers() {
       
       if (error) throw error;
       
+      return { newConsumers, duplicates };
+      
       // Check if campaign is sent and generate tracking data
       const { data: campaign, error: campaignError } = await supabase
         .from('campaigns')
@@ -94,7 +122,7 @@ export function useAddConsumers() {
       
       if (campaignError) throw campaignError;
       
-      if (campaign.status === 'sent' && newConsumers) {
+      if (campaign.status === 'sent' && newConsumers && newConsumers.length > 0) {
         // Generate token and tracking data for each new consumer
         for (const consumer of newConsumers) {
           // Generate token
@@ -155,17 +183,29 @@ export function useAddConsumers() {
         if (statsError) throw statsError;
       }
       
-      return newConsumers;
+      return { newConsumers, duplicates };
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (result, variables) => {
       queryClient.invalidateQueries({ queryKey: ['consumers', variables.campaignId] });
       queryClient.invalidateQueries({ queryKey: ['campaign', variables.campaignId] });
       queryClient.invalidateQueries({ queryKey: ['consumerTracking', variables.campaignId] });
       queryClient.invalidateQueries({ queryKey: ['campaignStats', variables.campaignId] });
-      toast({
-        title: "Consumers added",
-        description: `${variables.consumers.length} consumers have been added to the campaign.`,
-      });
+      
+      const addedCount = result.newConsumers?.length || 0;
+      const duplicateCount = result.duplicates.length;
+      
+      if (duplicateCount > 0) {
+        toast({
+          title: "Consumers added with duplicates",
+          description: `${addedCount} consumer${addedCount !== 1 ? 's' : ''} added. ${duplicateCount} duplicate${duplicateCount !== 1 ? 's' : ''} skipped: ${result.duplicates.join(', ')}`,
+          variant: "default",
+        });
+      } else {
+        toast({
+          title: "Consumers added",
+          description: `${addedCount} consumer${addedCount !== 1 ? 's' : ''} added successfully.`,
+        });
+      }
     },
     onError: (error) => {
       toast({
