@@ -151,3 +151,62 @@ export function useUserPermissions() {
     },
   });
 }
+
+export function useCreateEntity() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (entity: Omit<Entity, 'id' | 'created_at' | 'updated_at'>) => {
+      const { data, error } = await supabase
+        .from('entities')
+        .insert(entity)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data as Entity;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['entities'] });
+    },
+  });
+}
+
+export function useUpdateEntity() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ id, ...updates }: Partial<Entity> & { id: string }) => {
+      const { data, error } = await supabase
+        .from('entities')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data as Entity;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['entities'] });
+    },
+  });
+}
+
+export function useDeleteEntity() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('entities')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['entities'] });
+    },
+  });
+}

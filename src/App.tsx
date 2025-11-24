@@ -12,6 +12,7 @@ import { CampaignWizard } from "./pages/admin/CampaignWizard";
 import { CampaignPreview } from "./pages/admin/CampaignPreview";
 import { CampaignReports } from "./components/admin/CampaignReports";
 import { UserManagement } from "./pages/admin/UserManagement";
+import { EntityManagement } from "./pages/admin/EntityManagement";
 import { BrandingProvider } from "./contexts/BrandingContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -33,6 +34,7 @@ const App = () => (
               <Route index element={<AdminDashboard />} />
               <Route path="campaigns" element={<AdminDashboard />} />
               <Route path="users" element={<UserManagement />} />
+              <Route path="entities" element={<EntityManagement />} />
               <Route path="campaign/new" element={<CampaignWizard />} />
               <Route path="campaign/:campaignId/edit" element={<CampaignWizard />} />
               <Route path="campaign/:campaignId/reports" element={<CampaignReports />} />
