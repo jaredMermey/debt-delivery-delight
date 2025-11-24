@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Eye, Plus, List } from "lucide-react";
+import { Eye, Plus, List, Users } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +16,7 @@ import {
 const navigationItems = [
   { title: "Dashboard", url: "/admin", icon: List },
   { title: "New Campaign", url: "/admin/campaign/new", icon: Plus },
+  { title: "Users", url: "/admin/users", icon: Users },
 ];
 
 export function AdminSidebar() {

@@ -565,6 +565,60 @@ export type Database = {
           },
         ]
       }
+      user_invitations: {
+        Row: {
+          created_at: string
+          email: string
+          entity_id: string
+          expires_at: string
+          id: string
+          invited_by: string | null
+          role_id: string
+          token: string
+          used: boolean
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          entity_id: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role_id: string
+          token: string
+          used?: boolean
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          entity_id?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role_id?: string
+          token?: string
+          used?: boolean
+          used_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_invitations_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_invitations_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string | null
@@ -608,6 +662,15 @@ export type Database = {
     Functions: {
       generate_consumer_token: {
         Args: { _campaign_id: string; _consumer_id: string }
+        Returns: string
+      }
+      generate_invitation_token: {
+        Args: {
+          _email: string
+          _entity_id: string
+          _invited_by: string
+          _role_id: string
+        }
         Returns: string
       }
       generate_mock_tracking_data: {
