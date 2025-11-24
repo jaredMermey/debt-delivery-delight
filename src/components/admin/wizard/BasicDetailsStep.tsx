@@ -37,8 +37,11 @@ export function BasicDetailsStep({ data, onUpdate }: BasicDetailsStepProps) {
 
   const handleFile = (file: File) => {
     if (file.type.startsWith('image/')) {
-      const url = URL.createObjectURL(file);
-      onUpdate({ bankLogo: url });
+      const reader = new FileReader();
+      reader.onload = () => {
+        onUpdate({ bank_logo: reader.result as string });
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -87,17 +90,17 @@ export function BasicDetailsStep({ data, onUpdate }: BasicDetailsStepProps) {
               Brand Logo *
             </Label>
             
-            {data.bankLogo ? (
+            {data.bank_logo ? (
               <div className="relative inline-block">
                 <img 
-                  src={data.bankLogo} 
+                  src={data.bank_logo} 
                   alt="Brand Logo" 
                   className="h-16 w-auto border border-border rounded-lg"
                 />
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => onUpdate({ bankLogo: '' })}
+                  onClick={() => onUpdate({ bank_logo: '' })}
                   className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
                 >
                   <X className="h-3 w-3" />

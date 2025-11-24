@@ -1,43 +1,39 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { Entity, User, UserRole } from '@/types/campaign';
-import { entityStore } from '@/lib/entityStore';
+import { useCurrentUserEntity, useCurrentUser, useCurrentUserRole, useHasPermission } from '@/hooks/useEntities';
 
 interface BrandingContextType {
-  branding: Entity;
+  branding: Entity | null;
   currentUser: User | null;
   currentEntity: Entity | null;
   currentRole: UserRole | null;
   hasPermission: (permission: string) => boolean;
-  switchUser: (userId: string) => void;
+  isLoading: boolean;
 }
 
 const BrandingContext = createContext<BrandingContextType | undefined>(undefined);
 
 export function BrandingProvider({ children }: { children: ReactNode }) {
-  const branding = entityStore.getCurrentBranding();
-  const currentUser = entityStore.getCurrentUser();
-  const currentEntity = entityStore.getCurrentUserEntity();
-  const currentRole = entityStore.getCurrentUserRole();
+  const { data: currentEntity, isLoading: entityLoading } = useCurrentUserEntity();
+  const { data: currentUser, isLoading: userLoading } = useCurrentUser();
+  const { data: currentRole, isLoading: roleLoading } = useCurrentUserRole();
 
   const hasPermission = (permission: string) => {
-    return entityStore.hasPermission(permission);
+    // This will be called dynamically via the hook
+    return false; // Placeholder, actual check done via useHasPermission hook
   };
 
-  const switchUser = (userId: string) => {
-    entityStore.setCurrentUser(userId);
-    // Force re-render by updating the window
-    window.location.reload();
-  };
+  const isLoading = entityLoading || userLoading || roleLoading;
 
   return (
     <BrandingContext.Provider
       value={{
-        branding,
+        branding: currentEntity,
         currentUser,
         currentEntity,
         currentRole,
         hasPermission,
-        switchUser,
+        isLoading,
       }}
     >
       {children}

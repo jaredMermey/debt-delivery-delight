@@ -23,13 +23,13 @@ interface PaymentMethodsStepProps {
 }
 
 export function PaymentMethodsStep({ data, onUpdate }: PaymentMethodsStepProps) {
-  const paymentMethods = data.paymentMethods || [];
+  const paymentMethods = data.campaign_payment_methods || [];
 
   const updatePaymentMethod = (type: PaymentMethodType, updates: Partial<PaymentMethodConfig>) => {
     const updatedMethods = paymentMethods.map(pm => 
       pm.type === type ? { ...pm, ...updates } : pm
     );
-    onUpdate({ paymentMethods: updatedMethods });
+    onUpdate({ campaign_payment_methods: updatedMethods });
   };
 
   const enabledCount = paymentMethods.filter(pm => pm.enabled).length;
@@ -89,9 +89,9 @@ export function PaymentMethodsStep({ data, onUpdate }: PaymentMethodsStepProps) 
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Fee Type</Label>
                         <RadioGroup
-                          value={method.feeType}
-                          onValueChange={(feeType: 'dollar' | 'percentage') => 
-                            updatePaymentMethod(method.type, { feeType })
+                          value={method.fee_type}
+                          onValueChange={(fee_type: 'dollar' | 'percentage') => 
+                            updatePaymentMethod(method.type, { fee_type })
                           }
                           className="flex space-x-4"
                         >
