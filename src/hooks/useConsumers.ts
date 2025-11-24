@@ -78,17 +78,48 @@ export function useAddConsumers() {
         campaign_id: campaignId
       }));
       
-      const { data, error } = await supabase
+      const { data: newConsumers, error } = await supabase
         .from('consumers')
         .insert(consumersData)
         .select();
       
       if (error) throw error;
-      return data;
+      
+      // Check if campaign is sent and generate tracking data
+      const { data: campaign, error: campaignError } = await supabase
+        .from('campaigns')
+        .select('status')
+        .eq('id', campaignId)
+        .single();
+      
+      if (campaignError) throw campaignError;
+      
+      if (campaign.status === 'sent' && newConsumers) {
+        // Generate token for each new consumer
+        for (const consumer of newConsumers) {
+          const { error: tokenError } = await supabase.rpc('generate_consumer_token', {
+            _consumer_id: consumer.id,
+            _campaign_id: campaignId
+          });
+          
+          if (tokenError) throw tokenError;
+        }
+        
+        // Generate tracking data for new consumers
+        const { error: trackingError } = await supabase.rpc('generate_mock_tracking_data', {
+          _campaign_id: campaignId
+        });
+        
+        if (trackingError) throw trackingError;
+      }
+      
+      return newConsumers;
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['consumers', variables.campaignId] });
       queryClient.invalidateQueries({ queryKey: ['campaign', variables.campaignId] });
+      queryClient.invalidateQueries({ queryKey: ['consumerTracking', variables.campaignId] });
+      queryClient.invalidateQueries({ queryKey: ['campaignStats', variables.campaignId] });
       toast({
         title: "Consumers added",
         description: `${variables.consumers.length} consumers have been added to the campaign.`,
