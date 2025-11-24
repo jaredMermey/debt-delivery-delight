@@ -43,7 +43,6 @@ export function AdminLayout() {
         <div className="flex-1 flex flex-col">
           <header className="h-14 flex items-center justify-between border-b px-4" style={{ backgroundColor: branding.brandColor }}>
             <div className="flex items-center gap-4">
-              <SidebarTrigger className="text-white" />
               <img src={branding.logo} alt={branding.name} className="h-8 w-auto" />
             </div>
 

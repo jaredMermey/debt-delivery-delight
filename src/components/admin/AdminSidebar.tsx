@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 
@@ -36,6 +37,9 @@ export function AdminSidebar() {
   return (
     <Sidebar className={state === "collapsed" ? "w-14" : "w-60"} collapsible="icon">
       <SidebarContent className="bg-sidebar">
+        <div className="p-2">
+          <SidebarTrigger className="hover:bg-sidebar-accent" />
+        </div>
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground font-semibold px-3 py-2">
             {state !== "collapsed" && "Campaign Management"}
