@@ -6,8 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { campaignStore } from '@/lib/campaignStore';
-import { Consumer } from '@/types/campaign';
+import { useAddConsumers } from '@/hooks/useConsumers';
 import { Upload, Plus, X, UserPlus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -17,7 +16,6 @@ interface AddPayeesDialogProps {
   existingConsumerCount: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSuccess: () => void;
 }
 
 interface NewConsumer {
@@ -31,13 +29,13 @@ export function AddPayeesDialog({
   campaignName,
   existingConsumerCount,
   open,
-  onOpenChange,
-  onSuccess
+  onOpenChange
 }: AddPayeesDialogProps) {
   const { toast } = useToast();
+  const addConsumers = useAddConsumers();
   const [newConsumer, setNewConsumer] = useState<NewConsumer>({ name: '', email: '', amount: '' });
-  const [pendingConsumers, setPendingConsumers] = useState<Omit<Consumer, 'id'>[]>([]);
-  const [uploadedData, setUploadedData] = useState<Omit<Consumer, 'id'>[]>([]);
+  const [pendingConsumers, setPendingConsumers] = useState<Array<{ name: string; email: string; amount: number }>>([]);
+  const [uploadedData, setUploadedData] = useState<Array<{ name: string; email: string; amount: number }>>([]);
 
   const addConsumer = () => {
     if (!newConsumer.name || !newConsumer.email || !newConsumer.amount) {
@@ -90,7 +88,7 @@ export function AddPayeesDialog({
     reader.onload = (e) => {
       const text = e.target?.result as string;
       const lines = text.split('\n');
-      const data: Omit<Consumer, 'id'>[] = [];
+      const data: Array<{ name: string; email: string; amount: number }> = [];
 
       // Skip header row, start from index 1
       for (let i = 1; i < lines.length; i++) {
@@ -100,7 +98,7 @@ export function AddPayeesDialog({
         const [name, email, amountStr] = line.split(',').map(s => s.trim());
         const amount = parseFloat(amountStr);
 
-        if (name && email && !isNaN(amount)) {
+        if (name && email && !isNaN(amount) && amount > 0) {
           data.push({ name, email, amount });
         }
       }
@@ -126,7 +124,7 @@ export function AddPayeesDialog({
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (pendingConsumers.length === 0) {
       toast({
         title: "No Consumers",
@@ -136,26 +134,22 @@ export function AddPayeesDialog({
       return;
     }
 
-    // Add all pending consumers to the campaign
-    let successCount = 0;
-    pendingConsumers.forEach(consumer => {
-      const result = campaignStore.addConsumer(campaignId, consumer);
-      if (result) successCount++;
-    });
+    try {
+      await addConsumers.mutateAsync({
+        campaignId,
+        consumers: pendingConsumers
+      });
 
-    toast({
-      title: "Payees Added",
-      description: `Successfully added ${successCount} new payee${successCount !== 1 ? 's' : ''} to ${campaignName}`
-    });
+      // Reset state
+      setPendingConsumers([]);
+      setUploadedData([]);
+      setNewConsumer({ name: '', email: '', amount: '' });
 
-    // Reset state
-    setPendingConsumers([]);
-    setUploadedData([]);
-    setNewConsumer({ name: '', email: '', amount: '' });
-
-    // Notify parent and close
-    onSuccess();
-    onOpenChange(false);
+      // Close dialog
+      onOpenChange(false);
+    } catch (error) {
+      // Error is already handled by the mutation
+    }
   };
 
   const totalAmount = pendingConsumers.reduce((sum, c) => sum + c.amount, 0);

@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe, Bitcoin } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
@@ -23,6 +25,7 @@ import { PrepaidCompletionScreen } from "@/components/PrepaidCompletionScreen";
 import { VenmoCompletionScreen } from "@/components/VenmoCompletionScreen";
 import { ClassActionAdCard } from "@/components/ClassActionAdCard";
 import { Campaign, PaymentMethodType } from "@/types/campaign";
+import { useValidateToken, useMarkTokenUsed } from "@/hooks/useConsumerToken";
 
 const PAYMENT_METHOD_ICONS = {
   ach: Building2,
@@ -85,14 +88,57 @@ const PAYMENT_METHOD_TIMES = {
 };
 
 interface ConsumerInterfaceProps {
-  campaign: Campaign;
+  campaign?: Campaign;
 }
 
-export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
+export function ConsumerInterface({ campaign: propCampaign }: ConsumerInterfaceProps) {
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethodType | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
   const [showPrepaidMarketing, setShowPrepaidMarketing] = useState(false);
+
+  // Use token validation hook for non-preview mode
+  const { data: tokenData, isLoading: tokenLoading, error: tokenError } = useValidateToken(propCampaign ? undefined : token || undefined);
+  const markTokenUsed = useMarkTokenUsed();
+  
+  // If campaign is passed via props (preview), use it; otherwise use validated token data
+  const campaign = propCampaign || tokenData?.campaigns;
+  const consumer = propCampaign ? null : tokenData?.consumers;
+
+  // Loading state
+  if (!propCampaign && tokenLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="w-full max-w-2xl">
+          <CardContent className="pt-6">
+            <p className="text-center text-muted-foreground">Validating your access...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Error state
+  if (!propCampaign && (tokenError || !campaign)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="w-full max-w-2xl">
+          <CardContent className="pt-6 text-center">
+            <h3 className="text-lg font-semibold text-foreground mb-2">Invalid or Expired Link</h3>
+            <p className="text-muted-foreground">
+              This payment link is no longer valid. Please contact support for assistance.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!campaign) {
+    return null;
+  }
 
   // Filter enabled payment methods
   const enabledMethods = (campaign.campaign_payment_methods || [])
@@ -152,9 +198,13 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
     handleComplete();
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     setIsComplete(true);
     setCurrentStep(3);
+    // Mark token as used if not in preview mode
+    if (!propCampaign && token) {
+      await markTokenUsed.mutateAsync(token);
+    }
   };
 
   const getProgressValue = () => {
