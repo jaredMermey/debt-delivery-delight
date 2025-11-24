@@ -95,12 +95,12 @@ export function CampaignWizard() {
         const newCampaign = campaignStore.createCampaign({
           name: campaignData.name!,
           description: campaignData.description!,
-          bankLogo: campaignData.bankLogo!,
-          entityId: campaignData.entityId!,
-          paymentMethods: campaignData.paymentMethods!,
-          advertisementImage: campaignData.advertisementImage || '',
-          advertisementUrl: campaignData.advertisementUrl || '',
-          advertisementEnabled: campaignData.advertisementEnabled ?? true,
+          bank_logo: campaignData.bank_logo!,
+          entity_id: campaignData.entity_id!,
+          payment_methods: campaignData.payment_methods!,
+          advertisement_image: campaignData.advertisement_image || '',
+          advertisement_url: campaignData.advertisement_url || '',
+          advertisement_enabled: campaignData.advertisement_enabled ?? true,
           consumers: campaignData.consumers!
         });
         setPreviewCampaignId(newCampaign.id);
@@ -134,11 +134,11 @@ export function CampaignWizard() {
         campaignStore.updateCampaign(previewId, {
           name: campaignData.name || 'Preview Campaign',
           description: campaignData.description || 'Preview description',
-          bankLogo: campaignData.bankLogo || '',
-          paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
-          advertisementImage: campaignData.advertisementImage || '',
-          advertisementUrl: campaignData.advertisementUrl || '',
-          advertisementEnabled: campaignData.advertisementEnabled ?? true,
+          bank_logo: campaignData.bank_logo || '',
+          payment_methods: campaignData.payment_methods || DEFAULT_PAYMENT_METHODS,
+          advertisement_image: campaignData.advertisement_image || '',
+          advertisement_url: campaignData.advertisement_url || '',
+          advertisement_enabled: campaignData.advertisement_enabled ?? true,
           consumers: campaignData.consumers || []
         });
       } else {
@@ -146,12 +146,12 @@ export function CampaignWizard() {
         const tempCampaign = campaignStore.createCampaign({
           name: campaignData.name || 'Preview Campaign',
           description: campaignData.description || 'Preview description',
-          bankLogo: campaignData.bankLogo || '',
-          entityId: campaignData.entityId!,
-          paymentMethods: campaignData.paymentMethods || DEFAULT_PAYMENT_METHODS,
-          advertisementImage: campaignData.advertisementImage || '',
-          advertisementUrl: campaignData.advertisementUrl || '',
-          advertisementEnabled: campaignData.advertisementEnabled ?? true,
+          bank_logo: campaignData.bank_logo || '',
+          entity_id: campaignData.entity_id!,
+          payment_methods: campaignData.payment_methods || DEFAULT_PAYMENT_METHODS,
+          advertisement_image: campaignData.advertisement_image || '',
+          advertisement_url: campaignData.advertisement_url || '',
+          advertisement_enabled: campaignData.advertisement_enabled ?? true,
           consumers: campaignData.consumers || []
         });
         previewId = tempCampaign.id;
@@ -172,11 +172,11 @@ export function CampaignWizard() {
       campaignStore.updateCampaign(campaignId, {
         name: campaignData.name!,
         description: campaignData.description!,
-        bankLogo: campaignData.bankLogo!,
-        paymentMethods: campaignData.paymentMethods!,
-        advertisementImage: campaignData.advertisementImage || '',
-        advertisementUrl: campaignData.advertisementUrl || '',
-        advertisementEnabled: campaignData.advertisementEnabled ?? true,
+        bank_logo: campaignData.bank_logo!,
+        payment_methods: campaignData.payment_methods!,
+        advertisement_image: campaignData.advertisement_image || '',
+        advertisement_url: campaignData.advertisement_url || '',
+        advertisement_enabled: campaignData.advertisement_enabled ?? true,
         consumers: campaignData.consumers!
       });
     } else if (previewCampaignId) {
@@ -184,11 +184,11 @@ export function CampaignWizard() {
       campaignStore.updateCampaign(previewCampaignId, {
         name: campaignData.name!,
         description: campaignData.description!,
-        bankLogo: campaignData.bankLogo!,
-        paymentMethods: campaignData.paymentMethods!,
-        advertisementImage: campaignData.advertisementImage || '',
-        advertisementUrl: campaignData.advertisementUrl || '',
-        advertisementEnabled: campaignData.advertisementEnabled ?? true,
+        bank_logo: campaignData.bank_logo!,
+        payment_methods: campaignData.payment_methods!,
+        advertisement_image: campaignData.advertisement_image || '',
+        advertisement_url: campaignData.advertisement_url || '',
+        advertisement_enabled: campaignData.advertisement_enabled ?? true,
         consumers: campaignData.consumers!
       });
     } else {
@@ -196,12 +196,12 @@ export function CampaignWizard() {
       campaignStore.createCampaign({
         name: campaignData.name!,
         description: campaignData.description!,
-        bankLogo: campaignData.bankLogo!,
-        entityId: campaignData.entityId!,
-        paymentMethods: campaignData.paymentMethods!,
-        advertisementImage: campaignData.advertisementImage || '',
-        advertisementUrl: campaignData.advertisementUrl || '',
-        advertisementEnabled: campaignData.advertisementEnabled ?? true,
+        bank_logo: campaignData.bank_logo!,
+        entity_id: campaignData.entity_id!,
+        payment_methods: campaignData.payment_methods!,
+        advertisement_image: campaignData.advertisement_image || '',
+        advertisement_url: campaignData.advertisement_url || '',
+        advertisement_enabled: campaignData.advertisement_enabled ?? true,
         consumers: campaignData.consumers!
       });
     }
@@ -217,9 +217,9 @@ export function CampaignWizard() {
   const isStepValid = () => {
     switch (currentStep) {
       case 1:
-        return campaignData.name && campaignData.description && campaignData.bankLogo;
+        return campaignData.name && campaignData.description && campaignData.bank_logo;
       case 2:
-        return campaignData.paymentMethods?.some(pm => pm.enabled);
+        return campaignData.payment_methods?.some(pm => pm.enabled);
       case 3:
         return true; // Advertisement is optional
       case 4:

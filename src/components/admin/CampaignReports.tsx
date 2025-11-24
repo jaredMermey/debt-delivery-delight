@@ -51,14 +51,15 @@ export function CampaignReports() {
     }).format(amount);
   };
 
-  const formatDateTime = (date: Date | undefined) => {
+  const formatDateTime = (date: string | Date | undefined) => {
     if (!date) return '-';
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
     return new Intl.DateTimeFormat('en-US', {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
-    }).format(date);
+    }).format(dateObj);
   };
 
   const getStatusColor = (status: ConsumerTracking['status']) => {
@@ -129,9 +130,9 @@ export function CampaignReports() {
           <Badge variant="outline" className="capitalize">
             {campaign.status}
           </Badge>
-          {campaign.sentAt && (
+          {campaign.sent_at && (
             <span className="text-sm text-muted-foreground">
-              Sent {formatDateTime(campaign.sentAt)}
+              Sent {formatDateTime(campaign.sent_at)}
             </span>
           )}
         </div>
@@ -146,7 +147,7 @@ export function CampaignReports() {
                 <Users className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{stats.totalConsumers}</p>
+                <p className="text-2xl font-bold text-foreground">{stats.total_consumers}</p>
                 <p className="text-sm text-muted-foreground">Total Consumers</p>
               </div>
             </div>
@@ -160,9 +161,9 @@ export function CampaignReports() {
                 <Mail className="w-5 h-5 text-emerald-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{stats.emailOpenRate.toFixed(1)}%</p>
+                <p className="text-2xl font-bold text-foreground">{stats.email_open_rate.toFixed(1)}%</p>
                 <p className="text-sm text-muted-foreground">Email Open Rate</p>
-                <p className="text-xs text-muted-foreground">{stats.emailsOpened}/{stats.emailsSent}</p>
+                <p className="text-xs text-muted-foreground">{stats.emails_opened}/{stats.emails_sent}</p>
               </div>
             </div>
           </CardContent>
@@ -175,9 +176,9 @@ export function CampaignReports() {
                 <MousePointer className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{stats.linkClickRate.toFixed(1)}%</p>
+                <p className="text-2xl font-bold text-foreground">{stats.link_click_rate.toFixed(1)}%</p>
                 <p className="text-sm text-muted-foreground">Click Rate</p>
-                <p className="text-xs text-muted-foreground">{stats.linksClicked}/{stats.emailsOpened}</p>
+                <p className="text-xs text-muted-foreground">{stats.links_clicked}/{stats.emails_opened}</p>
               </div>
             </div>
           </CardContent>
@@ -190,9 +191,9 @@ export function CampaignReports() {
                 <CheckCircle className="w-5 h-5 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{stats.completionRate.toFixed(1)}%</p>
+                <p className="text-2xl font-bold text-foreground">{stats.completion_rate.toFixed(1)}%</p>
                 <p className="text-sm text-muted-foreground">Completion Rate</p>
-                <p className="text-xs text-muted-foreground">{stats.fundsSettled}/{stats.totalConsumers}</p>
+                <p className="text-xs text-muted-foreground">{stats.funds_settled}/{stats.total_consumers}</p>
               </div>
             </div>
           </CardContent>
@@ -209,7 +210,7 @@ export function CampaignReports() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-foreground">{formatCurrency(stats.totalAmount)}</p>
+            <p className="text-3xl font-bold text-foreground">{formatCurrency(stats.total_amount)}</p>
             <p className="text-sm text-muted-foreground">Total disbursement</p>
           </CardContent>
         </Card>
@@ -222,9 +223,9 @@ export function CampaignReports() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-emerald-600">{formatCurrency(stats.originatedAmount)}</p>
+            <p className="text-3xl font-bold text-emerald-600">{formatCurrency(stats.originated_amount)}</p>
             <p className="text-sm text-muted-foreground">
-              {stats.fundsOriginated} of {stats.totalConsumers} consumers
+              {stats.funds_originated} of {stats.total_consumers} consumers
             </p>
           </CardContent>
         </Card>
@@ -237,9 +238,9 @@ export function CampaignReports() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-emerald-700">{formatCurrency(stats.settledAmount)}</p>
+            <p className="text-3xl font-bold text-emerald-700">{formatCurrency(stats.settled_amount)}</p>
             <p className="text-sm text-muted-foreground">
-              {stats.fundsSettled} completed payments
+              {stats.funds_settled} completed payments
             </p>
           </CardContent>
         </Card>
@@ -320,15 +321,15 @@ export function CampaignReports() {
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">
-                          {consumer.tracking.emailOpened ? (
+                          {consumer.tracking.email_opened ? (
                             <span className="text-emerald-600 flex items-center gap-1">
                               <CheckCircle className="w-3 h-3" />
-                              {formatDateTime(consumer.tracking.emailOpenedAt)}
+                              {formatDateTime(consumer.tracking.email_opened_at)}
                             </span>
-                          ) : consumer.tracking.emailSent ? (
+                          ) : consumer.tracking.email_sent ? (
                             <span className="text-muted-foreground flex items-center gap-1">
                               <Clock className="w-3 h-3" />
-                              Sent {formatDateTime(consumer.tracking.emailSentAt)}
+                              Sent {formatDateTime(consumer.tracking.email_sent_at)}
                             </span>
                           ) : (
                             <span className="text-muted-foreground">-</span>
@@ -337,10 +338,10 @@ export function CampaignReports() {
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">
-                          {consumer.tracking.linkClicked ? (
+                          {consumer.tracking.link_clicked ? (
                             <span className="text-purple-600 flex items-center gap-1">
                               <CheckCircle className="w-3 h-3" />
-                              {formatDateTime(consumer.tracking.linkClickedAt)}
+                              {formatDateTime(consumer.tracking.link_clicked_at)}
                             </span>
                           ) : (
                             <span className="text-muted-foreground">-</span>
@@ -348,16 +349,16 @@ export function CampaignReports() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {consumer.tracking.paymentMethodSelected ? (
+                        {consumer.tracking.payment_method_selected ? (
                           <Badge variant="outline" className="capitalize">
-                            {consumer.tracking.paymentMethodSelected}
+                            {consumer.tracking.payment_method_selected}
                           </Badge>
                         ) : (
                           <span className="text-muted-foreground">-</span>
                         )}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">
-                        {formatDateTime(consumer.tracking.lastActivity)}
+                        {formatDateTime(consumer.tracking.last_activity)}
                       </TableCell>
                     </TableRow>
                   ))

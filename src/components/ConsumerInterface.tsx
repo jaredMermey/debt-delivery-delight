@@ -31,6 +31,7 @@ const PAYMENT_METHOD_ICONS = {
   realtime: Zap,
   venmo: Wallet,
   paypal: Banknote,
+  zelle: Zap,
   international: Globe,
   crypto: Bitcoin
 };
@@ -42,6 +43,7 @@ const PAYMENT_METHOD_TITLES = {
   realtime: "Real Time Payment",
   venmo: "Venmo",
   paypal: "PayPal",
+  zelle: "Zelle",
   international: "International Bank Account",
   crypto: "Cryptocurrency"
 };
@@ -53,6 +55,7 @@ const PAYMENT_METHOD_DESCRIPTIONS = {
   realtime: "Instant transfer to your bank account",
   venmo: "Receive funds to your Venmo account",
   paypal: "Transfer to your PayPal balance",
+  zelle: "Instant transfer via Zelle",
   international: "Cross-border transfer to an international account",
   crypto: "Receive your funds in popular cryptocurrencies"
 };
@@ -64,6 +67,7 @@ const PAYMENT_METHOD_BENEFITS = {
   realtime: ["Instant transfer", "Same-day availability", "Real-time notifications"],
   venmo: ["Popular and easy", "Quick transfers", "No bank needed"],
   paypal: ["Widely accepted", "Buyer protection", "No card required"],
+  zelle: ["Instant transfer", "No fees", "Bank integrated"],
   international: ["Global reach", "Secure transfer", "SWIFT/IBAN supported"],
   crypto: ["Choose from Bitcoin, Ethereum, or stablecoins", "Fast international transfers", "Lower international fees", "Full control of your funds"]
 };
@@ -75,6 +79,7 @@ const PAYMENT_METHOD_TIMES = {
   realtime: "Within minutes",
   venmo: "Minutes to hours",
   paypal: "Minutes to hours",
+  zelle: "Within minutes",
   international: "2-5 business days",
   crypto: "Instant after approval"
 };

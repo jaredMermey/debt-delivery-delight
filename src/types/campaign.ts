@@ -45,6 +45,8 @@ export interface Campaign {
   entity_id: string
   consumers?: Consumer[]
   campaign_payment_methods?: PaymentMethodConfig[]
+  payment_methods?: PaymentMethodConfig[] // Alias for easier access
+  stats?: CampaignStats
   advertisement_image?: string
   advertisement_url?: string
   advertisement_enabled: boolean
@@ -80,7 +82,7 @@ export interface Consumer {
   created_at?: string
 }
 
-export type PaymentMethodType = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "international" | "crypto";
+export type PaymentMethodType = "ach" | "check" | "realtime" | "prepaid" | "venmo" | "paypal" | "zelle" | "international" | "crypto";
 
 export interface PaymentMethodInfo {
   id: PaymentMethodType;
