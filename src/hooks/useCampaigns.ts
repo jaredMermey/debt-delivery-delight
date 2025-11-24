@@ -12,7 +12,7 @@ export function useCampaigns(entityId?: string) {
         .select(`
           *,
           campaign_payment_methods(*),
-          consumers(*)
+          stats:campaign_stats(*)
         `)
         .order('created_at', { ascending: false });
       
@@ -46,6 +46,25 @@ export function useCampaign(campaignId: string | undefined) {
       
       if (error) throw error;
       return data as Campaign;
+    },
+    enabled: !!campaignId,
+  });
+}
+
+export function useCampaignStats(campaignId: string | undefined) {
+  return useQuery({
+    queryKey: ['campaign-stats', campaignId],
+    queryFn: async () => {
+      if (!campaignId) throw new Error('Campaign ID is required');
+      
+      const { data, error } = await supabase
+        .from('campaign_stats')
+        .select('*')
+        .eq('campaign_id', campaignId)
+        .single();
+      
+      if (error) throw error;
+      return data;
     },
     enabled: !!campaignId,
   });

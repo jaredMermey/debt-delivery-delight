@@ -6,8 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { campaignStore } from '@/lib/campaignStore';
-import { PaymentMethodType, ConsumerTracking } from '@/types/campaign';
+import { useCampaign, useCampaignStats } from '@/hooks/useCampaigns';
+import { useConsumerTracking } from '@/hooks/useConsumers';
+import { PaymentMethodType } from '@/types/campaign';
 import { AddPayeesDialog } from '@/components/admin/AddPayeesDialog';
 import { 
   ArrowLeft, 
@@ -26,23 +27,33 @@ import {
 export function CampaignReports() {
   const { campaignId } = useParams<{ campaignId: string }>();
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<ConsumerTracking['status'] | 'all'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'email_sent' | 'email_opened' | 'link_clicked' | 'payment_selected' | 'funds_originated' | 'funds_settled'>('all');
   const [paymentMethodFilter, setPaymentMethodFilter] = useState<PaymentMethodType | 'all'>('all');
   const [addPayeesOpen, setAddPayeesOpen] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
 
-  const campaign = campaignId ? campaignStore.getCampaign(campaignId) : null;
-  const stats = campaignId ? campaignStore.getCampaignStats(campaignId) : null;
+  const { data: campaign, isLoading: campaignLoading } = useCampaign(campaignId);
+  const { data: stats, isLoading: statsLoading } = useCampaignStats(campaignId);
+  const { data: trackingData = [], isLoading: trackingLoading } = useConsumerTracking(campaignId);
 
   const consumers = useMemo(() => {
-    if (!campaignId) return [];
+    if (!trackingData) return [];
     
-    const filters: any = {};
-    if (statusFilter !== 'all') filters.status = statusFilter;
-    if (paymentMethodFilter !== 'all') filters.paymentMethod = paymentMethodFilter;
-    
-    return campaignStore.searchConsumers(campaignId, searchQuery, filters);
-  }, [campaignId, searchQuery, statusFilter, paymentMethodFilter, refreshKey]);
+    return trackingData.filter(item => {
+      // Search filter
+      const searchLower = searchQuery.toLowerCase();
+      const matchesSearch = !searchQuery || 
+        item.consumers.name.toLowerCase().includes(searchLower) ||
+        item.consumers.email.toLowerCase().includes(searchLower);
+      
+      // Status filter
+      const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
+      
+      // Payment method filter
+      const matchesPaymentMethod = paymentMethodFilter === 'all' || item.payment_method_selected === paymentMethodFilter;
+      
+      return matchesSearch && matchesStatus && matchesPaymentMethod;
+    });
+  }, [trackingData, searchQuery, statusFilter, paymentMethodFilter]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -62,7 +73,7 @@ export function CampaignReports() {
     }).format(dateObj);
   };
 
-  const getStatusColor = (status: ConsumerTracking['status']) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return 'bg-slate-100 text-slate-800';
       case 'email_sent': return 'bg-blue-100 text-blue-800';
@@ -75,7 +86,7 @@ export function CampaignReports() {
     }
   };
 
-  const getStatusLabel = (status: ConsumerTracking['status']) => {
+  const getStatusLabel = (status: string) => {
     switch (status) {
       case 'pending': return 'Pending';
       case 'email_sent': return 'Email Sent';
@@ -87,6 +98,14 @@ export function CampaignReports() {
       default: return 'Unknown';
     }
   };
+
+  if (campaignLoading || statsLoading || trackingLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <p className="text-muted-foreground">Loading campaign reports...</p>
+      </div>
+    );
+  }
 
   if (!campaign || !stats) {
     return (
@@ -303,33 +322,33 @@ export function CampaignReports() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  consumers.map((consumer) => (
-                    <TableRow key={consumer.id}>
+                  consumers.map((item) => (
+                    <TableRow key={item.id}>
                       <TableCell>
                         <div>
-                          <p className="font-medium text-foreground">{consumer.name}</p>
-                          <p className="text-sm text-muted-foreground">{consumer.email}</p>
+                          <p className="font-medium text-foreground">{item.consumers.name}</p>
+                          <p className="text-sm text-muted-foreground">{item.consumers.email}</p>
                         </div>
                       </TableCell>
                       <TableCell className="font-medium">
-                        {formatCurrency(consumer.amount)}
+                        {formatCurrency(item.consumers.amount)}
                       </TableCell>
                       <TableCell>
-                        <Badge className={getStatusColor(consumer.tracking.status)}>
-                          {getStatusLabel(consumer.tracking.status)}
+                        <Badge className={getStatusColor(item.status || 'pending')}>
+                          {getStatusLabel(item.status || 'pending')}
                         </Badge>
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">
-                          {consumer.tracking.email_opened ? (
+                          {item.email_opened ? (
                             <span className="text-emerald-600 flex items-center gap-1">
                               <CheckCircle className="w-3 h-3" />
-                              {formatDateTime(consumer.tracking.email_opened_at)}
+                              {formatDateTime(item.email_opened_at)}
                             </span>
-                          ) : consumer.tracking.email_sent ? (
+                          ) : item.email_sent ? (
                             <span className="text-muted-foreground flex items-center gap-1">
                               <Clock className="w-3 h-3" />
-                              Sent {formatDateTime(consumer.tracking.email_sent_at)}
+                              Sent {formatDateTime(item.email_sent_at)}
                             </span>
                           ) : (
                             <span className="text-muted-foreground">-</span>
@@ -338,10 +357,10 @@ export function CampaignReports() {
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">
-                          {consumer.tracking.link_clicked ? (
+                          {item.link_clicked ? (
                             <span className="text-purple-600 flex items-center gap-1">
                               <CheckCircle className="w-3 h-3" />
-                              {formatDateTime(consumer.tracking.link_clicked_at)}
+                              {formatDateTime(item.link_clicked_at)}
                             </span>
                           ) : (
                             <span className="text-muted-foreground">-</span>
@@ -349,16 +368,16 @@ export function CampaignReports() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {consumer.tracking.payment_method_selected ? (
+                        {item.payment_method_selected ? (
                           <Badge variant="outline" className="capitalize">
-                            {consumer.tracking.payment_method_selected}
+                            {item.payment_method_selected}
                           </Badge>
                         ) : (
                           <span className="text-muted-foreground">-</span>
                         )}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">
-                        {formatDateTime(consumer.tracking.last_activity)}
+                        {formatDateTime(item.last_activity)}
                       </TableCell>
                     </TableRow>
                   ))
@@ -373,10 +392,9 @@ export function CampaignReports() {
         <AddPayeesDialog
           campaignId={campaign.id}
           campaignName={campaign.name}
-          existingConsumerCount={campaign.consumers.length}
+          existingConsumerCount={stats?.total_consumers || 0}
           open={addPayeesOpen}
           onOpenChange={setAddPayeesOpen}
-          onSuccess={() => setRefreshKey(prev => prev + 1)}
         />
       )}
     </div>

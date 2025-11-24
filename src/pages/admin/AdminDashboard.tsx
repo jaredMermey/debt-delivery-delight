@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { campaignStore } from "@/lib/campaignStore";
+import { useCampaigns, useDeleteCampaign } from "@/hooks/useCampaigns";
+import { useCurrentUserEntity } from "@/hooks/useEntities";
 import { Eye, Edit, Plus, Trash2, Users, DollarSign, BarChart3, UserPlus } from "lucide-react";
 import { AddPayeesDialog } from "@/components/admin/AddPayeesDialog";
 
 export function AdminDashboard() {
-  const [campaigns, setCampaigns] = useState(campaignStore.getAllCampaigns());
+  const { data: currentEntity } = useCurrentUserEntity();
+  const { data: campaigns = [], isLoading } = useCampaigns(currentEntity?.id);
+  const deleteCampaign = useDeleteCampaign();
+  
   const [addPayeesDialog, setAddPayeesDialog] = useState<{ open: boolean; campaignId: string; campaignName: string; existingCount: number }>({
     open: false,
     campaignId: '',
@@ -88,8 +92,7 @@ export function AdminDashboard() {
             size="sm" 
             onClick={() => {
               if (confirm('Are you sure you want to delete this campaign?')) {
-                campaignStore.deleteCampaign(campaign.id);
-                setCampaigns(campaignStore.getAllCampaigns());
+                deleteCampaign.mutate(campaign.id);
               }
             }}
           >
@@ -117,7 +120,13 @@ export function AdminDashboard() {
         </Link>
       </div>
 
-      {campaigns.length === 0 ? (
+      {isLoading ? (
+        <Card>
+          <CardContent className="flex items-center justify-center py-12">
+            <p className="text-muted-foreground">Loading campaigns...</p>
+          </CardContent>
+        </Card>
+      ) : campaigns.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <div className="text-center space-y-4">
@@ -139,8 +148,8 @@ export function AdminDashboard() {
       ) : (
         <div className="grid gap-6">
           {campaigns.map((campaign) => {
-            const totalDisbursement = campaignStore.getTotalDisbursement(campaign.id);
-            const consumerCount = campaign.consumers.length;
+            const totalDisbursement = campaign.stats?.total_amount || 0;
+            const consumerCount = campaign.stats?.total_consumers || 0;
             
             return (
               <Card key={campaign.id} className="hover:shadow-md transition-shadow">
@@ -184,7 +193,6 @@ export function AdminDashboard() {
         existingConsumerCount={addPayeesDialog.existingCount}
         open={addPayeesDialog.open}
         onOpenChange={(open) => setAddPayeesDialog({ ...addPayeesDialog, open })}
-        onSuccess={() => setCampaigns(campaignStore.getAllCampaigns())}
       />
     </div>
   );
