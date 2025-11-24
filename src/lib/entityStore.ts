@@ -131,9 +131,6 @@ class EntityStore {
     
     // Create mock users
     this.createMockUsers();
-    
-    // Set current user to Reliant admin for testing
-    this.currentUserId = 'user-reliant-admin';
   }
 
   private createDefaultRoles() {
