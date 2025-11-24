@@ -1,6 +1,12 @@
+/**
+ * @deprecated This file is deprecated and should not be used.
+ * All campaign operations now use Supabase hooks from @/hooks/useCampaigns.ts
+ * This file is kept only for reference and will be removed in a future update.
+ */
+
 import { Campaign, PaymentMethodConfig, Consumer, PaymentMethodType, ConsumerTracking, CampaignStats } from '@/types/campaign';
 
-// Mock data store - can be replaced with Supabase later
+// Mock data store - DEPRECATED - Use Supabase hooks instead
 class CampaignStore {
   private campaigns: Campaign[] = [];
   private tracking: ConsumerTracking[] = [];
