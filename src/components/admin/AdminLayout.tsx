@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AdminSidebar } from "./AdminSidebar";
 import { useBranding } from "@/contexts/BrandingContext";
 import { Badge } from "@/components/ui/badge";
-import { Building2, User } from "lucide-react";
+import { Building2, User, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,10 +13,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { entityStore } from "@/lib/entityStore";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function AdminLayout() {
-  const { branding, currentUser, currentEntity, currentRole, switchUser } = useBranding();
+  const { branding, currentUser, currentEntity, currentRole, isLoading } = useBranding();
+  const { signOut } = useAuth();
 
   const getEntityTypeLabel = (type: string) => {
     switch (type) {
@@ -36,14 +37,22 @@ export function AdminLayout() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
         <AdminSidebar />
         <div className="flex-1 flex flex-col">
-          <header className="h-14 flex items-center justify-between border-b px-4" style={{ backgroundColor: branding.brandColor }}>
+          <header className="h-14 flex items-center justify-between border-b px-4" style={{ backgroundColor: branding?.brand_color || '#1e40af' }}>
             <div className="flex items-center gap-4">
-              <img src={branding.logo} alt={branding.name} className="h-8 w-auto" />
+              {branding && <img src={branding.logo} alt={branding.name} className="h-8 w-auto" />}
             </div>
 
             <div className="flex items-center gap-3">
@@ -62,7 +71,7 @@ export function AdminLayout() {
                 </div>
               )}
 
-              {/* User Menu with Role Switcher (Dev Tool) */}
+              {/* User Menu */}
               {currentUser && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -77,27 +86,9 @@ export function AdminLayout() {
                       {currentUser.email}
                     </div>
                     <DropdownMenuSeparator />
-                    <DropdownMenuLabel className="text-xs text-muted-foreground">
-                      Switch User (Dev Tool)
-                    </DropdownMenuLabel>
-                    {entityStore.getAllUsers().map((user) => {
-                      const userEntity = entityStore.getEntity(user.entityId);
-                      const userRole = entityStore.roles.get(user.roleId);
-                      return (
-                        <DropdownMenuItem
-                          key={user.id}
-                          onClick={() => switchUser(user.id)}
-                          disabled={user.id === currentUser.id}
-                        >
-                          <div className="flex flex-col gap-1">
-                            <div className="font-medium">{user.name}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {userEntity?.name} • {userRole?.name}
-                            </div>
-                          </div>
-                        </DropdownMenuItem>
-                      );
-                    })}
+                    <DropdownMenuItem onClick={signOut}>
+                      Sign Out
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}

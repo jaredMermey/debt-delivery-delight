@@ -90,13 +90,13 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
   const [showPrepaidMarketing, setShowPrepaidMarketing] = useState(false);
 
   // Filter enabled payment methods
-  const enabledMethods = campaign.paymentMethods
+  const enabledMethods = (campaign.campaign_payment_methods || [])
     .filter(pm => pm.enabled)
-    .sort((a, b) => a.displayOrder - b.displayOrder);
+    .sort((a, b) => a.display_order - b.display_order);
 
   // Convert to payment method format expected by existing components
   const paymentMethods = enabledMethods.map(pm => {
-    const config = campaign.paymentMethods.find(c => c.type === pm.type)!;
+    const config = (campaign.campaign_payment_methods || []).find(c => c.type === pm.type)!;
     let benefits = [...PAYMENT_METHOD_BENEFITS[pm.type]];
     let fee: string | undefined;
     
@@ -187,7 +187,7 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
         <ProgressHeader 
           currentStep={currentStep} 
           progressValue={getProgressValue()} 
-          bankLogo={campaign.bankLogo}
+          bankLogo={campaign.bank_logo}
         />
 
         {/* Back Button */}
@@ -214,11 +214,11 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
             ))}
             
             {/* Advertisement Card */}
-            {campaign.advertisementEnabled && campaign.advertisementImage && (
+            {campaign.advertisement_enabled && campaign.advertisement_image && (
               <ClassActionAdCard 
-                image={campaign.advertisementImage}
-                clickable={!!campaign.advertisementUrl}
-                url={campaign.advertisementUrl}
+                image={campaign.advertisement_image}
+                clickable={!!campaign.advertisement_url}
+                url={campaign.advertisement_url}
               />
             )}
           </div>
