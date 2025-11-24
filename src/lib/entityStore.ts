@@ -1,4 +1,8 @@
 import { Entity, User, UserRole, UserPermission } from "@/types/campaign";
+import reliantLogo from "@/assets/reliant-logo.png";
+import axosBankLogo from "@/assets/axos-bank-logo.png";
+import northwestBankLogo from "@/assets/northwest-bank-logo.png";
+import coterieLogo from "@/assets/coterie-logo.png";
 
 // All available permissions
 export const PERMISSIONS: UserPermission[] = [
@@ -41,12 +45,15 @@ class EntityStore {
   }
 
   private initializeMockData() {
+    // Check localStorage for persisted user
+    const savedUserId = localStorage.getItem('currentUserId');
+    this.currentUserId = savedUserId || 'user-reliant-admin';
     // Root entity: Reliant
     const reliant: Entity = {
       id: 'entity-reliant',
       name: 'Reliant',
       type: 'root',
-      logo: '/lovable-uploads/reliant-logo.png', // Will need to be created
+      logo: reliantLogo,
       brandColor: '#1e40af',
       createdAt: new Date('2024-01-01'),
     };
@@ -57,7 +64,7 @@ class EntityStore {
       id: 'entity-coterie',
       name: 'Coterie Insurance',
       type: 'customer',
-      logo: '/src/assets/coterie-logo.png',
+      logo: coterieLogo,
       brandColor: '#7c3aed',
       createdAt: new Date('2024-02-01'),
     };
@@ -68,7 +75,7 @@ class EntityStore {
       id: 'entity-northwest',
       name: 'Northwest Bank',
       type: 'distributor',
-      logo: '/src/assets/northwest-bank-logo.png',
+      logo: northwestBankLogo,
       brandColor: '#059669',
       createdAt: new Date('2024-01-15'),
     };
@@ -78,7 +85,7 @@ class EntityStore {
       id: 'entity-axos',
       name: 'Axos Bank',
       type: 'distributor',
-      logo: '/src/assets/axos-bank-logo.png',
+      logo: axosBankLogo,
       brandColor: '#dc2626',
       createdAt: new Date('2024-01-20'),
     };
@@ -233,6 +240,7 @@ class EntityStore {
 
   setCurrentUser(userId: string) {
     this.currentUserId = userId;
+    localStorage.setItem('currentUserId', userId);
   }
 
   getCurrentUserEntity(): Entity | null {
