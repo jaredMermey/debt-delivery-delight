@@ -54,8 +54,8 @@ class EntityStore {
       name: 'Reliant',
       type: 'root',
       logo: reliantLogo,
-      brandColor: '#1e40af',
-      createdAt: new Date('2024-01-01'),
+      brand_color: '#1e40af',
+      created_at: new Date('2024-01-01').toISOString(),
     };
     this.entities.set(reliant.id, reliant);
 
@@ -65,8 +65,8 @@ class EntityStore {
       name: 'Coterie Insurance',
       type: 'customer',
       logo: coterieLogo,
-      brandColor: '#7c3aed',
-      createdAt: new Date('2024-02-01'),
+      brand_color: '#7c3aed',
+      created_at: new Date('2024-02-01').toISOString(),
     };
     this.entities.set(coterie.id, coterie);
 
@@ -76,8 +76,8 @@ class EntityStore {
       name: 'Northwest Bank',
       type: 'distributor',
       logo: northwestBankLogo,
-      brandColor: '#059669',
-      createdAt: new Date('2024-01-15'),
+      brand_color: '#059669',
+      created_at: new Date('2024-01-15').toISOString(),
     };
     this.entities.set(northwestBank.id, northwestBank);
 
@@ -86,8 +86,8 @@ class EntityStore {
       name: 'Axos Bank',
       type: 'distributor',
       logo: axosBankLogo,
-      brandColor: '#dc2626',
-      createdAt: new Date('2024-01-20'),
+      brand_color: '#dc2626',
+      created_at: new Date('2024-01-20').toISOString(),
     };
     this.entities.set(axosBank.id, axosBank);
 
@@ -97,9 +97,9 @@ class EntityStore {
       name: 'Smith Manufacturing',
       type: 'customer',
       logo: '/lovable-uploads/b8219251-a9f5-4a4d-afdd-08c4573a268d.png',
-      parentEntityId: northwestBank.id,
-      brandColor: '#2563eb',
-      createdAt: new Date('2024-03-01'),
+      parent_entity_id: northwestBank.id,
+      brand_color: '#2563eb',
+      created_at: new Date('2024-03-01').toISOString(),
     };
     this.entities.set(nwCustomer1.id, nwCustomer1);
 
@@ -108,9 +108,9 @@ class EntityStore {
       name: 'Johnson Logistics',
       type: 'customer',
       logo: '/lovable-uploads/35732e94-7d2c-42fe-9948-65816587b726.png',
-      parentEntityId: northwestBank.id,
-      brandColor: '#0891b2',
-      createdAt: new Date('2024-03-15'),
+      parent_entity_id: northwestBank.id,
+      brand_color: '#0891b2',
+      created_at: new Date('2024-03-15').toISOString(),
     };
     this.entities.set(nwCustomer2.id, nwCustomer2);
 
@@ -120,9 +120,9 @@ class EntityStore {
       name: 'Williams Retail',
       type: 'customer',
       logo: '/lovable-uploads/15de4c78-6af4-4aa6-92c9-16fa882c3521.png',
-      parentEntityId: axosBank.id,
-      brandColor: '#ea580c',
-      createdAt: new Date('2024-03-20'),
+      parent_entity_id: axosBank.id,
+      brand_color: '#ea580c',
+      created_at: new Date('2024-03-20').toISOString(),
     };
     this.entities.set(axosCustomer1.id, axosCustomer1);
 
@@ -138,7 +138,7 @@ class EntityStore {
     const reliantAdmin: UserRole = {
       id: 'role-reliant-admin',
       name: 'Reliant Administrator',
-      entityId: 'entity-reliant',
+      entity_id: 'entity-reliant',
       permissions: PERMISSIONS.map(p => p.id), // All permissions
     };
     this.roles.set(reliantAdmin.id, reliantAdmin);
@@ -147,7 +147,7 @@ class EntityStore {
     const coterieAdmin: UserRole = {
       id: 'role-coterie-admin',
       name: 'Administrator',
-      entityId: 'entity-coterie',
+      entity_id: 'entity-coterie',
       permissions: [
         'campaigns.view', 'campaigns.create', 'campaigns.edit', 'campaigns.delete', 'campaigns.send',
         'users.view', 'users.create', 'users.edit', 'users.delete',
@@ -160,7 +160,7 @@ class EntityStore {
     const coterieCampaignManager: UserRole = {
       id: 'role-coterie-campaign-mgr',
       name: 'Campaign Manager',
-      entityId: 'entity-coterie',
+      entity_id: 'entity-coterie',
       permissions: [
         'campaigns.view', 'campaigns.create', 'campaigns.edit', 'campaigns.send',
         'reports.view',
@@ -172,7 +172,7 @@ class EntityStore {
     const distributorAdmin: UserRole = {
       id: 'role-nw-admin',
       name: 'Bank Administrator',
-      entityId: 'entity-northwest',
+      entity_id: 'entity-northwest',
       permissions: [
         'campaigns.view', 'campaigns.create', 'campaigns.edit', 'campaigns.delete', 'campaigns.send',
         'users.view', 'users.create', 'users.edit', 'users.delete',
@@ -190,9 +190,9 @@ class EntityStore {
       id: 'user-reliant-admin',
       name: 'Alex Rivera',
       email: 'alex@reliant.com',
-      entityId: 'entity-reliant',
-      roleId: 'role-reliant-admin',
-      createdAt: new Date('2024-01-01'),
+      entity_id: 'entity-reliant',
+      role_id: 'role-reliant-admin',
+      created_at: new Date('2024-01-01').toISOString(),
     };
     this.users.set(reliantAdmin.id, reliantAdmin);
 
@@ -201,9 +201,9 @@ class EntityStore {
       id: 'user-coterie-admin',
       name: 'Sarah Chen',
       email: 'sarah@coterie.com',
-      entityId: 'entity-coterie',
-      roleId: 'role-coterie-admin',
-      createdAt: new Date('2024-02-01'),
+      entity_id: 'entity-coterie',
+      role_id: 'role-coterie-admin',
+      created_at: new Date('2024-02-01').toISOString(),
     };
     this.users.set(coterieAdmin.id, coterieAdmin);
 
@@ -211,9 +211,9 @@ class EntityStore {
       id: 'user-coterie-campaign-mgr',
       name: 'Mike Johnson',
       email: 'mike@coterie.com',
-      entityId: 'entity-coterie',
-      roleId: 'role-coterie-campaign-mgr',
-      createdAt: new Date('2024-02-15'),
+      entity_id: 'entity-coterie',
+      role_id: 'role-coterie-campaign-mgr',
+      created_at: new Date('2024-02-15').toISOString(),
     };
     this.users.set(coterieCampaignMgr.id, coterieCampaignMgr);
 
@@ -222,9 +222,9 @@ class EntityStore {
       id: 'user-nw-admin',
       name: 'Jennifer Martinez',
       email: 'jennifer@northwestbank.com',
-      entityId: 'entity-northwest',
-      roleId: 'role-nw-admin',
-      createdAt: new Date('2024-01-15'),
+      entity_id: 'entity-northwest',
+      role_id: 'role-nw-admin',
+      created_at: new Date('2024-01-15').toISOString(),
     };
     this.users.set(nwAdmin.id, nwAdmin);
   }
@@ -243,13 +243,13 @@ class EntityStore {
   getCurrentUserEntity(): Entity | null {
     const user = this.getCurrentUser();
     if (!user) return null;
-    return this.entities.get(user.entityId) || null;
+    return this.entities.get(user.entity_id) || null;
   }
 
   getCurrentUserRole(): UserRole | null {
     const user = this.getCurrentUser();
     if (!user) return null;
-    return this.roles.get(user.roleId) || null;
+    return this.roles.get(user.role_id) || null;
   }
 
   hasPermission(permission: string): boolean {
@@ -274,7 +274,7 @@ class EntityStore {
   getCustomers(distributorId?: string): Entity[] {
     if (distributorId) {
       return this.getAllEntities().filter(
-        e => e.type === 'customer' && e.parentEntityId === distributorId
+        e => e.type === 'customer' && e.parent_entity_id === distributorId
       );
     }
     return this.getAllEntities().filter(e => e.type === 'customer');
@@ -282,7 +282,7 @@ class EntityStore {
 
   getDirectCustomers(): Entity[] {
     return this.getAllEntities().filter(
-      e => e.type === 'customer' && !e.parentEntityId
+      e => e.type === 'customer' && !e.parent_entity_id
     );
   }
 
@@ -292,8 +292,8 @@ class EntityStore {
     
     while (currentEntity) {
       hierarchy.unshift(currentEntity);
-      if (currentEntity.parentEntityId) {
-        currentEntity = this.getEntity(currentEntity.parentEntityId);
+      if (currentEntity.parent_entity_id) {
+        currentEntity = this.getEntity(currentEntity.parent_entity_id);
       } else {
         break;
       }
@@ -309,7 +309,7 @@ class EntityStore {
       return this.entities.get('entity-reliant')!;
     }
 
-    const userEntity = this.entities.get(user.entityId)!;
+    const userEntity = this.entities.get(user.entity_id)!;
     
     // If user is from Reliant, show Reliant branding
     if (userEntity.type === 'root') {
@@ -324,8 +324,8 @@ class EntityStore {
     // If user is from a customer
     if (userEntity.type === 'customer') {
       // If customer has a parent distributor, show distributor branding
-      if (userEntity.parentEntityId) {
-        return this.entities.get(userEntity.parentEntityId)!;
+      if (userEntity.parent_entity_id) {
+        return this.entities.get(userEntity.parent_entity_id)!;
       }
       // If direct customer, show their own branding
       return userEntity;

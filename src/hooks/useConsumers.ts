@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Consumer } from '@/types/campaign';
 import { useToast } from '@/hooks/use-toast';
+import { TablesInsert } from '@/integrations/supabase/types';
 
 export function useConsumers(campaignId: string | undefined) {
   return useQuery({
@@ -30,9 +31,16 @@ export function useAddConsumer() {
   
   return useMutation({
     mutationFn: async ({ campaignId, consumer }: { campaignId: string; consumer: Partial<Consumer> }) => {
+      const insertData: TablesInsert<'consumers'> = {
+        name: consumer.name!,
+        email: consumer.email!,
+        amount: consumer.amount!,
+        campaign_id: campaignId
+      };
+      
       const { data, error } = await supabase
         .from('consumers')
-        .insert({ ...consumer, campaign_id: campaignId })
+        .insert(insertData)
         .select()
         .single();
       
@@ -63,8 +71,10 @@ export function useAddConsumers() {
   
   return useMutation({
     mutationFn: async ({ campaignId, consumers }: { campaignId: string; consumers: Partial<Consumer>[] }) => {
-      const consumersData = consumers.map(c => ({
-        ...c,
+      const consumersData: TablesInsert<'consumers'>[] = consumers.map(c => ({
+        name: c.name!,
+        email: c.email!,
+        amount: c.amount!,
         campaign_id: campaignId
       }));
       

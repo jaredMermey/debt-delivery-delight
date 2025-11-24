@@ -38,7 +38,7 @@ export function AdvertisementStep({ data, onUpdate }: AdvertisementStepProps) {
   const handleFile = (file: File) => {
     if (file.type.startsWith('image/')) {
       const url = URL.createObjectURL(file);
-      onUpdate({ advertisementImage: url });
+      onUpdate({ advertisement_image: url });
     }
   };
 
@@ -67,30 +67,30 @@ export function AdvertisementStep({ data, onUpdate }: AdvertisementStepProps) {
             </p>
           </div>
           <Switch
-            checked={data.advertisementEnabled ?? true}
-            onCheckedChange={(advertisementEnabled) => onUpdate({ advertisementEnabled })}
+            checked={data.advertisement_enabled ?? true}
+            onCheckedChange={(advertisement_enabled) => onUpdate({ advertisement_enabled })}
           />
         </div>
 
-        {data.advertisementEnabled && (
+        {data.advertisement_enabled && (
           <div className="space-y-6">
             <div className="space-y-2">
               <Label className="text-sm font-medium text-foreground">
                 Advertisement Image
               </Label>
               
-              {data.advertisementImage ? (
+              {data.advertisement_image ? (
                 <div className="space-y-4">
                   <div className="relative inline-block">
                     <img 
-                      src={data.advertisementImage} 
+                      src={data.advertisement_image} 
                       alt="Advertisement" 
                       className="w-full max-w-sm border border-border rounded-lg"
                     />
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => onUpdate({ advertisementImage: '' })}
+                      onClick={() => onUpdate({ advertisement_image: '' })}
                       className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
                     >
                       <X className="h-3 w-3" />
@@ -138,15 +138,15 @@ export function AdvertisementStep({ data, onUpdate }: AdvertisementStepProps) {
               <div className="relative">
                 <Input
                   id="adUrl"
-                  value={data.advertisementUrl || ''}
-                  onChange={(e) => onUpdate({ advertisementUrl: e.target.value })}
+                  value={data.advertisement_url || ''}
+                  onChange={(e) => onUpdate({ advertisement_url: e.target.value })}
                   placeholder="https://example.com"
                   className="pr-10"
                 />
-                {data.advertisementUrl && (
+                {data.advertisement_url && (
                   <button
                     type="button"
-                    onClick={() => window.open(data.advertisementUrl, '_blank', 'noopener,noreferrer')}
+                    onClick={() => window.open(data.advertisement_url, '_blank', 'noopener,noreferrer')}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                     aria-label="Open URL in new tab"
                   >
@@ -160,19 +160,19 @@ export function AdvertisementStep({ data, onUpdate }: AdvertisementStepProps) {
             </div>
 
             {/* Preview Section */}
-            {data.advertisementImage && (
+            {data.advertisement_image && (
               <div className="space-y-2">
                 <Label className="text-sm font-medium text-foreground">Preview</Label>
                 <div className="border border-border rounded-lg p-4 max-w-sm bg-background">
                   <div className="aspect-square rounded-lg overflow-hidden mb-2">
                     <img 
-                      src={data.advertisementImage} 
+                      src={data.advertisement_image} 
                       alt="Ad Preview" 
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <p className="text-xs text-muted-foreground text-center">
-                    {data.advertisementUrl ? (
+                    {data.advertisement_url ? (
                       <>Clickable advertisement</>
                     ) : (
                       <>Display only</>
