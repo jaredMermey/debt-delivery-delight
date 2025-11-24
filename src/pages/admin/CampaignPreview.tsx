@@ -2,14 +2,22 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Eye } from "lucide-react";
-import { campaignStore } from "@/lib/campaignStore";
+import { useCampaign } from "@/hooks/useCampaigns";
 import { ConsumerInterface } from "@/components/ConsumerInterface";
 
 export function CampaignPreview() {
   const { campaignId } = useParams<{ campaignId: string }>();
   const navigate = useNavigate();
   
-  const campaign = campaignId ? campaignStore.getCampaign(campaignId) : null;
+  const { data: campaign, isLoading } = useCampaign(campaignId);
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-muted-foreground">Loading campaign...</p>
+      </div>
+    );
+  }
 
   if (!campaign) {
     return (
@@ -42,13 +50,7 @@ export function CampaignPreview() {
           
           <Button 
             variant="outline" 
-            onClick={() => {
-              const isEditMode = campaign.status !== 'draft';
-              const route = isEditMode 
-                ? `/admin/campaign/${campaign.id}/edit`
-                : '/admin/campaign/new';
-              navigate(route);
-            }}
+            onClick={() => navigate('/admin')}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back

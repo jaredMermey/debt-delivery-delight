@@ -8,22 +8,40 @@ import { PaymentMethodsStep } from "@/components/admin/wizard/PaymentMethodsStep
 import { AdvertisementStep } from "@/components/admin/wizard/AdvertisementStep";
 import { ConsumerListStep } from "@/components/admin/wizard/ConsumerListStep";
 import { ReviewStep } from "@/components/admin/wizard/ReviewStep";
-import { campaignStore, DEFAULT_PAYMENT_METHODS } from "@/lib/campaignStore";
 import { Campaign, PaymentMethodConfig, Consumer } from "@/types/campaign";
-import { entityStore } from "@/lib/entityStore";
+import { useCurrentUserEntity } from "@/hooks/useEntities";
+import { useCreateCampaign, useUpdateCampaign, useCampaign } from "@/hooks/useCampaigns";
+import { toast } from "sonner";
+
+const DEFAULT_PAYMENT_METHODS: PaymentMethodConfig[] = [
+  { type: 'ach', enabled: true, fee_type: 'dollar', fee_amount: 0, display_order: 1 },
+  { type: 'check', enabled: true, fee_type: 'dollar', fee_amount: 0, display_order: 2 },
+  { type: 'prepaid', enabled: true, fee_type: 'dollar', fee_amount: 0, display_order: 3 },
+  { type: 'realtime', enabled: false, fee_type: 'dollar', fee_amount: 0, display_order: 4 },
+  { type: 'paypal', enabled: false, fee_type: 'dollar', fee_amount: 0, display_order: 5 },
+  { type: 'venmo', enabled: false, fee_type: 'dollar', fee_amount: 0, display_order: 6 },
+  { type: 'zelle', enabled: false, fee_type: 'dollar', fee_amount: 0, display_order: 7 },
+  { type: 'crypto', enabled: false, fee_type: 'dollar', fee_amount: 0, display_order: 8 },
+  { type: 'international', enabled: false, fee_type: 'dollar', fee_amount: 0, display_order: 9 },
+];
 
 export function CampaignWizard() {
   const navigate = useNavigate();
   const { campaignId } = useParams();
   const isEditMode = Boolean(campaignId);
   const [currentStep, setCurrentStep] = useState(1);
-  const [previewCampaignId, setPreviewCampaignId] = useState<string | null>(null);
-  const currentEntity = entityStore.getCurrentUserEntity();
+  const [createdCampaignId, setCreatedCampaignId] = useState<string | null>(null);
+  
+  const { data: currentEntity } = useCurrentUserEntity();
+  const { data: existingCampaign, isLoading: isLoadingCampaign } = useCampaign(campaignId);
+  const createCampaign = useCreateCampaign();
+  const updateCampaign = useUpdateCampaign();
+  
   const [campaignData, setCampaignData] = useState<Partial<Campaign>>({
     name: '',
     description: '',
     bank_logo: '',
-    entity_id: currentEntity?.id || 'entity-coterie',
+    entity_id: currentEntity?.id || '',
     payment_methods: DEFAULT_PAYMENT_METHODS,
     advertisement_image: '',
     advertisement_url: '',
@@ -31,47 +49,19 @@ export function CampaignWizard() {
     consumers: []
   });
 
-  // Load existing campaign data when in edit mode or restore from sessionStorage
+  // Update entity_id when currentEntity loads
   useEffect(() => {
-    const storageKey = `campaign-wizard-${campaignId || 'new'}`;
-    const savedStep = sessionStorage.getItem(`${storageKey}-step`);
-    const savedData = sessionStorage.getItem(`${storageKey}-data`);
-    const savedPreviewId = sessionStorage.getItem(`${storageKey}-preview-id`);
-    
-    if (isEditMode && campaignId) {
-      // Edit mode: load from store
-      const existingCampaign = campaignStore.getCampaign(campaignId);
-      if (existingCampaign) {
-        setCampaignData(existingCampaign);
-        
-        // Restore step if returning from preview
-        if (savedStep) {
-          setCurrentStep(parseInt(savedStep, 10));
-        }
-      } else {
-        // Campaign not found, redirect to dashboard
-        navigate('/admin');
-      }
-    } else if (savedData) {
-      // New campaign: restore from sessionStorage if returning from preview
-      try {
-        setCampaignData(JSON.parse(savedData));
-        if (savedStep) {
-          setCurrentStep(parseInt(savedStep, 10));
-        }
-        if (savedPreviewId) {
-          setPreviewCampaignId(savedPreviewId);
-        }
-      } catch (error) {
-        console.error('Failed to restore campaign data:', error);
-      }
+    if (currentEntity?.id && !campaignData.entity_id) {
+      setCampaignData(prev => ({ ...prev, entity_id: currentEntity.id }));
     }
-    
-    // Clean up sessionStorage after restoration
-    if (savedStep) sessionStorage.removeItem(`${storageKey}-step`);
-    if (savedData) sessionStorage.removeItem(`${storageKey}-data`);
-    if (savedPreviewId) sessionStorage.removeItem(`${storageKey}-preview-id`);
-  }, [campaignId, isEditMode, navigate]);
+  }, [currentEntity, campaignData.entity_id]);
+
+  // Load existing campaign data when in edit mode
+  useEffect(() => {
+    if (isEditMode && existingCampaign) {
+      setCampaignData(existingCampaign);
+    }
+  }, [isEditMode, existingCampaign]);
 
   const totalSteps = 5;
   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
@@ -88,22 +78,28 @@ export function CampaignWizard() {
     setCampaignData(prev => ({ ...prev, ...updates }));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < totalSteps) {
       // If moving to ReviewStep (step 5) and no campaign exists yet, create it
-      if (currentStep === 4 && !campaignId && !previewCampaignId) {
-        const newCampaign = campaignStore.createCampaign({
-          name: campaignData.name!,
-          description: campaignData.description!,
-          bank_logo: campaignData.bank_logo!,
-          entity_id: campaignData.entity_id!,
-          payment_methods: campaignData.payment_methods!,
-          advertisement_image: campaignData.advertisement_image || '',
-          advertisement_url: campaignData.advertisement_url || '',
-          advertisement_enabled: campaignData.advertisement_enabled ?? true,
-          consumers: campaignData.consumers!
-        });
-        setPreviewCampaignId(newCampaign.id);
+      if (currentStep === 4 && !campaignId && !createdCampaignId) {
+        try {
+          const result = await createCampaign.mutateAsync({
+            name: campaignData.name!,
+            description: campaignData.description!,
+            bank_logo: campaignData.bank_logo!,
+            entity_id: campaignData.entity_id!,
+            payment_methods: campaignData.payment_methods!,
+            advertisement_image: campaignData.advertisement_image || '',
+            advertisement_url: campaignData.advertisement_url || '',
+            advertisement_enabled: campaignData.advertisement_enabled ?? true,
+            consumers: campaignData.consumers!
+          });
+          setCreatedCampaignId(result.id);
+          toast.success("Campaign created successfully");
+        } catch (error) {
+          toast.error("Failed to create campaign");
+          return;
+        }
       }
       setCurrentStep(currentStep + 1);
     }
@@ -115,35 +111,15 @@ export function CampaignWizard() {
     }
   };
 
-  const handlePreview = () => {
-    const storageKey = `campaign-wizard-${campaignId || 'new'}`;
-    
-    // Store step and data for returning from preview
-    sessionStorage.setItem(`${storageKey}-step`, currentStep.toString());
-    sessionStorage.setItem(`${storageKey}-data`, JSON.stringify(campaignData));
-    
+  const handlePreview = async () => {
     if (isEditMode && campaignId) {
-      // Use existing campaign for preview
       navigate(`/admin/preview/${campaignId}`);
+    } else if (createdCampaignId) {
+      navigate(`/admin/preview/${createdCampaignId}`);
     } else {
-      // Reuse existing preview campaign or create new one
-      let previewId = previewCampaignId;
-      
-      if (previewId) {
-        // Update existing preview campaign
-        campaignStore.updateCampaign(previewId, {
-          name: campaignData.name || 'Preview Campaign',
-          description: campaignData.description || 'Preview description',
-          bank_logo: campaignData.bank_logo || '',
-          payment_methods: campaignData.payment_methods || DEFAULT_PAYMENT_METHODS,
-          advertisement_image: campaignData.advertisement_image || '',
-          advertisement_url: campaignData.advertisement_url || '',
-          advertisement_enabled: campaignData.advertisement_enabled ?? true,
-          consumers: campaignData.consumers || []
-        });
-      } else {
-        // Create new preview campaign
-        const tempCampaign = campaignStore.createCampaign({
+      // Create a temporary campaign for preview
+      try {
+        const result = await createCampaign.mutateAsync({
           name: campaignData.name || 'Preview Campaign',
           description: campaignData.description || 'Preview description',
           bank_logo: campaignData.bank_logo || '',
@@ -154,63 +130,17 @@ export function CampaignWizard() {
           advertisement_enabled: campaignData.advertisement_enabled ?? true,
           consumers: campaignData.consumers || []
         });
-        previewId = tempCampaign.id;
-        setPreviewCampaignId(previewId);
+        setCreatedCampaignId(result.id);
+        navigate(`/admin/preview/${result.id}`);
+      } catch (error) {
+        toast.error("Failed to create preview");
       }
-      
-      // Store preview ID for restoration
-      sessionStorage.setItem(`${storageKey}-preview-id`, previewId);
-      navigate(`/admin/preview/${previewId}`);
     }
   };
 
   const handleComplete = () => {
-    const storageKey = `campaign-wizard-${campaignId || 'new'}`;
-    
-    if (isEditMode && campaignId) {
-      // Update existing campaign
-      campaignStore.updateCampaign(campaignId, {
-        name: campaignData.name!,
-        description: campaignData.description!,
-        bank_logo: campaignData.bank_logo!,
-        payment_methods: campaignData.payment_methods!,
-        advertisement_image: campaignData.advertisement_image || '',
-        advertisement_url: campaignData.advertisement_url || '',
-        advertisement_enabled: campaignData.advertisement_enabled ?? true,
-        consumers: campaignData.consumers!
-      });
-    } else if (previewCampaignId) {
-      // Update the existing preview campaign (no duplicate created)
-      campaignStore.updateCampaign(previewCampaignId, {
-        name: campaignData.name!,
-        description: campaignData.description!,
-        bank_logo: campaignData.bank_logo!,
-        payment_methods: campaignData.payment_methods!,
-        advertisement_image: campaignData.advertisement_image || '',
-        advertisement_url: campaignData.advertisement_url || '',
-        advertisement_enabled: campaignData.advertisement_enabled ?? true,
-        consumers: campaignData.consumers!
-      });
-    } else {
-      // Create new campaign (only if no preview was created)
-      campaignStore.createCampaign({
-        name: campaignData.name!,
-        description: campaignData.description!,
-        bank_logo: campaignData.bank_logo!,
-        entity_id: campaignData.entity_id!,
-        payment_methods: campaignData.payment_methods!,
-        advertisement_image: campaignData.advertisement_image || '',
-        advertisement_url: campaignData.advertisement_url || '',
-        advertisement_enabled: campaignData.advertisement_enabled ?? true,
-        consumers: campaignData.consumers!
-      });
-    }
-
-    // Clean up sessionStorage
-    sessionStorage.removeItem(`${storageKey}-step`);
-    sessionStorage.removeItem(`${storageKey}-data`);
-    sessionStorage.removeItem(`${storageKey}-preview-id`);
-
+    // Campaign is already created/updated, just navigate to dashboard
+    toast.success("Campaign saved successfully");
     navigate('/admin');
   };
 
@@ -262,10 +192,9 @@ export function CampaignWizard() {
           />
         );
       case 5:
-        // Ensure campaign has an ID before showing ReviewStep
         const reviewData = {
           ...campaignData,
-          id: campaignId || previewCampaignId || '',
+          id: campaignId || createdCampaignId || '',
         } as Campaign;
         
         return (

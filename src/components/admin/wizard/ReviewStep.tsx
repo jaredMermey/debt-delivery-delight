@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Send, Users, DollarSign, CreditCard, Image, Mail } from "lucide-react";
 import { Campaign } from "@/types/campaign";
 import { useNavigate } from "react-router-dom";
-import { campaignStore } from "@/lib/campaignStore";
+import { useSendCampaign } from "@/hooks/useCampaigns";
+import { toast } from "sonner";
 
 interface ReviewStepProps {
   data: Campaign;
@@ -13,20 +14,19 @@ interface ReviewStepProps {
 
 export function ReviewStep({ data, onComplete }: ReviewStepProps) {
   const navigate = useNavigate();
+  const sendCampaign = useSendCampaign();
   const enabledMethods = data.payment_methods.filter(pm => pm.enabled);
   const totalAmount = data.consumers.reduce((sum, consumer) => sum + consumer.amount, 0);
   const averageAmount = data.consumers.length > 0 ? totalAmount / data.consumers.length : 0;
 
-  const handleSendCampaign = () => {
-    // Send the campaign and generate tracking data
-    const sentCampaign = campaignStore.sendCampaign(data.id);
-    
-    if (sentCampaign) {
-      // Redirect to reports
+  const handleSendCampaign = async () => {
+    try {
+      await sendCampaign.mutateAsync(data.id);
+      toast.success("Campaign sent successfully!");
       navigate(`/admin/campaign/${data.id}/reports`);
-    } else {
-      // Fallback if sending fails
-      onComplete();
+    } catch (error) {
+      toast.error("Failed to send campaign");
+      console.error(error);
     }
   };
 
