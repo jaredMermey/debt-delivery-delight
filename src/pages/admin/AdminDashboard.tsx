@@ -163,9 +163,9 @@ export function AdminDashboard() {
                           <DollarSign className="w-4 h-4" />
                           <span>{formatCurrency(totalDisbursement)} total</span>
                         </div>
-                        <span>Created {campaign.createdAt.toLocaleDateString()}</span>
-                        {campaign.sentAt && (
-                          <span>Sent {campaign.sentAt.toLocaleDateString()}</span>
+                        <span>Created {new Date(campaign.created_at).toLocaleDateString()}</span>
+                        {campaign.sent_at && (
+                          <span>Sent {new Date(campaign.sent_at).toLocaleDateString()}</span>
                         )}
                       </div>
                     </div>

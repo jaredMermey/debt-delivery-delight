@@ -11,13 +11,15 @@ import { CampaignWizard } from "./pages/admin/CampaignWizard";
 import { CampaignPreview } from "./pages/admin/CampaignPreview";
 import { CampaignReports } from "./components/admin/CampaignReports";
 import { BrandingProvider } from "./contexts/BrandingContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <BrandingProvider>
-      <TooltipProvider>
+    <AuthProvider>
+      <BrandingProvider>
+        <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -37,6 +39,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </BrandingProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
