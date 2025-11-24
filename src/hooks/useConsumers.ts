@@ -95,22 +95,64 @@ export function useAddConsumers() {
       if (campaignError) throw campaignError;
       
       if (campaign.status === 'sent' && newConsumers) {
-        // Generate token for each new consumer
+        // Generate token and tracking data for each new consumer
         for (const consumer of newConsumers) {
+          // Generate token
           const { error: tokenError } = await supabase.rpc('generate_consumer_token', {
             _consumer_id: consumer.id,
             _campaign_id: campaignId
           });
           
           if (tokenError) throw tokenError;
+          
+          // Generate mock tracking data for this consumer
+          const progression = Math.random();
+          const emailSentAt = new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000);
+          const emailOpenedAt = progression > 0.3 ? new Date(emailSentAt.getTime() + Math.random() * 2 * 60 * 60 * 1000) : null;
+          const linkClickedAt = emailOpenedAt && progression > 0.5 ? new Date(emailOpenedAt.getTime() + Math.random() * 30 * 60 * 1000) : null;
+          const paymentMethods = ['ach', 'prepaid', 'check', 'realtime', 'venmo', 'paypal'];
+          const paymentMethodSelected = linkClickedAt && progression > 0.6 ? paymentMethods[Math.floor(Math.random() * paymentMethods.length)] : null;
+          const paymentSelectedAt = paymentMethodSelected ? new Date(linkClickedAt!.getTime() + Math.random() * 10 * 60 * 1000) : null;
+          const fundsOriginatedAt = paymentSelectedAt && progression > 0.7 ? new Date(paymentSelectedAt.getTime() + Math.random() * 60 * 60 * 1000) : null;
+          const fundsSettledAt = fundsOriginatedAt && progression > 0.8 ? new Date(fundsOriginatedAt.getTime() + Math.random() * 24 * 60 * 60 * 1000) : null;
+          
+          let status: 'email_sent' | 'email_opened' | 'link_clicked' | 'payment_selected' | 'funds_originated' | 'funds_settled' = 'email_sent';
+          if (fundsSettledAt) status = 'funds_settled';
+          else if (fundsOriginatedAt) status = 'funds_originated';
+          else if (paymentMethodSelected) status = 'payment_selected';
+          else if (linkClickedAt) status = 'link_clicked';
+          else if (emailOpenedAt) status = 'email_opened';
+          
+          const { error: trackingError } = await supabase
+            .from('consumer_tracking')
+            .insert({
+              consumer_id: consumer.id,
+              campaign_id: campaignId,
+              status,
+              email_sent: true,
+              email_sent_at: emailSentAt.toISOString(),
+              email_opened: !!emailOpenedAt,
+              email_opened_at: emailOpenedAt?.toISOString(),
+              link_clicked: !!linkClickedAt,
+              link_clicked_at: linkClickedAt?.toISOString(),
+              payment_method_selected: paymentMethodSelected as any,
+              payment_method_selected_at: paymentSelectedAt?.toISOString(),
+              funds_originated: !!fundsOriginatedAt,
+              funds_originated_at: fundsOriginatedAt?.toISOString(),
+              funds_settled: !!fundsSettledAt,
+              funds_settled_at: fundsSettledAt?.toISOString(),
+              last_activity: (fundsSettledAt || fundsOriginatedAt || paymentSelectedAt || linkClickedAt || emailOpenedAt || emailSentAt).toISOString()
+            });
+          
+          if (trackingError) throw trackingError;
         }
         
-        // Generate tracking data for new consumers
-        const { error: trackingError } = await supabase.rpc('generate_mock_tracking_data', {
+        // Update campaign stats after adding new consumers
+        const { error: statsError } = await supabase.rpc('update_campaign_stats', {
           _campaign_id: campaignId
         });
         
-        if (trackingError) throw trackingError;
+        if (statsError) throw statsError;
       }
       
       return newConsumers;
