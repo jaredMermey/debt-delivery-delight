@@ -101,10 +101,10 @@ export function ConsumerInterface({ campaign }: ConsumerInterfaceProps) {
     let fee: string | undefined;
     
     // Update benefits based on fees
-    if (config.feeAmount > 0) {
-      fee = config.feeType === 'dollar' 
-        ? `$${config.feeAmount.toFixed(2)} Fee`
-        : `${config.feeAmount}% Fee`;
+    if (config.fee_amount > 0) {
+      fee = config.fee_type === 'dollar' 
+        ? `$${config.fee_amount.toFixed(2)} Fee`
+        : `${config.fee_amount}% Fee`;
       benefits = benefits.filter(b => !b.toLowerCase().includes('no fee'));
     } else {
       benefits = benefits.filter(b => !b.toLowerCase().includes('fee'));

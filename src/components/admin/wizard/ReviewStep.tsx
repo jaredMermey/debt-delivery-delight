@@ -13,7 +13,7 @@ interface ReviewStepProps {
 
 export function ReviewStep({ data, onComplete }: ReviewStepProps) {
   const navigate = useNavigate();
-  const enabledMethods = data.paymentMethods.filter(pm => pm.enabled);
+  const enabledMethods = data.payment_methods.filter(pm => pm.enabled);
   const totalAmount = data.consumers.reduce((sum, consumer) => sum + consumer.amount, 0);
   const averageAmount = data.consumers.length > 0 ? totalAmount / data.consumers.length : 0;
 
@@ -110,8 +110,8 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Brand Logo</p>
-                  {data.bankLogo && (
-                    <img src={data.bankLogo} alt="Brand Logo" className="h-8 w-auto" />
+                  {data.bank_logo && (
+                    <img src={data.bank_logo} alt="Brand Logo" className="h-8 w-auto" />
                   )}
                 </div>
               </div>
@@ -130,8 +130,8 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
                        method.type}
                     </span>
                     <Badge variant="outline" className="text-xs">
-                      {method.feeAmount > 0 
-                        ? `${method.feeType === 'dollar' ? '$' : ''}${method.feeAmount}${method.feeType === 'percentage' ? '%' : ''} fee`
+                      {method.fee_amount > 0 
+                        ? `${method.fee_type === 'dollar' ? '$' : ''}${method.fee_amount}${method.fee_type === 'percentage' ? '%' : ''} fee`
                         : 'No fee'
                       }
                     </Badge>
@@ -142,7 +142,7 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
           </div>
 
           {/* Advertisement */}
-          {data.advertisementEnabled && data.advertisementImage && (
+          {data.advertisement_enabled && data.advertisement_image && (
             <div className="space-y-4">
               <h4 className="font-medium text-foreground flex items-center gap-2">
                 <Image className="w-4 h-4" />
@@ -150,7 +150,7 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
               </h4>
               <div className="flex items-start space-x-4">
                 <img 
-                  src={data.advertisementImage} 
+                  src={data.advertisement_image} 
                   alt="Advertisement" 
                   className="w-24 h-24 object-cover rounded-lg border border-border"
                 />
@@ -158,9 +158,9 @@ export function ReviewStep({ data, onComplete }: ReviewStepProps) {
                   <p className="text-sm text-muted-foreground">
                     Advertisement will appear alongside payment options
                   </p>
-                  {data.advertisementUrl && (
+                  {data.advertisement_url && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Links to: {data.advertisementUrl}
+                      Links to: {data.advertisement_url}
                     </p>
                   )}
                 </div>

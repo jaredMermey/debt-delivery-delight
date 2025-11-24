@@ -22,12 +22,12 @@ export function CampaignWizard() {
   const [campaignData, setCampaignData] = useState<Partial<Campaign>>({
     name: '',
     description: '',
-    bankLogo: '',
-    entityId: currentEntity?.id || 'entity-coterie',
-    paymentMethods: DEFAULT_PAYMENT_METHODS,
-    advertisementImage: '',
-    advertisementUrl: '',
-    advertisementEnabled: true,
+    bank_logo: '',
+    entity_id: currentEntity?.id || 'entity-coterie',
+    payment_methods: DEFAULT_PAYMENT_METHODS,
+    advertisement_image: '',
+    advertisement_url: '',
+    advertisement_enabled: true,
     consumers: []
   });
 
