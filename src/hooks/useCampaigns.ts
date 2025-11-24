@@ -38,7 +38,7 @@ export function useCampaign(campaignId: string | undefined) {
         .from('campaigns')
         .select(`
           *,
-          campaign_payment_methods(*),
+          payment_methods:campaign_payment_methods(*),
           consumers(*)
         `)
         .eq('id', campaignId)
@@ -76,7 +76,7 @@ export function useCreateCampaign() {
   
   return useMutation({
     mutationFn: async (campaign: Partial<Campaign>) => {
-      const { consumers, paymentMethods, ...campaignData } = campaign as any;
+      const { consumers, payment_methods, ...campaignData } = campaign as any;
       
       // Insert campaign
       const { data: newCampaign, error: campaignError } = await supabase
@@ -88,10 +88,14 @@ export function useCreateCampaign() {
       if (campaignError) throw campaignError;
       
       // Insert payment methods
-      if (paymentMethods && paymentMethods.length > 0) {
-        const paymentMethodsData = paymentMethods.map((pm: any) => ({
+      if (payment_methods && payment_methods.length > 0) {
+        const paymentMethodsData = payment_methods.map((pm: any) => ({
           campaign_id: newCampaign.id,
-          ...pm
+          type: pm.type,
+          enabled: pm.enabled,
+          fee_type: pm.fee_type,
+          fee_amount: pm.fee_amount,
+          display_order: pm.display_order
         }));
         
         const { error: pmError } = await supabase
@@ -105,7 +109,9 @@ export function useCreateCampaign() {
       if (consumers && consumers.length > 0) {
         const consumersData = consumers.map((c: any) => ({
           campaign_id: newCampaign.id,
-          ...c
+          name: c.name,
+          email: c.email,
+          amount: c.amount
         }));
         
         const { error: consError } = await supabase
@@ -140,7 +146,7 @@ export function useUpdateCampaign() {
   
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Campaign> & { id: string }) => {
-      const { consumers, paymentMethods, ...campaignData } = updates as any;
+      const { consumers, payment_methods, ...campaignData } = updates as any;
       
       const { data, error } = await supabase
         .from('campaigns')
