@@ -141,13 +141,13 @@ export function ConsumerInterface({ campaign: propCampaign }: ConsumerInterfaceP
   }
 
   // Filter enabled payment methods
-  const enabledMethods = (campaign.campaign_payment_methods || [])
-    .filter(pm => pm.enabled)
-    .sort((a, b) => a.display_order - b.display_order);
+  const enabledMethods = ((campaign as any).payment_methods || (campaign as any).campaign_payment_methods || [])
+    .filter((pm: any) => pm.enabled)
+    .sort((a: any, b: any) => a.display_order - b.display_order);
 
   // Convert to payment method format expected by existing components
-  const paymentMethods = enabledMethods.map(pm => {
-    const config = (campaign.campaign_payment_methods || []).find(c => c.type === pm.type)!;
+  const paymentMethods = enabledMethods.map((pm: any) => {
+    const config = ((campaign as any).payment_methods || (campaign as any).campaign_payment_methods || []).find((c: any) => c.type === pm.type)!;
     let benefits = [...PAYMENT_METHOD_BENEFITS[pm.type]];
     let fee: string | undefined;
     
