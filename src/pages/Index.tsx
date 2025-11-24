@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe, Bitcoin } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, CreditCard, Zap, Wallet, Banknote, Globe, Bitcoin, Lock } from "lucide-react";
 import { ACHFlow } from "@/components/ACHFlow";
 import { CheckFlow } from "@/components/CheckFlow";
 import { RealTimeFlow } from "@/components/RealTimeFlow";
@@ -169,6 +170,14 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white font-sans">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="flex justify-end mb-4">
+          <Link to="/auth">
+            <Button variant="outline" size="sm">
+              <Lock className="w-4 h-4 mr-2" />
+              Admin Login
+            </Button>
+          </Link>
+        </div>
         <ProgressHeader currentStep={currentStep} progressValue={getProgressValue()} />
 
         {/* Back Button */}
